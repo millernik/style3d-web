@@ -99,6 +99,8 @@ export type TryOnScreen = BaseScreen & {
   kind: "try-on";
   narrative: string;
   view: "front" | "back";
+  ctaLabel?: string;
+  ctaTarget?: string;
   autoTarget?: string;
 };
 
@@ -106,6 +108,8 @@ export type StyleRedrawScreen = BaseScreen & {
   kind: "style-redraw";
   narrative: string;
   variant: "focus" | "before" | "after";
+  ctaLabel?: string;
+  ctaTarget?: string;
   autoTarget?: string;
 };
 
@@ -244,6 +248,8 @@ const workwearScreens: WorkflowScreen[] = [
       "Ich starte mit einer groben Skizze. Die KI übersetzt sie direkt in ein realistisches Bild – so sehe ich sofort Proportionen, Linienführung und Grundidee.",
     variant: "done",
     statusLabel: "Fertig!",
+    ctaLabel: "Zum nächsten Schritt",
+    ctaTarget: "step-4",
     backdropImage: kioskAssets.workwear.sketchFinishedCollage,
   },
   {
@@ -254,21 +260,9 @@ const workwearScreens: WorkflowScreen[] = [
     narrative:
       "Hier nutze ich den Style Design Agent. Die KI schlägt mir Outfit-Varianten vor, die zum bestehenden Workwear-Style passen und funktional sinnvoll sind. Zum Beispiel eine Hose und Schuhe",
     variant: "selection",
-    autoAdvanceMs: 1100,
-    autoTarget: "step-4-1",
-    backdropImage: kioskAssets.workwear.styleDesignMain,
-  },
-  {
-    id: "step-4-1",
-    frameName: "Workwear Step 4.1",
-    kind: "style-design",
-    footer: { label: "Style Design Agent", current: 2, total: 6 },
-    narrative:
-      "Hier nutze ich den Style Design Agent. Die KI schlägt mir Outfit-Varianten vor, die zum bestehenden Workwear-Style passen und funktional sinnvoll sind. Zum Beispiel eine Hose und Schuhe",
-    variant: "confirmed",
     ctaLabel: "Zum nächsten Schritt",
     ctaTarget: "step-5",
-    backdropImage: kioskAssets.workwear.styleDesignThumbPants,
+    backdropImage: kioskAssets.workwear.styleDesignMain,
   },
   {
     id: "step-5",
@@ -278,21 +272,9 @@ const workwearScreens: WorkflowScreen[] = [
     narrative:
       "Jetzt prüfe ich die Wirkung der Jacke am Modell. Kein Fitting – sondern ein schneller visueller Check: Wie wirkt das Design im Gesamtkontext?",
     view: "front",
-    autoAdvanceMs: 1250,
-    autoTarget: "step-5-1",
+    ctaLabel: "Zum nächsten Schritt",
+    ctaTarget: "step-6",
     backdropImage: kioskAssets.workwear.tryOnFront,
-  },
-  {
-    id: "step-5-1",
-    frameName: "Workwear Step 5.1",
-    kind: "try-on",
-    footer: { label: "Outfit Try-on", current: 3, total: 6 },
-    narrative:
-      "Jetzt prüfe ich die Wirkung der Jacke am Modell. Kein Fitting – sondern ein schneller visueller Check: Wie wirkt das Design im Gesamtkontext?",
-    view: "back",
-    autoAdvanceMs: 1250,
-    autoTarget: "step-6",
-    backdropImage: kioskAssets.workwear.tryOnBack,
   },
   {
     id: "step-6",
@@ -302,33 +284,9 @@ const workwearScreens: WorkflowScreen[] = [
     narrative:
       "Jetzt gehe ich ins Detail. Die KI hilft mir, einzelne Bereiche gezielt zu überarbeiten – ohne das ganze Design neu aufzusetzen.",
     variant: "focus",
-    autoAdvanceMs: 1100,
-    autoTarget: "step-6-1",
+    ctaLabel: "Zum nächsten Schritt",
+    ctaTarget: "step-7",
     backdropImage: kioskAssets.workwear.styleRedrawSource,
-  },
-  {
-    id: "step-6-1",
-    frameName: "Workwear Step 6.1",
-    kind: "style-redraw",
-    footer: { label: "Style Redraw (Details)", current: 4, total: 6 },
-    narrative:
-      "Jetzt gehe ich ins Detail. Die KI hilft mir, einzelne Bereiche gezielt zu überarbeiten – ohne das ganze Design neu aufzusetzen.",
-    variant: "before",
-    autoAdvanceMs: 1200,
-    autoTarget: "step-6-2",
-    backdropImage: kioskAssets.workwear.styleRedrawBefore,
-  },
-  {
-    id: "step-6-2",
-    frameName: "Workwear Step 6.2",
-    kind: "style-redraw",
-    footer: { label: "Style Redraw (Details)", current: 4, total: 6 },
-    narrative:
-      "Jetzt gehe ich ins Detail. Die KI hilft mir, einzelne Bereiche gezielt zu überarbeiten – ohne das ganze Design neu aufzusetzen.",
-    variant: "after",
-    autoAdvanceMs: 1200,
-    autoTarget: "step-7",
-    backdropImage: kioskAssets.workwear.styleRedrawAfter,
   },
   {
     id: "step-7",
@@ -339,44 +297,6 @@ const workwearScreens: WorkflowScreen[] = [
       "Bevor ich ein Logo platziere, lasse ich es von der KI entwickeln. Wichtig ist mir dabei: klare Lesbarkeit, funktionaler Stil und volle Produkttreue. Die KI arbeitet nicht frei, sondern auf Basis unserer bestehenden Designs und klarer Vorgaben.",
     variant: "prompt",
     ctaLabel: "Generieren",
-    ctaTarget: "step-7-1",
-  },
-  {
-    id: "step-7-1",
-    frameName: "Workwear Step 7.1",
-    kind: "ai-graphic",
-    footer: { label: "AI Graphic + AI Graphic Try-on", current: 5, total: 6 },
-    narrative:
-      "Bevor ich ein Logo platziere, lasse ich es von der KI entwickeln. Wichtig ist mir dabei: klare Lesbarkeit, funktionaler Stil und volle Produkttreue. Die KI arbeitet nicht frei, sondern auf Basis unserer bestehenden Designs und klarer Vorgaben.",
-    variant: "processing",
-    statusLabel: "Bearbeitung Läuft",
-    autoAdvanceMs: 1250,
-    autoTarget: "step-7-2",
-    backdropImage: kioskAssets.workwear.logoThumbOne,
-  },
-  {
-    id: "step-7-2",
-    frameName: "Workwear Step 7.2",
-    kind: "ai-graphic",
-    footer: { label: "AI Graphic + AI Graphic Try-on", current: 5, total: 6 },
-    narrative:
-      "Bevor ich ein Logo platziere, lasse ich es von der KI entwickeln. Wichtig ist mir dabei: klare Lesbarkeit, funktionaler Stil und volle Produkttreue. Die KI arbeitet nicht frei, sondern auf Basis unserer bestehenden Designs und klarer Vorgaben.",
-    variant: "done",
-    statusLabel: "Fertig!",
-    autoAdvanceMs: 1250,
-    autoTarget: "step-7-3",
-    backdropImage: kioskAssets.workwear.logoThumbOne,
-  },
-  {
-    id: "step-7-3",
-    frameName: "Workwear Step 7.3",
-    kind: "ai-graphic",
-    footer: { label: "AI Graphic + AI Graphic Try-on", current: 5, total: 6 },
-    narrative:
-      "Branding ist wichtig – aber es darf die Funktion nicht stören. Die KI zeigt mir verschiedene Logo-Varianten und Platzierungen.",
-    variant: "try-on",
-    ctaLabel: "Try On!",
-    ctaTarget: "step-8",
     backdropImage: kioskAssets.workwear.logoThumbOne,
   },
   {
@@ -388,19 +308,6 @@ const workwearScreens: WorkflowScreen[] = [
       "Sobald das Logo steht, prüfe ich, wo es auf der Jacke am besten funktioniert.",
     variant: "place",
     ctaLabel: "Place Logo",
-    ctaTarget: "step-8-1",
-    backdropImage: kioskAssets.workwear.logoMainPlacement,
-  },
-  {
-    id: "step-8-1",
-    frameName: "Workwear Step 8.1",
-    kind: "logo-placement",
-    footer: { label: "AI Graphic + AI Graphic Try-on", current: 5, total: 6 },
-    narrative:
-      "Sobald das Logo steht, prüfe ich, wo es auf der Jacke am besten funktioniert.",
-    variant: "placed",
-    autoAdvanceMs: 1100,
-    autoTarget: "step-9",
     backdropImage: kioskAssets.workwear.logoMainPlacement,
   },
   {
@@ -412,19 +319,6 @@ const workwearScreens: WorkflowScreen[] = [
       "Zum Schluss bereite ich die Designs für den Kunden vor. Die KI erstellt konsistente, hochwertige Präsentationen – perfekt für Review, Ausschreibung oder Shop",
     variant: "change-pose",
     ctaLabel: "Change pose",
-    ctaTarget: "step-9-1",
-    backdropImage: kioskAssets.workwear.reviewScene,
-  },
-  {
-    id: "step-9-1",
-    frameName: "Workwear Step 9.1",
-    kind: "ecommerce",
-    footer: { label: "AI Graphic + AI Graphic Try-on", current: 6, total: 6 },
-    narrative:
-      "Zum Schluss bereite ich die Designs für den Kunden vor. Die KI erstellt konsistente, hochwertige Präsentationen – perfekt für Review, Ausschreibung oder Shop",
-    variant: "result",
-    autoAdvanceMs: 1250,
-    autoTarget: "step-10",
     backdropImage: kioskAssets.workwear.reviewScene,
   },
   {

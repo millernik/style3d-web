@@ -30,7 +30,11 @@ export default async function WorkflowScreenPage({
     notFound();
   }
 
-  const showFixedFooter = screen.kind === "sketch" && !!screen.footer;
+  const showFixedFooter =
+    screen.kind !== "intro" &&
+    screen.kind !== "closing" &&
+    screen.kind !== "overview" &&
+    !!screen.footer;
   const fixedFooter = showFixedFooter ? screen.footer : null;
 
   return (
