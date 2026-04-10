@@ -678,29 +678,30 @@ function StyleRedrawTemplate({
   const [selectedHotspotId, setSelectedHotspotId] = useState<"upper" | "lower" | null>(
     null,
   );
-  const [sliderByHotspot, setSliderByHotspot] = useState<Record<"upper" | "lower", number>>({
-    upper: 50,
-    lower: 50,
-  });
+  const [previewMode, setPreviewMode] = useState<"before" | "after">("before");
   const showCTA = useLatchedDelay(true, 5000);
+  const isPreviewOpen = selectedHotspotId !== null;
 
   const hotspotConfig: Record<
     "upper" | "lower",
     {
-      buttonClassName: string;
+      buttonLeftPct: number;
+      buttonTopPct: number;
       artClassName: string;
       renderArtClassName: string;
     }
   > = {
     upper: {
-      buttonClassName: "left-[118px] top-[88px]",
+      buttonLeftPct: 45.15,
+      buttonTopPct: 16.67,
       artClassName:
         "h-full w-full object-cover object-[42%_18%] scale-[1.55]",
       renderArtClassName:
         "h-full w-full object-cover object-[42%_18%] scale-[1.55]",
     },
     lower: {
-      buttonClassName: "left-[188px] top-[256px]",
+      buttonLeftPct: 60.7,
+      buttonTopPct: 45.5,
       artClassName:
         "h-full w-full object-cover object-[58%_67%] scale-[1.52]",
       renderArtClassName:
@@ -710,6 +711,9 @@ function StyleRedrawTemplate({
 
   const selectedConfig =
     selectedHotspotId ? hotspotConfig[selectedHotspotId] : null;
+  const sourceCardLayout = isPreviewOpen
+    ? { width: 320, height: 480, left: 52, top: 6 }
+    : { width: 392, height: 492, left: 52, top: 0 };
 
   return (
     <ScreenShell
@@ -744,68 +748,119 @@ function StyleRedrawTemplate({
             ) : null}
           </div>
 
-          <div className="flex w-[496px] items-start gap-[18px]">
-            <FramedStage className="relative h-[472px] w-[292px] rounded-[32px] border-2 border-[var(--border-frame)] bg-white">
-              <img
-                src={kioskAssets.workwear.styleRedrawSource}
-                alt=""
-                className="pointer-events-none absolute inset-0 h-full w-full object-cover"
-              />
-              {(["upper", "lower"] as const).map((hotspotId) => (
-                <button
-                  key={hotspotId}
-                  type="button"
-                  onClick={() => setSelectedHotspotId(hotspotId)}
-                  className={`absolute z-20 flex h-[46px] w-[46px] items-center justify-center rounded-full bg-transparent ${hotspotConfig[hotspotId].buttonClassName}`}
-                  aria-label={`Detail ${hotspotId}`}
-                >
-                  <motion.span
-                    aria-hidden="true"
-                    animate={{ scale: [1, 1.08, 1], opacity: [0.38, 0.18, 0.38] }}
-                    transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
-                    className="absolute inset-[-5px] rounded-full bg-[radial-gradient(circle,rgba(217,66,255,0.56)_0%,rgba(217,66,255,0.28)_42%,rgba(217,66,255,0.1)_60%,transparent_74%)]"
-                  />
-                  <span className="absolute inset-[4px] rounded-full bg-[radial-gradient(circle,#f0abff_0%,#d942ff_46%,#9e34ff_100%)] shadow-[0_0_12px_rgba(217,66,255,0.32)]" />
-                  <span className="absolute inset-[13px] rounded-full bg-white/90" />
-                </button>
-              ))}
-            </FramedStage>
+          <div className="relative h-[492px] w-[496px]">
+            <motion.div
+              className="absolute"
+              animate={sourceCardLayout}
+              transition={{ duration: 0.36, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <FramedStage className="relative h-full w-full rounded-[32px] border-2 border-[var(--border-frame)] bg-white">
+                <img
+                  src={kioskAssets.workwear.styleRedrawSource}
+                  alt=""
+                  className="pointer-events-none absolute inset-0 h-full w-full object-cover"
+                />
+                {(["upper", "lower"] as const).map((hotspotId) => {
+                  const isActive = selectedHotspotId === hotspotId;
 
-            <div className="flex h-[472px] w-[186px] items-center justify-center">
+                  return (
+                    <button
+                      key={hotspotId}
+                      type="button"
+                      onClick={() => setSelectedHotspotId(hotspotId)}
+                      className="absolute z-20 flex h-[46px] w-[46px] items-center justify-center rounded-full bg-transparent"
+                      style={{
+                        left: `calc(${hotspotConfig[hotspotId].buttonLeftPct}% - 23px)`,
+                        top: `calc(${hotspotConfig[hotspotId].buttonTopPct}% - 23px)`,
+                      }}
+                      aria-label={`Detail ${hotspotId}`}
+                    >
+                      <motion.span
+                        aria-hidden="true"
+                        animate={
+                          isActive
+                            ? { scale: [1, 1.12, 1], opacity: [0.54, 0.28, 0.54] }
+                            : { scale: [1, 1.08, 1], opacity: [0.38, 0.18, 0.38] }
+                        }
+                        transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+                        className="absolute inset-[-5px] rounded-full bg-[radial-gradient(circle,rgba(217,66,255,0.56)_0%,rgba(217,66,255,0.28)_42%,rgba(217,66,255,0.1)_60%,transparent_74%)]"
+                      />
+                      <span
+                        className={`absolute inset-[4px] rounded-full bg-[radial-gradient(circle,#f0abff_0%,#d942ff_46%,#9e34ff_100%)] ${
+                          isActive
+                            ? "shadow-[0_0_16px_rgba(217,66,255,0.44)]"
+                            : "shadow-[0_0_12px_rgba(217,66,255,0.32)]"
+                        }`}
+                      />
+                      <span className="absolute inset-[13px] rounded-full bg-white/90" />
+                    </button>
+                  );
+                })}
+              </FramedStage>
+            </motion.div>
+
+            <div className="absolute left-[390px] top-[52px] flex h-[400px] w-[186px] items-start justify-center">
               <AnimatePresence mode="wait" initial={false}>
                 {selectedHotspotId && selectedConfig ? (
                   <motion.div
                     key={selectedHotspotId}
                     initial={{ opacity: 0, x: 18 }}
                     animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -18 }}
+                    exit={{ opacity: 0, x: 18 }}
                     transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                     className="flex flex-col items-center gap-[16px]"
                   >
-                    <BeforeAfterSlider
-                      sketchSrc={kioskAssets.workwear.styleRedrawBefore}
-                      renderSrc={kioskAssets.workwear.styleRedrawAfter}
-                      position={sliderByHotspot[selectedHotspotId]}
-                      onChange={(position) =>
-                        setSliderByHotspot((current) => ({
-                          ...current,
-                          [selectedHotspotId]: position,
-                        }))
-                      }
-                      className="h-[316px] w-[186px] rounded-[24px]"
-                      artClassName={selectedConfig.artClassName}
-                      renderArtClassName={selectedConfig.renderArtClassName}
-                    />
-                    <ComparisonTrack
-                      position={sliderByHotspot[selectedHotspotId]}
-                      onChange={(position) =>
-                        setSliderByHotspot((current) => ({
-                          ...current,
-                          [selectedHotspotId]: position,
-                        }))
-                      }
-                      railClassName="w-[186px]"
-                    />
+                    <FramedStage className="relative h-[316px] w-[186px] rounded-[24px] border border-[var(--border-frame)] bg-white">
+                      <img
+                        src={
+                          previewMode === "before"
+                            ? kioskAssets.workwear.styleRedrawBefore
+                            : kioskAssets.workwear.styleRedrawAfter
+                        }
+                        alt=""
+                        className={`pointer-events-none ${
+                          previewMode === "before"
+                            ? selectedConfig.artClassName
+                            : selectedConfig.renderArtClassName
+                        }`}
+                      />
+                    </FramedStage>
+
+                    <div className="flex w-full items-center gap-[10px]">
+                      {([
+                        { id: "before", label: "Vorher" },
+                        { id: "after", label: "Nachher" },
+                      ] as const).map((option) => {
+                        const isActive = previewMode === option.id;
+
+                        return (
+                          <motion.button
+                            key={option.id}
+                            type="button"
+                            whileTap={{ scale: 0.97 }}
+                            transition={{ duration: 0.18 }}
+                            onClick={() => setPreviewMode(option.id)}
+                            className={`relative flex h-[50px] flex-1 items-center justify-center rounded-full border px-[18px] text-kiosk-label-md ${
+                              isActive
+                                ? "border-transparent text-white"
+                                : "border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,255,0.08)] text-white"
+                            }`}
+                          >
+                            {isActive ? (
+                              <span className="absolute inset-[-10px] rounded-full bg-kiosk-gradient blur-[30px] opacity-70" />
+                            ) : null}
+                            <span
+                              className={`absolute inset-0 rounded-full ${
+                                isActive
+                                  ? "bg-kiosk-gradient"
+                                  : "bg-[rgba(255,255,255,0.08)]"
+                              }`}
+                            />
+                            <span className="relative">{option.label}</span>
+                          </motion.button>
+                        );
+                      })}
+                    </div>
                   </motion.div>
                 ) : null}
               </AnimatePresence>
@@ -1187,51 +1242,84 @@ function ClosingTemplate({
       <img
         src={kioskAssets.workwear.closingBackground}
         alt=""
-        className="pointer-events-none absolute inset-[-24px] h-[1070px] w-[1504px] object-cover blur-[10px]"
+        className="pointer-events-none absolute inset-[-24px] z-0 h-[1070px] w-[1504px] object-cover blur-[10px]"
       />
-      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.7)_0%,rgba(0,0,0,0.6)_48.558%,rgba(0,0,0,0.7)_100%)]" />
+      <div className="absolute inset-0 z-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.7)_0%,rgba(0,0,0,0.6)_48.558%,rgba(0,0,0,0.7)_100%)]" />
 
-      <div className="absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
-        <motion.section
-          initial={{ opacity: 0, y: 18 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={entryTransition}
-          className="flex w-[820px] flex-col items-center gap-[32px]"
-        >
-        <div className="flex flex-col items-center gap-[22px]">
-          <AvatarDiamond image={screen.avatar} size="xl" />
-          <div className="text-center text-kiosk-body-lg leading-[1.45] text-white">
+      <div className="absolute left-[100px] top-[33px] z-20 flex w-[1240px] items-center justify-between">
+        <img
+          src={kioskAssets.shared.brandLogo}
+          alt="Style3D"
+          className="h-[38px] w-[146px]"
+        />
+        <div className="flex items-center gap-[12px]">
+          <img
+            src={kioskAssets.shared.workflowMark}
+            alt=""
+            className="h-[44.746px] w-[44px]"
+          />
+          <span className="text-[28px] font-medium leading-none text-white">
+            AI for Workwear
+          </span>
+        </div>
+      </div>
+
+      <motion.section
+        initial={{ opacity: 0, y: 18 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={entryTransition}
+        className="absolute left-[400px] top-[197px] z-10 flex w-[640px] flex-col items-center gap-[40px]"
+      >
+        <div className="flex w-full flex-col items-center gap-[24px]">
+          <AvatarDiamond
+            image={screen.avatar}
+            size="xl"
+            glowPreset="workwear-intro"
+          />
+          <div className="w-full text-center text-kiosk-body-lg leading-[1.45] text-white">
             {screen.body.map((line) => (
               <p key={line}>{line}</p>
             ))}
           </div>
         </div>
 
-        <div className="flex items-center gap-[20px]">
-          <VisualActionPill label="Jetzt Produkt-Demo buchen – hier am Stand" />
+        <div className="relative h-[50px] w-[569px]">
+          <div className="absolute left-[8px] top-[10px] h-[30px] w-[555px] rounded-[100px] bg-kiosk-gradient blur-[50px]" />
+          <div className="relative flex h-full w-full items-center justify-center gap-[10px] rounded-[100px] bg-kiosk-gradient px-[40px] py-[10px]">
+            <img
+              src={kioskAssets.shared.workflowMark}
+              alt=""
+              className="h-[24px] w-[24px]"
+            />
+            <span className="text-[19.989px] font-semibold text-white">
+              Jetzt Produkt-Demo buchen – hier am Stand
+            </span>
+          </div>
         </div>
+      </motion.section>
 
+      <div className="absolute left-[670px] top-[778px] z-20 h-[100px] w-[100px]">
         <img
           src={kioskAssets.workwear.closingQr}
           alt="QR Code"
-          className="h-[92px] w-[92px] rounded-[8px]"
+          className="block h-full w-full"
         />
-        </motion.section>
       </div>
 
-      <div className="absolute bottom-[50px] left-[50px] flex items-center gap-[24px]">
-        <SecondaryPill href="/">Neustarten</SecondaryPill>
-        <SecondaryPill workflowId={workflow.id} targetId="overview">
-          Overview
-        </SecondaryPill>
-      </div>
+      <div className="absolute left-[100px] top-[924px] z-20 flex w-[1240px] items-center justify-between">
+        <div className="flex items-center gap-[24px]">
+          <SecondaryPill href="/">Neustarten</SecondaryPill>
+          <SecondaryPill workflowId={workflow.id} targetId="overview">
+            Overview
+          </SecondaryPill>
+        </div>
 
-      <FooterProgress
-        className="left-auto bottom-[50px] right-[50px] top-auto w-auto"
-        label={screen.footer?.label}
-        current={screen.footer?.current ?? 7}
-        total={screen.footer?.total ?? 7}
-      />
+        <div className="flex items-center gap-[12px] text-[28px] font-[300] leading-none text-white">
+          <span>{screen.footer?.current ?? 7}</span>
+          <span className="block h-[2px] w-[165px] rounded-[100px] bg-[#757575]" />
+          <span>{screen.footer?.total ?? 7}</span>
+        </div>
+      </div>
     </WorkflowShell>
   );
 }
