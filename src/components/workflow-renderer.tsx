@@ -711,9 +711,18 @@ function StyleRedrawTemplate({
 
   const selectedConfig =
     selectedHotspotId ? hotspotConfig[selectedHotspotId] : null;
-  const sourceCardLayout = isPreviewOpen
-    ? { width: 320, height: 480, left: 52, top: 6 }
-    : { width: 392, height: 492, left: 52, top: 0 };
+  const modelCardWidth = 382;
+  const modelCardHeight = 578;
+  const previewColumnGap = 24;
+  const previewButtonHeight = 52;
+  const previewCardHeight = modelCardHeight - previewColumnGap - previewButtonHeight;
+  const imageWorkspaceWidth = modelCardWidth * 2 + 22;
+  const closedStateSourceOffset = imageWorkspaceWidth - modelCardWidth;
+  const sourceCardLayout = {
+    width: modelCardWidth,
+    height: modelCardHeight,
+    x: isPreviewOpen ? 0 : closedStateSourceOffset,
+  };
 
   return (
     <ScreenShell
@@ -723,7 +732,7 @@ function StyleRedrawTemplate({
       disableEntryAnimation
     >
       <div className="absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
-        <div className="flex w-[1048px] items-center justify-between">
+        <div className="flex w-[1340px] items-center justify-between">
           <div className="flex w-[520px] flex-col items-center gap-[18px]">
             <NarrativeCard
               className="relative left-auto top-auto w-[520px]"
@@ -748,9 +757,12 @@ function StyleRedrawTemplate({
             ) : null}
           </div>
 
-          <div className="relative h-[492px] w-[496px]">
+          <div
+            className="relative"
+            style={{ width: imageWorkspaceWidth, height: modelCardHeight }}
+          >
             <motion.div
-              className="absolute"
+              className="absolute left-0 top-0 z-10"
               animate={sourceCardLayout}
               transition={{ duration: 0.36, ease: [0.22, 1, 0.36, 1] }}
             >
@@ -799,7 +811,14 @@ function StyleRedrawTemplate({
               </FramedStage>
             </motion.div>
 
-            <div className="absolute left-[390px] top-[52px] flex h-[400px] w-[186px] items-start justify-center">
+            <div
+              className="absolute right-0 top-0 flex items-start justify-center"
+              style={{
+                width: modelCardWidth,
+                height: modelCardHeight,
+                pointerEvents: isPreviewOpen ? "auto" : "none",
+              }}
+            >
               <AnimatePresence mode="wait" initial={false}>
                 {selectedHotspotId && selectedConfig ? (
                   <motion.div
@@ -808,25 +827,31 @@ function StyleRedrawTemplate({
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: 18 }}
                     transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                    className="flex flex-col items-center gap-[16px]"
+                    className="flex h-full w-full flex-col items-stretch"
+                    style={{ gap: previewColumnGap }}
                   >
-                    <FramedStage className="relative h-[316px] w-[186px] rounded-[24px] border border-[var(--border-frame)] bg-white">
-                      <img
-                        src={
-                          previewMode === "before"
-                            ? kioskAssets.workwear.styleRedrawBefore
-                            : kioskAssets.workwear.styleRedrawAfter
-                        }
-                        alt=""
-                        className={`pointer-events-none ${
-                          previewMode === "before"
-                            ? selectedConfig.artClassName
-                            : selectedConfig.renderArtClassName
-                        }`}
-                      />
-                    </FramedStage>
+                    <div style={{ height: previewCardHeight }}>
+                      <FramedStage className="relative h-full w-full rounded-[40px] border-2 border-[var(--border-frame)] bg-white">
+                        <img
+                          src={
+                            previewMode === "before"
+                              ? kioskAssets.workwear.styleRedrawBefore
+                              : kioskAssets.workwear.styleRedrawAfter
+                          }
+                          alt=""
+                          className={`pointer-events-none ${
+                            previewMode === "before"
+                              ? selectedConfig.artClassName
+                              : selectedConfig.renderArtClassName
+                          }`}
+                        />
+                      </FramedStage>
+                    </div>
 
-                    <div className="flex w-full items-center gap-[10px]">
+                    <div
+                      className="flex w-full items-center gap-[10px]"
+                      style={{ height: previewButtonHeight }}
+                    >
                       {([
                         { id: "before", label: "Vorher" },
                         { id: "after", label: "Nachher" },
@@ -840,7 +865,7 @@ function StyleRedrawTemplate({
                             whileTap={{ scale: 0.97 }}
                             transition={{ duration: 0.18 }}
                             onClick={() => setPreviewMode(option.id)}
-                            className={`relative flex h-[50px] flex-1 items-center justify-center rounded-full border px-[18px] text-kiosk-label-md ${
+                            className={`relative flex h-full flex-1 items-center justify-center rounded-full border px-[18px] text-kiosk-label-md ${
                               isActive
                                 ? "border-transparent text-white"
                                 : "border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,255,0.08)] text-white"
