@@ -8,6 +8,16 @@ import { useRouter } from "next/navigation";
 
 import { KioskViewport } from "@/components/kiosk-viewport";
 import {
+  MantelCampaignTemplate,
+  MantelClosingTemplate,
+  MantelColorwayTemplate,
+  MantelDetailGalleryTemplate,
+  MantelImageToSketchTemplate,
+  MantelIntroTemplate,
+  MantelTechPackTemplate,
+  MantelTryOnTemplate,
+} from "@/components/mantel-workflow-templates";
+import {
   buildScreenHref,
   getOrderedScreens,
   kioskAssets,
@@ -16,6 +26,14 @@ import {
   type EcommerceScreen,
   type IntroScreen,
   type LogoPlacementScreen,
+  type MantelCampaignScreen,
+  type MantelClosingScreen,
+  type MantelColorwaysScreen,
+  type MantelDetailGalleryScreen,
+  type MantelImageToSketchScreen,
+  type MantelIntroScreen,
+  type MantelTechPackScreen,
+  type MantelTryOnScreen,
   type OverviewScreen,
   type SketchScreen,
   type StyleDesignScreen,
@@ -64,10 +82,78 @@ export function WorkflowRenderer({ workflow, screen }: WorkflowRendererProps) {
       return <ClosingTemplate workflow={workflow} screen={screen} />;
     case "overview":
       return <OverviewTemplate workflow={workflow} screen={screen} />;
+    case "mantel-intro":
+      return <MantelIntroTemplate workflow={workflow} screen={screen} shared={mantelSharedUi} />;
+    case "mantel-image-to-sketch":
+      return (
+        <MantelImageToSketchTemplate
+          workflow={workflow}
+          screen={screen}
+          shared={mantelSharedUi}
+        />
+      );
+    case "mantel-detail-gallery":
+      return (
+        <MantelDetailGalleryTemplate
+          workflow={workflow}
+          screen={screen}
+          shared={mantelSharedUi}
+        />
+      );
+    case "mantel-try-on":
+      return <MantelTryOnTemplate workflow={workflow} screen={screen} shared={mantelSharedUi} />;
+    case "mantel-tech-pack":
+      return (
+        <MantelTechPackTemplate
+          workflow={workflow}
+          screen={screen}
+          shared={mantelSharedUi}
+        />
+      );
+    case "mantel-colorways":
+      return (
+        <MantelColorwayTemplate
+          workflow={workflow}
+          screen={screen}
+          shared={mantelSharedUi}
+        />
+      );
+    case "mantel-campaign":
+      return (
+        <MantelCampaignTemplate
+          workflow={workflow}
+          screen={screen}
+          shared={mantelSharedUi}
+        />
+      );
+    case "mantel-closing":
+      return (
+        <MantelClosingTemplate
+          workflow={workflow}
+          screen={screen}
+          shared={mantelSharedUi}
+        />
+      );
     default:
       return null;
   }
 }
+
+const mantelSharedUi = {
+  ScreenShell,
+  WorkflowShell,
+  NarrativeCard,
+  AvatarDiamond,
+  FramedStage,
+  BeforeAfterSlider,
+  ComparisonTrack,
+  StepThreeStatusPill,
+  ActionPill,
+  SubtleActionPill,
+  SecondaryPill,
+  SegmentedStateToggle,
+  ThumbnailCard,
+};
 
 function IntroTemplate({
   workflow,
@@ -1273,18 +1359,18 @@ function ClosingTemplate({
 
       <div className="absolute left-[100px] top-[33px] z-20 flex w-[1240px] items-center justify-between">
         <img
-          src={kioskAssets.shared.brandLogo}
+          src={workflow.brandLogo}
           alt="Style3D"
           className="h-[38px] w-[146px]"
         />
         <div className="flex items-center gap-[12px]">
           <img
-            src={kioskAssets.shared.workflowMark}
+            src={workflow.workflowIcon}
             alt=""
             className="h-[44.746px] w-[44px]"
           />
           <span className="text-[28px] font-medium leading-none text-white">
-            AI for Workwear
+            {workflow.title}
           </span>
         </div>
       </div>
@@ -1312,7 +1398,7 @@ function ClosingTemplate({
           <div className="absolute left-[8px] top-[10px] h-[30px] w-[555px] rounded-[100px] bg-kiosk-gradient blur-[50px]" />
           <div className="relative flex h-full w-full items-center justify-center gap-[10px] rounded-[100px] bg-kiosk-gradient px-[40px] py-[10px]">
             <img
-              src={kioskAssets.shared.workflowMark}
+              src={workflow.workflowIcon}
               alt=""
               className="h-[24px] w-[24px]"
             />
@@ -2098,7 +2184,7 @@ function OverviewCardTile({
   card,
 }: {
   workflowId: string;
-  card: { number: number; title: string; target: string };
+  card: { number: number; title: string; target: string; artwork?: string[] };
 }) {
   const router = useRouter();
 
@@ -2108,7 +2194,7 @@ function OverviewCardTile({
       onClick={() => router.push(buildScreenHref(workflowId, card.target))}
       className="relative h-[183px] w-[280px] overflow-hidden rounded-[18px] border border-[rgba(255,255,255,0.25)]"
     >
-      <OverviewArtwork step={card.number} />
+      <OverviewArtwork artwork={card.artwork} step={card.number} />
       <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0)_0%,rgba(0,0,0,0.38)_100%)]" />
       <div className="absolute bottom-[18px] left-[18px] flex items-end gap-[14px] text-left text-white">
         <span className="text-[54px] font-medium leading-none">{card.number}</span>
@@ -2118,7 +2204,31 @@ function OverviewCardTile({
   );
 }
 
-function OverviewArtwork({ step }: { step: number }) {
+function OverviewArtwork({
+  artwork,
+  step,
+}: {
+  artwork?: string[];
+  step: number;
+}) {
+  if (artwork && artwork.length > 0) {
+    if (artwork.length === 1) {
+      return (
+        <div className="absolute inset-0">
+          <img src={artwork[0]} alt="" className="h-full w-full object-cover" />
+        </div>
+      );
+    }
+
+    return (
+      <div className="absolute inset-0 flex">
+        {artwork.slice(0, 2).map((src) => (
+          <img key={src} src={src} alt="" className="h-full w-1/2 object-cover" />
+        ))}
+      </div>
+    );
+  }
+
   switch (step) {
     case 1:
       return (
