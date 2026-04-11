@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 
+import { AdminShortcutTrigger } from "@/components/admin-shortcut-trigger";
 import type { FooterConfig, Workflow } from "@/lib/workflows";
 
 type WorkflowChromeProps = {
@@ -29,20 +30,21 @@ export function WorkflowChrome({
           pointerEvents: "none",
         }}
       >
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "12px",
-            pointerEvents: "auto",
-          }}
-        >
-          <img
-            src={workflow.brandLogo}
-            alt="Style3D"
-            style={{ height: "38px", width: "146px" }}
-          />
-        </div>
+        <AdminShortcutTrigger>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "12px",
+            }}
+          >
+            <img
+              src={workflow.brandLogo}
+              alt="Style3D"
+              style={{ height: "38px", width: "146px" }}
+            />
+          </div>
+        </AdminShortcutTrigger>
 
         <div
           style={{

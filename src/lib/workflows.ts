@@ -373,8 +373,23 @@ export type Workflow = {
   };
   brandLogo: string;
   workflowIcon: string;
+  selectionCard: {
+    title: string;
+    subtitle: string;
+    previewImage: string;
+  };
   screens: WorkflowScreen[];
   overview: OverviewScreen;
+};
+
+export type WorkflowSelectionEntry = {
+  id: string;
+  title: string;
+  subtitle: string;
+  previewImage?: string;
+  workflowIcon?: string;
+  status: "active" | "disabled";
+  startHref?: string;
 };
 
 const workwearScreens: WorkflowScreen[] = [
@@ -776,7 +791,7 @@ const mantelScreens: WorkflowScreen[] = [
       "Meine Dateien sind alle im Folder – Daniel hat schon „geliked“.",
     ],
     primaryCtaLabel: "Neustarten",
-    primaryHref: "/",
+    primaryHref: "/admin",
     secondaryCtaLabel: "Folder Aufmachen",
     backdropImage: kioskAssets.mantel.closingBackground,
   },
@@ -832,6 +847,11 @@ const workwearWorkflow: Workflow = {
   title: "AI for Workwear",
   brandLogo: kioskAssets.shared.brandLogo,
   workflowIcon: kioskAssets.shared.workflowMark,
+  selectionCard: {
+    title: "Workwear",
+    subtitle: "Feuerwehr-Workwear vom Sketch bis zur E-Commerce-Vorschau",
+    previewImage: kioskAssets.workwear.reviewScene,
+  },
   attract: {
     brandLogo: kioskAssets.shared.brandLogoLarge,
     workflowMark: kioskAssets.shared.workflowMarkLarge,
@@ -847,6 +867,11 @@ const mantelWorkflow: Workflow = {
   title: "AI.Showcase Mantel",
   brandLogo: kioskAssets.shared.brandLogo,
   workflowIcon: kioskAssets.shared.mantelWorkflowMark,
+  selectionCard: {
+    title: "Mantel",
+    subtitle: "Capsule-Mantel von Moodboard bis Campaign Assets",
+    previewImage: kioskAssets.mantel.attractBackdrop,
+  },
   attract: {
     brandLogo: kioskAssets.shared.brandLogoLarge,
     workflowMark: kioskAssets.shared.mantelWorkflowMarkLarge,
@@ -863,6 +888,21 @@ const workflows: Record<string, Workflow> = {
   [mantelWorkflow.id]: mantelWorkflow,
 };
 
+const disabledWorkflowSelections: WorkflowSelectionEntry[] = [
+  {
+    id: "key-visual",
+    title: "Key Visual",
+    subtitle: "Demnächst verfügbar",
+    status: "disabled",
+  },
+  {
+    id: "nachtwaesche",
+    title: "Nachtwäsche",
+    subtitle: "Demnächst verfügbar",
+    status: "disabled",
+  },
+];
+
 export function getWorkflow(workflowId: string) {
   return workflows[workflowId] ?? null;
 }
@@ -873,6 +913,23 @@ export function getDefaultWorkflow() {
 
 export function getWorkflowIds() {
   return Object.keys(workflows);
+}
+
+export function getWorkflowSelectionEntries(): WorkflowSelectionEntry[] {
+  const activeSelections: WorkflowSelectionEntry[] = [
+    workwearWorkflow,
+    mantelWorkflow,
+  ].map((workflow) => ({
+    id: workflow.id,
+    title: workflow.selectionCard.title,
+    subtitle: workflow.selectionCard.subtitle,
+    previewImage: workflow.selectionCard.previewImage,
+    workflowIcon: workflow.workflowIcon,
+    status: "active" as const,
+    startHref: `/workflow/${workflow.id}`,
+  }));
+
+  return [...activeSelections, ...disabledWorkflowSelections];
 }
 
 export function getOrderedScreens(workflowId: string) {

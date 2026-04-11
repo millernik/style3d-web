@@ -1,0 +1,35 @@
+<svg width="1440" height="1024" viewBox="0 0 1440 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1440" height="1024" fill="#050507"/>
+  <rect width="1440" height="1024" fill="url(#v)" fill-opacity="0.72"/>
+  <g opacity="0.72" filter="url(#blur)">
+    <rect x="42" y="88" width="208" height="250" rx="18" fill="#312519"/>
+    <rect x="318" y="122" width="245" height="210" rx="18" fill="#4A3426"/>
+    <rect x="598" y="94" width="196" height="268" rx="18" fill="#1D1E28"/>
+    <rect x="844" y="118" width="220" height="214" rx="18" fill="#D6D1C7"/>
+    <rect x="1120" y="102" width="208" height="250" rx="18" fill="#0F1A2C"/>
+    <rect x="96" y="408" width="238" height="214" rx="18" fill="#1B1310"/>
+    <rect x="396" y="382" width="182" height="252" rx="18" fill="#F0E8D9"/>
+    <rect x="636" y="410" width="236" height="214" rx="18" fill="#3B2B1E"/>
+    <rect x="930" y="396" width="180" height="242" rx="18" fill="#1B1F30"/>
+    <rect x="1164" y="416" width="184" height="224" rx="18" fill="#050505"/>
+    <rect x="54" y="694" width="196" height="254" rx="18" fill="#12151E"/>
+    <rect x="326" y="692" width="236" height="220" rx="18" fill="#232A38"/>
+    <rect x="630" y="702" width="198" height="232" rx="18" fill="#C7B198"/>
+    <rect x="900" y="690" width="220" height="232" rx="18" fill="#F1ECE5"/>
+    <rect x="1164" y="712" width="196" height="214" rx="18" fill="#153E8A"/>
+  </g>
+  <circle cx="717" cy="422" r="190" fill="url(#glow)" fill-opacity="0.65"/>
+  <defs>
+    <filter id="blur" x="-18" y="28" width="1450" height="980" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="18"/>
+    </filter>
+    <linearGradient id="v" x1="720" y1="0" x2="720" y2="1024" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0A0A0D"/>
+      <stop offset="1" stop-color="#101015"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(717 422) rotate(90) scale(190)">
+      <stop stop-color="#C56CFF"/>
+      <stop offset="1" stop-color="#C56CFF" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+</svg>
