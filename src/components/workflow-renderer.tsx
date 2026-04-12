@@ -8,6 +8,13 @@ import { useRouter } from "next/navigation";
 
 import { KioskViewport } from "@/components/kiosk-viewport";
 import {
+  KeyVisualCampaignTemplate,
+  KeyVisualClosingTemplate,
+  KeyVisualLookbookTemplate,
+  KeyVisualProductVariantsTemplate,
+  KeyVisualReferenceTemplate,
+} from "@/components/keyvisual-workflow-templates";
+import {
   MantelCampaignTemplate,
   MantelClosingTemplate,
   MantelColorwayTemplate,
@@ -25,6 +32,11 @@ import {
   type ClosingScreen,
   type EcommerceScreen,
   type IntroScreen,
+  type KeyVisualCampaignScreen,
+  type KeyVisualClosingScreen,
+  type KeyVisualLookbookScreen,
+  type KeyVisualProductVariantsScreen,
+  type KeyVisualReferenceScreen,
   type LogoPlacementScreen,
   type MantelCampaignScreen,
   type MantelClosingScreen,
@@ -58,6 +70,28 @@ const childTransition = {
   ease: [0.22, 1, 0.36, 1] as const,
 };
 
+const defaultTryOnPreviewVariants = [
+  {
+    id: "blue",
+    src: kioskAssets.workwear.tryOnFront,
+    thumbImageClassName: "object-cover object-[50%_18%] scale-[1.16]",
+    heroFilter: "none",
+  },
+  {
+    id: "sand",
+    src: kioskAssets.workwear.tryOnThumbWarm,
+    thumbImageClassName: "object-contain p-[6px]",
+    heroFilter:
+      "sepia(0.56) saturate(1.38) hue-rotate(-8deg) brightness(1.07) contrast(0.94)",
+  },
+  {
+    id: "grey",
+    src: kioskAssets.workwear.tryOnThumbCool,
+    thumbImageClassName: "object-contain p-[6px]",
+    heroFilter: "grayscale(0.46) sepia(0.16) saturate(0.72) brightness(1.02)",
+  },
+] as const;
+
 export function WorkflowRenderer({ workflow, screen }: WorkflowRendererProps) {
   useAutoAdvance(workflow.id, screen);
 
@@ -83,13 +117,13 @@ export function WorkflowRenderer({ workflow, screen }: WorkflowRendererProps) {
     case "overview":
       return <OverviewTemplate workflow={workflow} screen={screen} />;
     case "mantel-intro":
-      return <MantelIntroTemplate workflow={workflow} screen={screen} shared={mantelSharedUi} />;
+      return <MantelIntroTemplate workflow={workflow} screen={screen} shared={sharedWorkflowUi} />;
     case "mantel-image-to-sketch":
       return (
         <MantelImageToSketchTemplate
           workflow={workflow}
           screen={screen}
-          shared={mantelSharedUi}
+          shared={sharedWorkflowUi}
         />
       );
     case "mantel-detail-gallery":
@@ -97,17 +131,17 @@ export function WorkflowRenderer({ workflow, screen }: WorkflowRendererProps) {
         <MantelDetailGalleryTemplate
           workflow={workflow}
           screen={screen}
-          shared={mantelSharedUi}
+          shared={sharedWorkflowUi}
         />
       );
     case "mantel-try-on":
-      return <MantelTryOnTemplate workflow={workflow} screen={screen} shared={mantelSharedUi} />;
+      return <MantelTryOnTemplate workflow={workflow} screen={screen} shared={sharedWorkflowUi} />;
     case "mantel-tech-pack":
       return (
         <MantelTechPackTemplate
           workflow={workflow}
           screen={screen}
-          shared={mantelSharedUi}
+          shared={sharedWorkflowUi}
         />
       );
     case "mantel-colorways":
@@ -115,7 +149,7 @@ export function WorkflowRenderer({ workflow, screen }: WorkflowRendererProps) {
         <MantelColorwayTemplate
           workflow={workflow}
           screen={screen}
-          shared={mantelSharedUi}
+          shared={sharedWorkflowUi}
         />
       );
     case "mantel-campaign":
@@ -123,7 +157,7 @@ export function WorkflowRenderer({ workflow, screen }: WorkflowRendererProps) {
         <MantelCampaignTemplate
           workflow={workflow}
           screen={screen}
-          shared={mantelSharedUi}
+          shared={sharedWorkflowUi}
         />
       );
     case "mantel-closing":
@@ -131,7 +165,47 @@ export function WorkflowRenderer({ workflow, screen }: WorkflowRendererProps) {
         <MantelClosingTemplate
           workflow={workflow}
           screen={screen}
-          shared={mantelSharedUi}
+          shared={sharedWorkflowUi}
+        />
+      );
+    case "keyvisual-reference":
+      return (
+        <KeyVisualReferenceTemplate
+          workflow={workflow}
+          screen={screen}
+          shared={sharedWorkflowUi}
+        />
+      );
+    case "keyvisual-product-variants":
+      return (
+        <KeyVisualProductVariantsTemplate
+          workflow={workflow}
+          screen={screen}
+          shared={sharedWorkflowUi}
+        />
+      );
+    case "keyvisual-lookbook":
+      return (
+        <KeyVisualLookbookTemplate
+          workflow={workflow}
+          screen={screen}
+          shared={sharedWorkflowUi}
+        />
+      );
+    case "keyvisual-campaign":
+      return (
+        <KeyVisualCampaignTemplate
+          workflow={workflow}
+          screen={screen}
+          shared={sharedWorkflowUi}
+        />
+      );
+    case "keyvisual-closing":
+      return (
+        <KeyVisualClosingTemplate
+          workflow={workflow}
+          screen={screen}
+          shared={sharedWorkflowUi}
         />
       );
     default:
@@ -139,7 +213,7 @@ export function WorkflowRenderer({ workflow, screen }: WorkflowRendererProps) {
   }
 }
 
-const mantelSharedUi = {
+const sharedWorkflowUi = {
   ScreenShell,
   WorkflowShell,
   NarrativeCard,
@@ -603,48 +677,32 @@ function TryOnTemplate({
 }) {
   const router = useRouter();
   const [selectedView, setSelectedView] = useState<"front" | "back">(screen.view);
-  const [selectedVariant, setSelectedVariant] = useState<"blue" | "sand" | "grey">(
-    "blue",
-  );
+  const previewVariants = screen.previewVariants ?? defaultTryOnPreviewVariants;
+  const [selectedVariant, setSelectedVariant] = useState(previewVariants[0]!.id);
   const [hasExplicitVariantSelection, setHasExplicitVariantSelection] = useState(false);
   const [showCTA, setShowCTA] = useState(false);
 
   useEffect(() => {
+    setSelectedView(screen.view);
+    setSelectedVariant(previewVariants[0]!.id);
+    setHasExplicitVariantSelection(false);
+  }, [screen.id, screen.view, previewVariants]);
+
+  useEffect(() => {
+    setShowCTA(false);
     const timeoutId = window.setTimeout(() => {
       setShowCTA(true);
-    }, 5000);
+    }, screen.ctaDelayMs ?? 5000);
 
     return () => window.clearTimeout(timeoutId);
-  }, []);
-
-  const previewVariants = [
-    {
-      id: "blue",
-      src: kioskAssets.workwear.tryOnFront,
-      thumbImageClassName: "object-cover object-[50%_18%] scale-[1.16]",
-      heroFilter: "none",
-    },
-    {
-      id: "sand",
-      src: kioskAssets.workwear.tryOnThumbWarm,
-      thumbImageClassName: "object-contain p-[6px]",
-      heroFilter:
-        "sepia(0.56) saturate(1.38) hue-rotate(-8deg) brightness(1.07) contrast(0.94)",
-    },
-    {
-      id: "grey",
-      src: kioskAssets.workwear.tryOnThumbCool,
-      thumbImageClassName: "object-contain p-[6px]",
-      heroFilter: "grayscale(0.46) sepia(0.16) saturate(0.72) brightness(1.02)",
-    },
-  ] as const;
+  }, [screen.ctaDelayMs]);
   const activeVariant = previewVariants.find(
     (variant) => variant.id === selectedVariant,
   )!;
   const activeImage =
     selectedView === "front"
-      ? kioskAssets.workwear.tryOnFront
-      : kioskAssets.workwear.tryOnBack;
+      ? screen.stageImages?.front ?? kioskAssets.workwear.tryOnFront
+      : screen.stageImages?.back ?? kioskAssets.workwear.tryOnBack;
 
   return (
     <ScreenShell
@@ -658,7 +716,7 @@ function TryOnTemplate({
           <div className="flex w-[520px] flex-col items-center gap-[18px]">
             <NarrativeCard
               className="relative left-auto top-auto w-[520px]"
-              avatar={kioskAssets.workwear.introAvatar}
+              avatar={screen.avatar ?? kioskAssets.workwear.introAvatar}
               text={screen.narrative}
               avatarGlowPreset="workwear-card"
             />
@@ -731,14 +789,14 @@ function TryOnTemplate({
                 options={[
                   {
                     id: "front",
-                    label: "Front",
+                    label: screen.toggleLabels?.front ?? "Front",
                     icon: "human",
                     active: selectedView === "front",
                     onClick: () => setSelectedView("front"),
                   },
                   {
                     id: "back",
-                    label: "Back",
+                    label: screen.toggleLabels?.back ?? "Back",
                     icon: "human",
                     active: selectedView === "back",
                     onClick: () => setSelectedView("back"),
