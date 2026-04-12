@@ -25,6 +25,15 @@ import {
   MantelTryOnTemplate,
 } from "@/components/mantel-workflow-templates";
 import {
+  NachtwaescheClosingTemplate,
+  NachtwaescheGraphicGenerationTemplate,
+  NachtwaescheIntroTemplate,
+  NachtwaescheMoodboardTemplate,
+  NachtwaeschePlacementTemplate,
+  NachtwaescheProductConceptTemplate,
+  NachtwaescheTryOnTemplate,
+} from "@/components/nachtwaesche-workflow-templates";
+import {
   buildScreenHref,
   getOrderedScreens,
   kioskAssets,
@@ -203,6 +212,62 @@ export function WorkflowRenderer({ workflow, screen }: WorkflowRendererProps) {
     case "keyvisual-closing":
       return (
         <KeyVisualClosingTemplate
+          workflow={workflow}
+          screen={screen}
+          shared={sharedWorkflowUi}
+        />
+      );
+    case "nachtwaesche-intro":
+      return (
+        <NachtwaescheIntroTemplate
+          workflow={workflow}
+          screen={screen}
+          shared={sharedWorkflowUi}
+        />
+      );
+    case "nachtwaesche-moodboard":
+      return (
+        <NachtwaescheMoodboardTemplate
+          workflow={workflow}
+          screen={screen}
+          shared={sharedWorkflowUi}
+        />
+      );
+    case "nachtwaesche-product-concept":
+      return (
+        <NachtwaescheProductConceptTemplate
+          workflow={workflow}
+          screen={screen}
+          shared={sharedWorkflowUi}
+        />
+      );
+    case "nachtwaesche-try-on":
+      return (
+        <NachtwaescheTryOnTemplate
+          workflow={workflow}
+          screen={screen}
+          shared={sharedWorkflowUi}
+        />
+      );
+    case "nachtwaesche-graphic-generation":
+      return (
+        <NachtwaescheGraphicGenerationTemplate
+          workflow={workflow}
+          screen={screen}
+          shared={sharedWorkflowUi}
+        />
+      );
+    case "nachtwaesche-placement":
+      return (
+        <NachtwaeschePlacementTemplate
+          workflow={workflow}
+          screen={screen}
+          shared={sharedWorkflowUi}
+        />
+      );
+    case "nachtwaesche-closing":
+      return (
+        <NachtwaescheClosingTemplate
           workflow={workflow}
           screen={screen}
           shared={sharedWorkflowUi}

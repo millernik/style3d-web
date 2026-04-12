@@ -8,6 +8,8 @@ export const kioskAssets = {
     mantelWorkflowMarkLarge: "/assets/shared/mantel-mark-large.svg",
     keyVisualWorkflowMark: "/assets/shared/key-visual-mark.svg",
     keyVisualWorkflowMarkLarge: "/assets/shared/key-visual-mark-large.svg",
+    nachtwaescheWorkflowMark: "/assets/shared/nachtwaesche-mark.svg",
+    nachtwaescheWorkflowMarkLarge: "/assets/shared/nachtwaesche-mark-large.svg",
   },
   workwear: {
     attractBackdrop: "/assets/workwear/review-3.png",
@@ -100,6 +102,28 @@ export const kioskAssets = {
     closingBackgroundAccent: "/assets/key-visual/closing/background-left.png",
     closingAvatar: "/assets/key-visual/closing/lea-avatar.png",
   },
+  nachtwaesche: {
+    screensaverPoster: "/assets/nachtwaesche/intro/background.png",
+    introBackground: "/assets/nachtwaesche/intro/background.png",
+    introAvatar: "/assets/nachtwaesche/intro/jonah-avatar.png",
+    moodboardImage: "/assets/nachtwaesche/step-2-moodboard/moodboard.png",
+    moodboardMannequin: "/assets/nachtwaesche/step-2-moodboard/mannequin.png",
+    productConceptOutfitOne: "/assets/nachtwaesche/step-3-product-concept/outfit-1.png",
+    productConceptOutfitTwo: "/assets/nachtwaesche/step-3-product-concept/outfit-2.png",
+    tryOnLookOne: "/assets/nachtwaesche/step-4-try-on/look-1.png",
+    tryOnLookTwo: "/assets/nachtwaesche/step-4-try-on/look-2.png",
+    graphicBlankBag: "/assets/nachtwaesche/step-5-graphic-generation/blank-bag.png",
+    graphicOptionOne: "/assets/nachtwaesche/step-5-graphic-generation/graphic-option-1.png",
+    graphicOptionTwo: "/assets/nachtwaesche/step-5-graphic-generation/graphic-option-2.png",
+    placementHero: "/assets/nachtwaesche/step-6-placement/bag-main.png",
+    placementThumbMargarita: "/assets/nachtwaesche/step-6-placement/thumb-margarita.png",
+    placementThumbCaipirinha: "/assets/nachtwaesche/step-6-placement/thumb-caipirinha.png",
+    placementThumbDaiquiri: "/assets/nachtwaesche/step-6-placement/thumb-daiquiri.png",
+    placementThumbMaiTai: "/assets/nachtwaesche/step-6-placement/thumb-maitai.png",
+    closingBackground: "/assets/nachtwaesche/closing/background.png",
+    closingAvatar: "/assets/nachtwaesche/closing/jonah-avatar.png",
+    closingQr: "/assets/nachtwaesche/closing/qr.png",
+  },
 } as const;
 
 export type FooterConfig = {
@@ -134,7 +158,14 @@ export type BaseScreen = {
     | "keyvisual-product-variants"
     | "keyvisual-lookbook"
     | "keyvisual-campaign"
-    | "keyvisual-closing";
+    | "keyvisual-closing"
+    | "nachtwaesche-intro"
+    | "nachtwaesche-moodboard"
+    | "nachtwaesche-product-concept"
+    | "nachtwaesche-try-on"
+    | "nachtwaesche-graphic-generation"
+    | "nachtwaesche-placement"
+    | "nachtwaesche-closing";
   footer?: FooterConfig;
   autoAdvanceMs?: number;
   backdropImage?: string;
@@ -454,6 +485,107 @@ export type KeyVisualClosingScreen = BaseScreen & {
   backgroundAccentImage?: string;
 };
 
+export type NachtwaescheIntroScreen = BaseScreen & {
+  kind: "nachtwaesche-intro";
+  headline: string;
+  body: string;
+  avatar: string;
+  ctaLabel: string;
+  ctaTarget: string;
+};
+
+export type NachtwaescheMoodboardScreen = BaseScreen & {
+  kind: "nachtwaesche-moodboard";
+  narrative: string;
+  avatar: string;
+  moodboardImage: string;
+  mannequinImage: string;
+  ctaLabel: string;
+  ctaTarget: string;
+};
+
+export type NachtwaescheProductConceptOption = {
+  id: string;
+  label: string;
+  image: string;
+};
+
+export type NachtwaescheProductConceptScreen = BaseScreen & {
+  kind: "nachtwaesche-product-concept";
+  narrative: string;
+  avatar: string;
+  options: NachtwaescheProductConceptOption[];
+  ctaLabel: string;
+  ctaTarget: string;
+};
+
+export type NachtwaescheTryOnOption = {
+  id: string;
+  title: string;
+  body: string;
+  image: string;
+};
+
+export type NachtwaescheTryOnScreen = BaseScreen & {
+  kind: "nachtwaesche-try-on";
+  narrative: string;
+  avatar: string;
+  options: NachtwaescheTryOnOption[];
+  ctaLabel: string;
+  ctaTarget: string;
+  ctaDelayMs?: number;
+};
+
+export type NachtwaescheGraphicOption = {
+  id: string;
+  label: string;
+  image: string;
+};
+
+export type NachtwaescheGraphicGenerationScreen = BaseScreen & {
+  kind: "nachtwaesche-graphic-generation";
+  narrative: string;
+  avatar: string;
+  promptTitle: string;
+  promptBody: string;
+  blankBagImage: string;
+  options: NachtwaescheGraphicOption[];
+  generateLabel: string;
+  processingLabel: string;
+  ctaLabel: string;
+  ctaTarget: string;
+  processingMs: number;
+  resultCtaDelayMs: number;
+};
+
+export type NachtwaeschePlacementOption = {
+  id: string;
+  label: string;
+  image: string;
+  thumbImage: string;
+};
+
+export type NachtwaeschePlacementScreen = BaseScreen & {
+  kind: "nachtwaesche-placement";
+  narrative: string;
+  avatar: string;
+  options: NachtwaeschePlacementOption[];
+  ctaLabel: string;
+  ctaTarget: string;
+};
+
+export type NachtwaescheClosingScreen = BaseScreen & {
+  kind: "nachtwaesche-closing";
+  avatar: string;
+  body: string[];
+  primaryCtaLabel: string;
+  primaryHref: string;
+  secondaryCtaLabel: string;
+  secondaryCtaTarget: string;
+  bookingCtaLabel?: string;
+  qrImage?: string;
+};
+
 export type WorkflowScreen =
   | IntroScreen
   | SketchScreen
@@ -477,7 +609,14 @@ export type WorkflowScreen =
   | KeyVisualProductVariantsScreen
   | KeyVisualLookbookScreen
   | KeyVisualCampaignScreen
-  | KeyVisualClosingScreen;
+  | KeyVisualClosingScreen
+  | NachtwaescheIntroScreen
+  | NachtwaescheMoodboardScreen
+  | NachtwaescheProductConceptScreen
+  | NachtwaescheTryOnScreen
+  | NachtwaescheGraphicGenerationScreen
+  | NachtwaeschePlacementScreen
+  | NachtwaescheClosingScreen;
 
 export type Workflow = {
   id: string;
@@ -1228,20 +1367,252 @@ const keyVisualWorkflow: Workflow = {
   overview: keyVisualOverview,
 };
 
+const nachtwaescheScreens: WorkflowScreen[] = [
+  {
+    id: "step-1",
+    frameName: "Nachtwäsche 1",
+    kind: "nachtwaesche-intro",
+    headline: "Hi, ich bin Jonah!",
+    body:
+      "Ich entwickle die Visuals für eine Kollektion für den Sommer. Das Brand-Team will Girls Pyjama-Party als Thema. Die Kollektion steht und wir wollen die Vermarktung starten.",
+    avatar: kioskAssets.nachtwaesche.introAvatar,
+    ctaLabel: "Workflow starten",
+    ctaTarget: "step-2",
+    backdropImage: kioskAssets.nachtwaesche.introBackground,
+  },
+  {
+    id: "step-2",
+    frameName: "Nachtwäsche 2",
+    kind: "nachtwaesche-moodboard",
+    footer: { label: "Moodboard", current: 1, total: 5 },
+    narrative:
+      "Aus dem Moodboard hole ich mir alle Details zu Farben. Außerdem habe ich die Outfits an Puppen. Ich arbeite mit einem Outfit weiter. Womit sollen wir starten – zwei Hotspots zur Auswahl.",
+    avatar: kioskAssets.nachtwaesche.introAvatar,
+    moodboardImage: kioskAssets.nachtwaesche.moodboardImage,
+    mannequinImage: kioskAssets.nachtwaesche.moodboardMannequin,
+    ctaLabel: "Zum nächsten Schritt",
+    ctaTarget: "step-3",
+    backdropImage: kioskAssets.nachtwaesche.moodboardImage,
+  },
+  {
+    id: "step-3",
+    frameName: "Nachtwäsche 3",
+    kind: "nachtwaesche-product-concept",
+    footer: { label: "Product Concept", current: 2, total: 5 },
+    narrative:
+      "Ich hole mir die Bekleidungsstücke und probiere sie an unserem E-Commerce-Modell aus.",
+    avatar: kioskAssets.nachtwaesche.introAvatar,
+    options: [
+      {
+        id: "outfit-1",
+        label: "Outfit 1",
+        image: kioskAssets.nachtwaesche.productConceptOutfitOne,
+      },
+      {
+        id: "outfit-2",
+        label: "Outfit 2",
+        image: kioskAssets.nachtwaesche.productConceptOutfitTwo,
+      },
+    ],
+    ctaLabel: "Zum nächsten Schritt",
+    ctaTarget: "step-4",
+    backdropImage: kioskAssets.nachtwaesche.productConceptOutfitOne,
+  },
+  {
+    id: "step-4",
+    frameName: "Nachtwäsche 4",
+    kind: "nachtwaesche-try-on",
+    footer: { label: "Try-on Review", current: 3, total: 5 },
+    narrative:
+      "Jetzt suche ich die Models aus unserer Datenbank aus. Für mich sind es zwei Freundinnen, die sich gut kennen und entspannt miteinander quatschen.",
+    avatar: kioskAssets.nachtwaesche.introAvatar,
+    options: [
+      {
+        id: "prompt-1",
+        title: "Prompt 1:",
+        body: "1. Prompting Gesichter",
+        image: kioskAssets.nachtwaesche.tryOnLookOne,
+      },
+      {
+        id: "prompt-2",
+        title: "Prompt 2:",
+        body: "2. Prompting Gesichter",
+        image: kioskAssets.nachtwaesche.tryOnLookTwo,
+      },
+    ],
+    ctaLabel: "Anprobe",
+    ctaTarget: "step-5",
+    ctaDelayMs: 2200,
+    backdropImage: kioskAssets.nachtwaesche.tryOnLookTwo,
+  },
+  {
+    id: "step-5",
+    frameName: "Nachtwäsche 6 + 7 + 7.1",
+    kind: "nachtwaesche-graphic-generation",
+    footer: { label: "AI Graphic", current: 4, total: 5 },
+    narrative:
+      "Teil unserer Kampagne ist ein Gewinnspiel. Zu gewinnen gibt es ein Übernachtungspaket – eine Tasche mit Accessoires, die genau zu unserer Kollektion passt. Die Tasche gibt es schon, aber die Artwork fehlt noch.",
+    avatar: kioskAssets.nachtwaesche.introAvatar,
+    promptTitle: "Prompt:",
+    promptBody:
+      "Create a playful summer-night sleepwear artwork for the giveaway tote. Keep the illustration bright, product-friendly and close to the approved pyjama-party color palette.",
+    blankBagImage: kioskAssets.nachtwaesche.graphicBlankBag,
+    options: [
+      {
+        id: "daiquiri",
+        label: "D.AI. Quiri",
+        image: kioskAssets.nachtwaesche.graphicOptionOne,
+      },
+      {
+        id: "mai-tai",
+        label: "Mai Tai",
+        image: kioskAssets.nachtwaesche.graphicOptionTwo,
+      },
+    ],
+    generateLabel: "Generieren",
+    processingLabel: "Bearbeitung Läuft",
+    ctaLabel: "Zum nächsten Schritt",
+    ctaTarget: "step-6",
+    processingMs: 1250,
+    resultCtaDelayMs: 5000,
+    backdropImage: kioskAssets.nachtwaesche.graphicOptionOne,
+  },
+  {
+    id: "step-6",
+    frameName: "Nachtwäsche 8",
+    kind: "nachtwaesche-placement",
+    footer: { label: "Placement Preview", current: 5, total: 5 },
+    narrative:
+      "Die Entscheidung fällt leicht. Jetzt noch für den Drucker auf der Tasche platzieren und go.",
+    avatar: kioskAssets.nachtwaesche.introAvatar,
+    options: [
+      {
+        id: "margarita",
+        label: "Margarita",
+        image: kioskAssets.nachtwaesche.placementHero,
+        thumbImage: kioskAssets.nachtwaesche.placementThumbMargarita,
+      },
+      {
+        id: "caipirinha",
+        label: "Caipirinha",
+        image: kioskAssets.nachtwaesche.placementHero,
+        thumbImage: kioskAssets.nachtwaesche.placementThumbCaipirinha,
+      },
+      {
+        id: "daiquiri",
+        label: "D.AI. Quiri",
+        image: kioskAssets.nachtwaesche.placementHero,
+        thumbImage: kioskAssets.nachtwaesche.placementThumbDaiquiri,
+      },
+      {
+        id: "mai-tai",
+        label: "Mai Tai",
+        image: kioskAssets.nachtwaesche.placementHero,
+        thumbImage: kioskAssets.nachtwaesche.placementThumbMaiTai,
+      },
+    ],
+    ctaLabel: "Zum nächsten Schritt",
+    ctaTarget: "step-7",
+    backdropImage: kioskAssets.nachtwaesche.placementHero,
+  },
+  {
+    id: "step-7",
+    frameName: "Nachtwäsche 9",
+    kind: "nachtwaesche-closing",
+    footer: { current: 6, total: 6 },
+    avatar: kioskAssets.nachtwaesche.closingAvatar,
+    body: [
+      "Die Sleepwear-Kapsel ist bereit für Demo, Review und Vermarktung.",
+      "Moodboard, Produkt, Artwork und Placement stehen jetzt als konsistenter Workflow.",
+    ],
+    primaryCtaLabel: "Neustarten",
+    primaryHref: "/admin",
+    secondaryCtaLabel: "Overview",
+    secondaryCtaTarget: "overview",
+    qrImage: kioskAssets.nachtwaesche.closingQr,
+    backdropImage: kioskAssets.nachtwaesche.closingBackground,
+  },
+];
+
+const nachtwaescheOverview: OverviewScreen = {
+  id: "overview",
+  frameName: "Nachtwäsche Overview",
+  kind: "overview",
+  cards: [
+    {
+      number: 1,
+      title: "Moodboard",
+      target: "step-2",
+      artwork: [
+        kioskAssets.nachtwaesche.moodboardImage,
+        kioskAssets.nachtwaesche.moodboardMannequin,
+      ],
+    },
+    {
+      number: 2,
+      title: "Product Concept",
+      target: "step-3",
+      artwork: [
+        kioskAssets.nachtwaesche.productConceptOutfitOne,
+        kioskAssets.nachtwaesche.productConceptOutfitTwo,
+      ],
+    },
+    {
+      number: 3,
+      title: "Try-on",
+      target: "step-4",
+      artwork: [
+        kioskAssets.nachtwaesche.tryOnLookOne,
+        kioskAssets.nachtwaesche.tryOnLookTwo,
+      ],
+    },
+    {
+      number: 4,
+      title: "AI Graphic",
+      target: "step-5",
+      artwork: [
+        kioskAssets.nachtwaesche.graphicBlankBag,
+        kioskAssets.nachtwaesche.graphicOptionOne,
+      ],
+    },
+    {
+      number: 5,
+      title: "Placement Preview",
+      target: "step-6",
+      artwork: [kioskAssets.nachtwaesche.placementHero],
+    },
+  ],
+  backdropImage: kioskAssets.nachtwaesche.placementHero,
+};
+
+const nachtwaescheWorkflow: Workflow = {
+  id: "nachtwaesche",
+  title: "AI.Showcase Nachtwäsche",
+  brandLogo: kioskAssets.shared.brandLogo,
+  workflowIcon: kioskAssets.shared.nachtwaescheWorkflowMark,
+  selectionCard: {
+    title: "Nachtwäsche",
+    subtitle: "Von Moodboard bis Print-Placement für die Sleepwear-Kapsel",
+    previewImage: kioskAssets.nachtwaesche.introBackground,
+  },
+  attract: {
+    brandLogo: kioskAssets.shared.brandLogoLarge,
+    workflowMark: kioskAssets.shared.nachtwaescheWorkflowMarkLarge,
+    workflowTitle: "AI.Showcase Nachtwäsche",
+    videoSrc: kioskAssets.nachtwaesche.screensaverPoster,
+    posterSrc: kioskAssets.nachtwaesche.screensaverPoster,
+  },
+  screens: nachtwaescheScreens,
+  overview: nachtwaescheOverview,
+};
+
 const workflows: Record<string, Workflow> = {
   [workwearWorkflow.id]: workwearWorkflow,
   [mantelWorkflow.id]: mantelWorkflow,
   [keyVisualWorkflow.id]: keyVisualWorkflow,
+  [nachtwaescheWorkflow.id]: nachtwaescheWorkflow,
 };
-
-const disabledWorkflowSelections: WorkflowSelectionEntry[] = [
-  {
-    id: "nachtwaesche",
-    title: "Nachtwäsche",
-    subtitle: "Demnächst verfügbar",
-    status: "disabled",
-  },
-];
+const disabledWorkflowSelections: WorkflowSelectionEntry[] = [];
 
 export function getWorkflow(workflowId: string) {
   return workflows[workflowId] ?? null;
@@ -1260,6 +1631,7 @@ export function getWorkflowSelectionEntries(): WorkflowSelectionEntry[] {
     workwearWorkflow,
     mantelWorkflow,
     keyVisualWorkflow,
+    nachtwaescheWorkflow,
   ].map((workflow) => ({
     id: workflow.id,
     title: workflow.selectionCard.title,
