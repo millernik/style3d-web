@@ -79,7 +79,7 @@ const childTransition = {
   ease: [0.22, 1, 0.36, 1] as const,
 };
 
-const defaultTryOnPreviewVariants = [
+const defaultTryOnPreviewVariants: NonNullable<TryOnScreen["previewVariants"]> = [
   {
     id: "blue",
     src: kioskAssets.workwear.tryOnFront,
@@ -594,20 +594,26 @@ function StyleDesignTemplate({
   screen: StyleDesignScreen;
 }) {
   const router = useRouter();
+  const hiddenDefaultVariant = {
+    id: "default-blue",
+    main: kioskAssets.workwear.styleDesignMain,
+    imageClassName:
+      "pointer-events-none h-full w-full object-contain object-center p-[16px]",
+  } as const;
   const variants = [
     {
       id: "sand-jacket",
-      thumb: kioskAssets.workwear.styleDesignThumbJacket,
+      thumb: kioskAssets.workwear.styleDesignThumbSand,
       main: kioskAssets.workwear.styleDesignThumbJacket,
       imageClassName:
         "pointer-events-none h-full w-full object-contain object-center p-[22px]",
     },
     {
-      id: "blue-jacket",
+      id: "helmet",
       thumb: kioskAssets.workwear.styleDesignThumbHelmet,
-      main: kioskAssets.workwear.styleDesignMain,
+      main: kioskAssets.workwear.styleDesignThumbHelmet,
       imageClassName:
-        "pointer-events-none h-full w-full object-contain object-center p-[16px]",
+        "pointer-events-none h-full w-full scale-[1.18] object-contain object-center p-[10px]",
     },
     {
       id: "pants",
@@ -625,10 +631,10 @@ function StyleDesignTemplate({
     },
   ] as const;
 
-  const [selectedVariantId, setSelectedVariantId] = useState<string>("blue-jacket");
+  const [selectedVariantId, setSelectedVariantId] = useState<string>(hiddenDefaultVariant.id);
 
   const activeVariant =
-    variants.find((variant) => variant.id === selectedVariantId) ?? variants[0];
+    variants.find((variant) => variant.id === selectedVariantId) ?? hiddenDefaultVariant;
   const showCTA = selectedVariantId === "pants";
 
   return (
@@ -718,7 +724,9 @@ function StyleDesignTemplate({
                         <img
                           src={variant.thumb}
                           alt=""
-                          className="pointer-events-none h-full w-full object-contain"
+                          className={`pointer-events-none h-full w-full object-contain ${
+                            variant.id === "helmet" ? "scale-[1.18]" : ""
+                          }`}
                         />
                       </div>
                     </div>
@@ -766,8 +774,12 @@ function TryOnTemplate({
   )!;
   const activeImage =
     selectedView === "front"
-      ? screen.stageImages?.front ?? kioskAssets.workwear.tryOnFront
-      : screen.stageImages?.back ?? kioskAssets.workwear.tryOnBack;
+      ? activeVariant.stageImages?.front ??
+        screen.stageImages?.front ??
+        kioskAssets.workwear.tryOnFront
+      : activeVariant.stageImages?.back ??
+        screen.stageImages?.back ??
+        kioskAssets.workwear.tryOnBack;
 
   return (
     <ScreenShell
@@ -898,6 +910,8 @@ function StyleRedrawTemplate({
       buttonTopPct: number;
       artClassName: string;
       renderArtClassName: string;
+      beforeSrc?: string;
+      afterSrc?: string;
     }
   > = {
     upper: {
@@ -907,6 +921,8 @@ function StyleRedrawTemplate({
         "h-full w-full object-cover object-[42%_18%] scale-[1.55]",
       renderArtClassName:
         "h-full w-full object-cover object-[42%_18%] scale-[1.55]",
+      beforeSrc: kioskAssets.workwear.styleRedrawBefore,
+      afterSrc: kioskAssets.workwear.styleRedrawAfter,
     },
     lower: {
       buttonLeftPct: 60.7,
@@ -915,6 +931,8 @@ function StyleRedrawTemplate({
         "h-full w-full object-cover object-[58%_67%] scale-[1.52]",
       renderArtClassName:
         "h-full w-full object-cover object-[58%_67%] scale-[1.52]",
+      beforeSrc: kioskAssets.workwear.styleRedrawLowerDetail,
+      afterSrc: kioskAssets.workwear.styleRedrawLowerDetail,
     },
   };
 
@@ -981,44 +999,52 @@ function StyleRedrawTemplate({
                   alt=""
                   className="pointer-events-none absolute inset-0 h-full w-full object-cover"
                 />
-                {(["upper", "lower"] as const).map((hotspotId) => {
-                  const isActive = selectedHotspotId === hotspotId;
-
-                  return (
-                    <button
-                      key={hotspotId}
-                      type="button"
-                      onClick={() => setSelectedHotspotId(hotspotId)}
-                      className="absolute z-20 flex h-[46px] w-[46px] items-center justify-center rounded-full bg-transparent"
-                      style={{
-                        left: `calc(${hotspotConfig[hotspotId].buttonLeftPct}% - 23px)`,
-                        top: `calc(${hotspotConfig[hotspotId].buttonTopPct}% - 23px)`,
-                      }}
-                      aria-label={`Detail ${hotspotId}`}
-                    >
-                      <motion.span
-                        aria-hidden="true"
-                        animate={
-                          isActive
-                            ? { scale: [1, 1.12, 1], opacity: [0.54, 0.28, 0.54] }
-                            : { scale: [1, 1.08, 1], opacity: [0.38, 0.18, 0.38] }
-                        }
-                        transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
-                        className="absolute inset-[-5px] rounded-full bg-[radial-gradient(circle,rgba(217,66,255,0.56)_0%,rgba(217,66,255,0.28)_42%,rgba(217,66,255,0.1)_60%,transparent_74%)]"
-                      />
-                      <span
-                        className={`absolute inset-[4px] rounded-full bg-[radial-gradient(circle,#f0abff_0%,#d942ff_46%,#9e34ff_100%)] ${
-                          isActive
-                            ? "shadow-[0_0_16px_rgba(217,66,255,0.44)]"
-                            : "shadow-[0_0_12px_rgba(217,66,255,0.32)]"
-                        }`}
-                      />
-                      <span className="absolute inset-[13px] rounded-full bg-white/90" />
-                    </button>
-                  );
-                })}
               </FramedStage>
             </motion.div>
+
+            {(["upper", "lower"] as const).map((hotspotId) => {
+              const isActive = selectedHotspotId === hotspotId;
+
+              return (
+                <button
+                  key={hotspotId}
+                  type="button"
+                  onClick={() => setSelectedHotspotId(hotspotId)}
+                  className="absolute z-20 flex h-[46px] w-[46px] items-center justify-center rounded-full bg-transparent"
+                  style={{
+                    left: `${
+                      sourceCardLayout.x +
+                      (hotspotConfig[hotspotId].buttonLeftPct / 100) * modelCardWidth -
+                      23
+                    }px`,
+                    top: `${
+                      (hotspotConfig[hotspotId].buttonTopPct / 100) * modelCardHeight -
+                      23
+                    }px`,
+                  }}
+                  aria-label={`Detail ${hotspotId}`}
+                >
+                  <motion.span
+                    aria-hidden="true"
+                    animate={
+                      isActive
+                        ? { scale: [1, 1.12, 1], opacity: [0.54, 0.28, 0.54] }
+                        : { scale: [1, 1.08, 1], opacity: [0.38, 0.18, 0.38] }
+                    }
+                    transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+                    className="absolute inset-[-5px] rounded-full bg-[radial-gradient(circle,rgba(217,66,255,0.56)_0%,rgba(217,66,255,0.28)_42%,rgba(217,66,255,0.1)_60%,transparent_74%)]"
+                  />
+                  <span
+                    className={`absolute inset-[4px] rounded-full bg-[radial-gradient(circle,#f0abff_0%,#d942ff_46%,#9e34ff_100%)] ${
+                      isActive
+                        ? "shadow-[0_0_16px_rgba(217,66,255,0.44)]"
+                        : "shadow-[0_0_12px_rgba(217,66,255,0.32)]"
+                    }`}
+                  />
+                  <span className="absolute inset-[13px] rounded-full bg-white/90" />
+                </button>
+              );
+            })}
 
             <div
               className="absolute right-0 top-0 flex items-start justify-center"
@@ -1044,8 +1070,8 @@ function StyleRedrawTemplate({
                         <img
                           src={
                             previewMode === "before"
-                              ? kioskAssets.workwear.styleRedrawBefore
-                              : kioskAssets.workwear.styleRedrawAfter
+                              ? selectedConfig.beforeSrc ?? kioskAssets.workwear.styleRedrawBefore
+                              : selectedConfig.afterSrc ?? kioskAssets.workwear.styleRedrawAfter
                           }
                           alt=""
                           className={`pointer-events-none ${
@@ -1255,10 +1281,26 @@ function LogoPlacementTemplate({
   const [selectedPlacementId, setSelectedPlacementId] = useState("logo-1");
   const showCTA = useLatchedDelay(phase === "gallery", 5000);
   const placementVariants = [
-    { id: "logo-1", src: kioskAssets.workwear.logoThumbOne },
-    { id: "logo-2", src: kioskAssets.workwear.logoThumbTwo },
-    { id: "logo-3", src: kioskAssets.workwear.logoThumbThree },
-    { id: "logo-4", src: kioskAssets.workwear.logoThumbFour },
+    {
+      id: "logo-1",
+      thumbSrc: kioskAssets.workwear.logoThumbOne,
+      mainSrc: kioskAssets.workwear.logoMainPlacement,
+    },
+    {
+      id: "logo-2",
+      thumbSrc: kioskAssets.workwear.logoThumbTwo,
+      mainSrc: kioskAssets.workwear.logoMainPlacementTwo,
+    },
+    {
+      id: "logo-3",
+      thumbSrc: kioskAssets.workwear.logoThumbThree,
+      mainSrc: kioskAssets.workwear.logoMainPlacementThree,
+    },
+    {
+      id: "logo-4",
+      thumbSrc: kioskAssets.workwear.logoThumbFour,
+      mainSrc: kioskAssets.workwear.logoMainPlacementFour,
+    },
   ] as const;
 
   const activePlacement =
@@ -1299,25 +1341,26 @@ function LogoPlacementTemplate({
           <div className="flex w-[500px] items-start justify-center gap-[14px]">
             <div className="flex flex-col items-center gap-[16px]">
               <FramedStage className="relative h-[452px] w-[396px] rounded-[32px] border-2 border-[var(--border-frame)] bg-white">
-                <img
-                  src={kioskAssets.workwear.logoMainPlacement}
-                  alt=""
-                  className="pointer-events-none absolute inset-0 h-full w-full object-cover"
-                />
                 {phase === "gallery" ? (
                   <AnimatePresence mode="wait" initial={false}>
                     <motion.img
                       key={activePlacement.id}
-                      src={activePlacement.src}
+                      src={activePlacement.mainSrc}
                       alt=""
                       initial={{ opacity: 0.45, scale: 0.96 }}
                       animate={{ opacity: 1, scale: 1 }}
                       exit={{ opacity: 0, scale: 1.01 }}
                       transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
-                      className="pointer-events-none absolute left-[121px] top-[174px] h-[80px] w-[80px] object-contain"
+                      className="pointer-events-none absolute inset-0 h-full w-full object-cover"
                     />
                   </AnimatePresence>
-                ) : null}
+                ) : (
+                  <img
+                    src={kioskAssets.workwear.logoMainPlacement}
+                    alt=""
+                    className="pointer-events-none absolute inset-0 h-full w-full object-cover"
+                  />
+                )}
               </FramedStage>
 
               {phase === "prompt" ? (
@@ -1336,14 +1379,14 @@ function LogoPlacementTemplate({
                     onClick={() => setSelectedPlacementId(variant.id)}
                   >
                     <ThumbnailCard
-                      active={variant.id === selectedPlacementId}
-                      className="h-[86px] w-[86px] rounded-[18px] border border-[var(--border-frame)]"
-                    >
-                      <img
-                        src={variant.src}
-                        alt=""
-                        className="pointer-events-none h-full w-full object-cover"
-                      />
+                        active={variant.id === selectedPlacementId}
+                        className="h-[86px] w-[86px] rounded-[18px] border border-[var(--border-frame)]"
+                      >
+                        <img
+                          src={variant.thumbSrc}
+                          alt=""
+                          className="pointer-events-none h-full w-full object-cover"
+                        />
                     </ThumbnailCard>
                   </button>
                 ))}
@@ -1366,7 +1409,7 @@ function EcommerceTemplate({
   const router = useRouter();
   const reviewVariants = [
     { id: "scene", src: kioskAssets.workwear.reviewScene },
-    { id: "gear", src: kioskAssets.workwear.reviewGear },
+    { id: "running", src: kioskAssets.workwear.reviewRunning },
     { id: "plain", src: kioskAssets.workwear.reviewPlain },
   ] as const;
   const [hasPoseChanged, setHasPoseChanged] = useState(false);
@@ -1429,7 +1472,7 @@ function EcommerceTemplate({
                 <ActionPill
                   onClick={() => {
                     setHasPoseChanged(true);
-                    setSelectedReviewId("gear");
+                    setSelectedReviewId("running");
                   }}
                 >
                   {screen.ctaLabel ?? "Change pose"}
@@ -1498,60 +1541,66 @@ function ClosingTemplate({
         </div>
       </div>
 
-      <motion.section
-        initial={{ opacity: 0, y: 18 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={entryTransition}
-        className="absolute left-[400px] top-[197px] z-10 flex w-[640px] flex-col items-center gap-[40px]"
-      >
-        <div className="flex w-full flex-col items-center gap-[24px]">
-          <AvatarDiamond
-            image={screen.avatar}
-            size="xl"
-            glowPreset="workwear-intro"
-          />
-          <div className="w-full text-center text-kiosk-body-lg leading-[1.45] text-white">
-            {screen.body.map((line) => (
-              <p key={line}>{line}</p>
-            ))}
-          </div>
+      <div className="absolute left-[50px] top-[146px] z-20 flex h-[844px] w-[1340px] flex-col">
+        <div className="flex flex-1 flex-col items-center justify-center gap-[30px] pb-[28px]">
+          <motion.section
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={entryTransition}
+            className="flex w-[640px] flex-col items-center gap-[32px]"
+          >
+            <div className="flex w-full flex-col items-center gap-[24px]">
+              <AvatarDiamond
+                image={screen.avatar}
+                size="xl"
+                glowPreset="workwear-intro"
+              />
+              <div className="w-full text-center text-kiosk-body-lg leading-[1.45] text-white">
+                {screen.body.map((line) => (
+                  <p key={line}>{line}</p>
+                ))}
+              </div>
+            </div>
+
+            <div className="relative h-[50px] w-[569px]">
+              <div className="absolute left-[8px] top-[10px] h-[30px] w-[555px] rounded-[100px] bg-kiosk-gradient blur-[50px]" />
+              <div className="relative flex h-full w-full items-center justify-center gap-[10px] rounded-[100px] bg-kiosk-gradient px-[40px] py-[10px]">
+                <img
+                  src={workflow.workflowIcon}
+                  alt=""
+                  className="h-[24px] w-[24px]"
+                />
+                <span className="text-[19.989px] font-semibold text-white">
+                  Jetzt Produkt-Demo buchen – hier am Stand
+                </span>
+              </div>
+            </div>
+          </motion.section>
         </div>
 
-        <div className="relative h-[50px] w-[569px]">
-          <div className="absolute left-[8px] top-[10px] h-[30px] w-[555px] rounded-[100px] bg-kiosk-gradient blur-[50px]" />
-          <div className="relative flex h-full w-full items-center justify-center gap-[10px] rounded-[100px] bg-kiosk-gradient px-[40px] py-[10px]">
+        <div className="flex shrink-0 flex-col items-center gap-[24px]">
+          <div className="h-[100px] w-[100px]">
             <img
-              src={workflow.workflowIcon}
-              alt=""
-              className="h-[24px] w-[24px]"
+              src={screen.qrImage ?? kioskAssets.workwear.closingQr}
+              alt="QR Code"
+              className="block h-full w-full"
             />
-            <span className="text-[19.989px] font-semibold text-white">
-              Jetzt Produkt-Demo buchen – hier am Stand
-            </span>
           </div>
-        </div>
-      </motion.section>
 
-      <div className="absolute left-[670px] top-[778px] z-20 h-[100px] w-[100px]">
-        <img
-          src={kioskAssets.workwear.closingQr}
-          alt="QR Code"
-          className="block h-full w-full"
-        />
-      </div>
+          <div className="flex w-full items-center justify-between">
+            <div className="flex items-center gap-[24px]">
+              <SecondaryPill href="/admin">Neustarten</SecondaryPill>
+              <SecondaryPill workflowId={workflow.id} targetId="overview">
+                Overview
+              </SecondaryPill>
+            </div>
 
-      <div className="absolute left-[100px] top-[924px] z-20 flex w-[1240px] items-center justify-between">
-        <div className="flex items-center gap-[24px]">
-          <SecondaryPill href="/admin">Neustarten</SecondaryPill>
-          <SecondaryPill workflowId={workflow.id} targetId="overview">
-            Overview
-          </SecondaryPill>
-        </div>
-
-        <div className="flex items-center gap-[12px] text-[28px] font-[300] leading-none text-white">
-          <span>{screen.footer?.current ?? 7}</span>
-          <span className="block h-[2px] w-[165px] rounded-[100px] bg-[#757575]" />
-          <span>{screen.footer?.total ?? 7}</span>
+            <div className="flex items-center gap-[12px] text-[28px] font-[300] leading-none text-white">
+              <span>{screen.footer?.current ?? 7}</span>
+              <span className="block h-[2px] w-[165px] rounded-[100px] bg-[#757575]" />
+              <span>{screen.footer?.total ?? 7}</span>
+            </div>
+          </div>
         </div>
       </div>
     </WorkflowShell>

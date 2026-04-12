@@ -21,27 +21,39 @@ export const kioskAssets = {
     sketchHighlightOverlay: "/assets/workwear/sketch-highlight-overlay.png",
     sketchFinishedCollage: "/assets/workwear/sketch-finished-collage.png",
     styleDesignMain: "/assets/workwear/style-design-main.png",
+    styleDesignThumbSand: "/assets/workwear/style-design-thumb-sand.png",
     styleDesignThumbJacket: "/assets/workwear/style-design-thumb-jacket.png",
-    styleDesignThumbHelmet: "/assets/workwear/style-design-thumb-helmet.png",
+    styleDesignThumbHelmet: "/assets/workwear/style-design-thumb-helmet-updated.png",
     styleDesignThumbPants: "/assets/workwear/style-design-thumb-pants.png",
     styleDesignThumbBoots: "/assets/workwear/style-design-thumb-boots.png",
     tryOnFront: "/assets/workwear/style-redraw-source.png",
     tryOnBack: "/assets/workwear/tryon-hero.png",
+    tryOnSandFront: "/assets/workwear/tryon-sand-front.png",
+    tryOnSandBack: "/assets/workwear/tryon-sand-back.png",
+    tryOnGreenFront: "/assets/workwear/tryon-green-front.png",
+    tryOnGreenBack: "/assets/workwear/tryon-green-back.png",
+    tryOnThumbSand: "/assets/workwear/tryon-thumb-sand.png",
+    tryOnThumbGreen: "/assets/workwear/tryon-thumb-green.png",
     tryOnThumbWarm: "/assets/workwear/tryon-detail-1.png",
     tryOnThumbCool: "/assets/workwear/tryon-detail-2.png",
     styleRedrawSource: "/assets/workwear/style-redraw-source.png",
     styleRedrawBefore: "/assets/workwear/style-redraw-before.png",
     styleRedrawAfter: "/assets/workwear/style-redraw-after.png",
+    styleRedrawLowerDetail: "/assets/workwear/style-redraw-lower-detail.png",
     logoMainPlacement: "/assets/workwear/logo-main.png",
+    logoMainPlacementTwo: "/assets/workwear/logo-placement-main-2.png",
+    logoMainPlacementThree: "/assets/workwear/logo-placement-main-3.png",
+    logoMainPlacementFour: "/assets/workwear/logo-placement-main-4.png",
     logoThumbOne: "/assets/workwear/logo-thumb-1.png",
     logoThumbTwo: "/assets/workwear/logo-thumb-2.png",
     logoThumbThree: "/assets/workwear/logo-thumb-3.png",
     logoThumbFour: "/assets/workwear/logo-thumb-4.png",
     reviewPlain: "/assets/workwear/review-1.png",
     reviewGear: "/assets/workwear/review-2.png",
+    reviewRunning: "/assets/workwear/review-running.png",
     reviewScene: "/assets/workwear/review-3.png",
     closingBackground: "/assets/workwear/closing-background.png",
-    closingQr: "/assets/workwear/closing-qr.png",
+    closingQr: "/assets/workwear/closing-qr.svg",
   },
   mantel: {
     attractBackdrop: "/assets/mantel/intro/moodboard-backdrop.png",
@@ -220,6 +232,10 @@ export type TryOnScreen = BaseScreen & {
     src: string;
     thumbImageClassName?: string;
     heroFilter?: string;
+    stageImages?: {
+      front: string;
+      back: string;
+    };
   }>;
   toggleLabels?: {
     front: string;
@@ -268,6 +284,7 @@ export type ClosingScreen = BaseScreen & {
   kind: "closing";
   avatar: string;
   body: string[];
+  qrImage?: string;
 };
 
 export type OverviewCard = {
@@ -737,6 +754,35 @@ const workwearScreens: WorkflowScreen[] = [
     view: "front",
     ctaLabel: "Zum nächsten Schritt",
     ctaTarget: "step-6",
+    previewVariants: [
+      {
+        id: "blue",
+        src: kioskAssets.workwear.tryOnFront,
+        thumbImageClassName: "object-cover object-center",
+        stageImages: {
+          front: kioskAssets.workwear.tryOnFront,
+          back: kioskAssets.workwear.tryOnBack,
+        },
+      },
+      {
+        id: "sand",
+        src: kioskAssets.workwear.tryOnThumbSand,
+        thumbImageClassName: "object-cover object-center",
+        stageImages: {
+          front: kioskAssets.workwear.tryOnSandFront,
+          back: kioskAssets.workwear.tryOnSandBack,
+        },
+      },
+      {
+        id: "green",
+        src: kioskAssets.workwear.tryOnThumbGreen,
+        thumbImageClassName: "object-cover object-center",
+        stageImages: {
+          front: kioskAssets.workwear.tryOnGreenFront,
+          back: kioskAssets.workwear.tryOnGreenBack,
+        },
+      },
+    ],
     backdropImage: kioskAssets.workwear.tryOnFront,
   },
   {
@@ -795,6 +841,7 @@ const workwearScreens: WorkflowScreen[] = [
       "mit realistischen, durchdachten Designs.",
       "Schnell. Kontrolliert. Produktnah.",
     ],
+    qrImage: kioskAssets.workwear.closingQr,
     backdropImage: kioskAssets.workwear.closingBackground,
   },
 ];
