@@ -26,6 +26,8 @@ export const kioskAssets = {
     styleDesignThumbHelmet: "/assets/workwear/style-design-thumb-helmet-updated.png",
     styleDesignThumbPants: "/assets/workwear/style-design-thumb-pants.png",
     styleDesignThumbBoots: "/assets/workwear/style-design-thumb-boots.png",
+    styleDesignZoomArm: "/assets/workwear/style-design-zoom-arm.png",
+    styleDesignZoomTopPocket: "/assets/workwear/style-design-zoom-top-pocket.png",
     tryOnFront: "/assets/workwear/style-redraw-source.png",
     tryOnBack: "/assets/workwear/tryon-hero.png",
     tryOnSandFront: "/assets/workwear/tryon-sand-front.png",
@@ -33,13 +35,15 @@ export const kioskAssets = {
     tryOnGreenFront: "/assets/workwear/tryon-green-front.png",
     tryOnGreenBack: "/assets/workwear/tryon-green-back.png",
     tryOnThumbSand: "/assets/workwear/tryon-thumb-sand.png",
-    tryOnThumbGreen: "/assets/workwear/tryon-thumb-green.png",
+    tryOnThumbGreen: "/assets/workwear/tryon-thumb-green-front.png",
     tryOnThumbWarm: "/assets/workwear/tryon-detail-1.png",
     tryOnThumbCool: "/assets/workwear/tryon-detail-2.png",
     styleRedrawSource: "/assets/workwear/style-redraw-source.png",
     styleRedrawBefore: "/assets/workwear/style-redraw-before.png",
     styleRedrawAfter: "/assets/workwear/style-redraw-after.png",
     styleRedrawLowerDetail: "/assets/workwear/style-redraw-lower-detail.png",
+    styleRedrawLowerDetailAfter:
+      "/assets/workwear/style-redraw-lower-detail-after.png",
     logoMainPlacement: "/assets/workwear/logo-main.png",
     logoMainPlacementTwo: "/assets/workwear/logo-placement-main-2.png",
     logoMainPlacementThree: "/assets/workwear/logo-placement-main-3.png",
@@ -51,8 +55,9 @@ export const kioskAssets = {
     reviewPlain: "/assets/workwear/review-1.png",
     reviewGear: "/assets/workwear/review-2.png",
     reviewRunning: "/assets/workwear/review-running.png",
+    reviewThumbThree: "/assets/workwear/review-thumb-3-updated.png",
     reviewScene: "/assets/workwear/review-3.png",
-    closingBackground: "/assets/workwear/closing-background.png",
+    closingBackground: "/assets/workwear/closing-background-updated.png",
     closingQr: "/assets/workwear/closing-qr.svg",
   },
   mantel: {
@@ -740,7 +745,7 @@ const workwearScreens: WorkflowScreen[] = [
     narrative:
       "Hier nutze ich den Style Design Agent. Die KI schlägt mir Outfit-Varianten vor, die zum bestehenden Workwear-Style passen und funktional sinnvoll sind. Zum Beispiel eine Hose und Schuhe",
     variant: "selection",
-    ctaLabel: "Zum nächsten Schritt",
+    ctaLabel: "Outfit anprobieren",
     ctaTarget: "step-5",
     backdropImage: kioskAssets.workwear.styleDesignMain,
   },
@@ -757,7 +762,7 @@ const workwearScreens: WorkflowScreen[] = [
     previewVariants: [
       {
         id: "blue",
-        src: kioskAssets.workwear.tryOnFront,
+        src: kioskAssets.workwear.styleDesignMain,
         thumbImageClassName: "object-cover object-center",
         stageImages: {
           front: kioskAssets.workwear.tryOnFront,
@@ -766,7 +771,7 @@ const workwearScreens: WorkflowScreen[] = [
       },
       {
         id: "sand",
-        src: kioskAssets.workwear.tryOnThumbSand,
+        src: kioskAssets.workwear.styleDesignThumbJacket,
         thumbImageClassName: "object-cover object-center",
         stageImages: {
           front: kioskAssets.workwear.tryOnSandFront,
