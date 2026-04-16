@@ -1,5 +1,7 @@
 "use client";
 
+import CloudySnowingIcon from "@mui/icons-material/CloudySnowing";
+import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import type { ReactNode } from "react";
 import { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
@@ -199,14 +201,6 @@ export function MantelIntroTemplate({
             );
           })}
 
-          <div className="mt-0 w-[748px] text-center text-[20px] leading-[1.36] text-white">
-            {screen.summary.map((line) => (
-              <p key={line} className="mb-[6px] last:mb-0">
-                {line}
-              </p>
-            ))}
-          </div>
-
           <div className="mt-[2px] flex items-center gap-[18px]">
             <ActionPill
               onClick={() =>
@@ -288,10 +282,10 @@ export function MantelImageToSketchTemplate({
             initial={{ opacity: 0, x: 22 }}
             animate={{ opacity: 1, x: 0 }}
             transition={entryTransition}
-            className="flex w-[520px] flex-col items-end gap-[18px]"
+            className="flex w-[520px] flex-col items-center gap-[18px]"
           >
-            <div className="flex w-full items-start justify-end gap-[12px]">
-              <div className="w-[398px]">
+            <div className="grid grid-cols-[398px_92px] grid-rows-[auto_auto] items-start gap-x-[12px] gap-y-[16px]">
+              <div className="col-start-1 row-start-1 w-[398px]">
                 <AnimatePresence mode="wait" initial={false}>
                   {controlsVisible ? (
                     <motion.div
@@ -306,8 +300,8 @@ export function MantelImageToSketchTemplate({
                         position={sliderPosition}
                         onChange={setSliderPosition}
                         className="h-[478px] w-[398px] rounded-[34px]"
-                        artClassName="h-full w-full object-contain p-[20px]"
-                        renderArtClassName="h-full w-full object-contain p-[20px]"
+                        artClassName="h-full w-full object-cover"
+                        renderArtClassName="h-full w-full object-cover"
                       />
                     </motion.div>
                   ) : (
@@ -321,7 +315,7 @@ export function MantelImageToSketchTemplate({
                         <img
                           src={screen.baseImage}
                           alt=""
-                          className="pointer-events-none absolute inset-0 h-full w-full object-contain p-[20px]"
+                          className="pointer-events-none absolute inset-0 h-full w-full object-cover"
                         />
                       </FramedStage>
                     </motion.div>
@@ -329,24 +323,22 @@ export function MantelImageToSketchTemplate({
                 </AnimatePresence>
               </div>
 
-              <FramedStage className="relative h-[92px] w-[92px] rounded-[20px] border border-[var(--border-frame)] bg-white">
+              <FramedStage className="relative col-start-2 row-start-1 h-[92px] w-[92px] rounded-[20px] border border-[var(--border-frame)] bg-white">
                 <img
                   src={screen.swatchImage}
                   alt=""
                   className="pointer-events-none absolute inset-0 h-full w-full object-cover"
                 />
               </FramedStage>
-            </div>
 
-            {controlsVisible ? (
-              <div className="w-[398px]">
-                <ComparisonTrack position={sliderPosition} onChange={setSliderPosition} />
+              <div className={`col-start-1 row-start-2 w-[398px] ${controlsVisible ? "" : "opacity-30"}`}>
+                {controlsVisible ? (
+                  <ComparisonTrack position={sliderPosition} onChange={setSliderPosition} />
+                ) : (
+                  <ComparisonTrack position={0} onChange={() => {}} />
+                )}
               </div>
-            ) : (
-              <div className="w-[398px] opacity-30">
-                <ComparisonTrack position={0} onChange={() => {}} />
-              </div>
-            )}
+            </div>
           </motion.div>
         </div>
       </div>
@@ -362,11 +354,16 @@ export function MantelDetailGalleryTemplate({
   const router = useRouter();
   const { ScreenShell, NarrativeCard, FramedStage, ThumbnailCard, SubtleActionPill } =
     shared;
-  const [selectedDetailId, setSelectedDetailId] = useState<string | null>(null);
+  const [selectedDetailId, setSelectedDetailId] = useState<string | null>(
+    screen.detailOptions[0]?.id ?? null,
+  );
   const activeDetail = screen.detailOptions.find(
     (detail) => detail.id === selectedDetailId,
-  );
+  ) ?? screen.detailOptions[0];
   const activeImage = activeDetail?.heroImage ?? screen.heroImage;
+  const activeImageClassName =
+    activeDetail?.heroImageClassName ??
+    "absolute inset-0 h-full w-full object-cover";
 
   return (
     <ScreenShell workflow={workflow} screen={screen} hideFooter disableEntryAnimation>
@@ -406,7 +403,7 @@ export function MantelDetailGalleryTemplate({
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 1.01 }}
                   transition={{ duration: 0.26, ease: [0.22, 1, 0.36, 1] }}
-                  className="pointer-events-none absolute inset-0 h-full w-full object-contain p-[16px]"
+                  className={`pointer-events-none ${activeImageClassName}`}
                 />
               </AnimatePresence>
             </FramedStage>
@@ -426,7 +423,9 @@ export function MantelDetailGalleryTemplate({
                     <img
                       src={detail.thumbImage}
                       alt=""
-                      className="pointer-events-none h-full w-full object-cover"
+                      className={`pointer-events-none ${
+                        detail.thumbImageClassName ?? "h-full w-full object-cover"
+                      }`}
                     />
                   </ThumbnailCard>
                 </button>
@@ -448,8 +447,22 @@ export function MantelTryOnTemplate({
   const { ScreenShell, NarrativeCard, FramedStage, SegmentedStateToggle, SubtleActionPill } =
     shared;
   const [selectedOptionId, setSelectedOptionId] = useState(screen.options[0]?.id);
+  const [showIntroImage, setShowIntroImage] = useState(Boolean(screen.introImage));
   const showCTA = useDelayedReveal(true, screen.ctaDelayMs);
   const activeOption = screen.options.find((option) => option.id === selectedOptionId);
+  const activeImage = showIntroImage ? screen.introImage : activeOption?.image;
+
+  useEffect(() => {
+    if (!screen.introImage) {
+      return;
+    }
+
+    const timeoutId = window.setTimeout(() => {
+      setShowIntroImage(false);
+    }, screen.introTransitionMs ?? 1200);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [screen.introImage, screen.introTransitionMs]);
 
   return (
     <ScreenShell workflow={workflow} screen={screen} hideFooter disableEntryAnimation>
@@ -482,8 +495,8 @@ export function MantelTryOnTemplate({
             <FramedStage className="relative h-[512px] w-[412px] rounded-[34px] border-2 border-[var(--border-frame)] bg-white">
               <AnimatePresence mode="wait" initial={false}>
                 <motion.img
-                  key={activeOption?.image}
-                  src={activeOption?.image}
+                  key={activeImage}
+                  src={activeImage}
                   alt=""
                   initial={{ opacity: 0.45, scale: 0.985 }}
                   animate={{ opacity: 1, scale: 1 }}
@@ -497,14 +510,17 @@ export function MantelTryOnTemplate({
               <SegmentedStateToggle
                 className="w-full"
                 options={screen.options.map((option) => ({
-                  id: option.id,
-                  label: option.label,
-                  icon: "human",
-                  active: option.id === selectedOptionId,
-                  onClick: () => setSelectedOptionId(option.id),
-                }))}
-              />
-            </div>
+                      id: option.id,
+                      label: option.label,
+                      icon: "human",
+                      active: option.id === selectedOptionId,
+                      onClick: () => {
+                        setShowIntroImage(false);
+                        setSelectedOptionId(option.id);
+                      },
+                    }))}
+                  />
+                </div>
           </div>
         </div>
       </div>
@@ -518,11 +534,12 @@ export function MantelTechPackTemplate({
   shared,
 }: SharedProps<MantelTechPackScreen>) {
   const router = useRouter();
-  const { ScreenShell, NarrativeCard, FramedStage, StepThreeStatusPill, ActionPill, SubtleActionPill, SegmentedStateToggle } =
+  const { ScreenShell, NarrativeCard, FramedStage, StepThreeStatusPill, ActionPill, SubtleActionPill } =
     shared;
-  const [phase, setPhase] = useState<"prompt" | "processing" | "resultCompare">("prompt");
-  const [resultView, setResultView] = useState<"sketch" | "image">("sketch");
-  const showCTA = useDelayedReveal(phase === "resultCompare", screen.resultCtaDelayMs);
+  const [phase, setPhase] = useState<"prompt" | "processing" | "plain" | "annotated">(
+    "prompt",
+  );
+  const showCTA = useDelayedReveal(phase === "annotated", screen.resultCtaDelayMs);
 
   useEffect(() => {
     if (phase !== "processing") {
@@ -530,7 +547,7 @@ export function MantelTechPackTemplate({
     }
 
     const timeoutId = window.setTimeout(() => {
-      setPhase("resultCompare");
+      setPhase("plain");
     }, screen.processingMs);
 
     return () => window.clearTimeout(timeoutId);
@@ -566,8 +583,8 @@ export function MantelTechPackTemplate({
           <div className="flex w-[540px] flex-col items-center gap-[18px]">
             {phase === "prompt" ? (
               <>
-                <FramedStage className="relative h-[210px] w-[454px] rounded-[28px] border border-[rgba(255,255,255,0.14)] bg-[rgba(255,255,255,0.08)] backdrop-blur-[18px]">
-                  <div className="flex h-full items-center gap-[18px] px-[20px]">
+                <FramedStage className="relative h-[248px] w-[454px] rounded-[28px] border border-[rgba(255,255,255,0.14)] bg-[rgba(255,255,255,0.08)] backdrop-blur-[18px]">
+                  <div className="flex h-full items-center gap-[18px] px-[20px] py-[18px]">
                     <div className="h-[170px] w-[132px] overflow-hidden rounded-[20px] border border-[var(--border-frame)] bg-white">
                       <img
                         src={screen.promptReferenceImage}
@@ -602,52 +619,19 @@ export function MantelTechPackTemplate({
               </div>
             ) : (
               <>
-                <div className="flex w-full items-start justify-center gap-[16px]">
-                  {[
-                    { id: "sketch", image: screen.sketchImage },
-                    { id: "image", image: screen.renderImage },
-                  ].map((item) => {
-                    const isActive = resultView === item.id;
-
-                    return (
-                      <FramedStage
-                        key={item.id}
-                        className={`relative h-[380px] w-[216px] rounded-[28px] border-2 bg-white ${
-                          isActive
-                            ? "border-[#bb7fff] shadow-[0_0_26px_rgba(193,114,255,0.22)]"
-                            : "border-[var(--border-frame)]"
-                        }`}
-                      >
-                        <img
-                          src={item.image}
-                          alt=""
-                          className="pointer-events-none absolute inset-0 h-full w-full object-cover"
-                        />
-                      </FramedStage>
-                    );
-                  })}
-                </div>
-                <div className="w-[454px]">
-                  <SegmentedStateToggle
-                    className="w-full"
-                    options={[
-                      {
-                        id: "sketch",
-                        label: screen.resultToggleLabels[0],
-                        icon: "spark",
-                        active: resultView === "sketch",
-                        onClick: () => setResultView("sketch"),
-                      },
-                      {
-                        id: "image",
-                        label: screen.resultToggleLabels[1],
-                        icon: "spark",
-                        active: resultView === "image",
-                        onClick: () => setResultView("image"),
-                      },
-                    ]}
+                <FramedStage className="relative h-[452px] w-[454px] rounded-[34px] border-2 border-[var(--border-frame)] bg-white">
+                  <img
+                    src={phase === "annotated" ? screen.annotatedImage : screen.sketchImage}
+                    alt=""
+                    className="pointer-events-none absolute inset-0 h-full w-full object-contain p-[12px]"
                   />
-                </div>
+                </FramedStage>
+                {phase === "plain" ? (
+                  <SubtleActionPill
+                    label={screen.annotationLabel}
+                    onClick={() => setPhase("annotated")}
+                  />
+                ) : null}
               </>
             )}
           </div>
@@ -696,8 +680,8 @@ export function MantelColorwayTemplate({
             ) : null}
           </div>
 
-          <div className="flex w-[520px] items-start justify-center gap-[16px]">
-            <FramedStage className="relative h-[520px] w-[414px] rounded-[34px] border-2 border-[var(--border-frame)] bg-white">
+          <div className="flex w-[556px] items-start justify-center gap-[18px]">
+            <FramedStage className="relative h-[548px] w-[438px] rounded-[34px] border-2 border-[var(--border-frame)] bg-white">
               <AnimatePresence mode="wait" initial={false}>
                 <motion.img
                   key={activeOption?.image}
@@ -707,11 +691,11 @@ export function MantelColorwayTemplate({
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 1.01 }}
                   transition={{ duration: 0.26, ease: [0.22, 1, 0.36, 1] }}
-                  className="pointer-events-none absolute inset-0 h-full w-full object-cover"
+                  className="pointer-events-none absolute inset-[2px] h-[calc(100%-4px)] w-[calc(100%-4px)] scale-[1.14] object-contain"
                 />
               </AnimatePresence>
             </FramedStage>
-            <div className="flex flex-col gap-[12px]">
+            <div className="flex flex-col gap-[16px]">
               {screen.options.map((option) => (
                 <button
                   key={option.id}
@@ -724,12 +708,12 @@ export function MantelColorwayTemplate({
                 >
                   <ThumbnailCard
                     active={option.id === selectedId && hasConfirmedSelection}
-                    className="h-[96px] w-[96px] rounded-[18px]"
+                    className="h-[128px] w-[128px] rounded-[18px]"
                   >
                     <img
                       src={option.thumbImage}
                       alt=""
-                      className="pointer-events-none h-full w-full object-cover"
+                      className="pointer-events-none h-full w-full scale-[1.18] object-contain"
                     />
                   </ThumbnailCard>
                 </button>
@@ -751,17 +735,12 @@ export function MantelCampaignTemplate({
   const { ScreenShell, NarrativeCard, FramedStage, ActionPill, SubtleActionPill, SegmentedStateToggle, StepThreeStatusPill } =
     shared;
   const [phase, setPhase] = useState<
-    "scenePreset" | "prompt" | "processing" | "resultDone" | "lightingToggle" | "videoPreview"
-  >("scenePreset");
-  const [selectedPresetId, setSelectedPresetId] = useState<string | null>(null);
+    "weather" | "prompt" | "processing" | "resultDone" | "lightingToggle"
+  >("weather");
   const [selectedLightingId, setSelectedLightingId] = useState(
     screen.lightingOptions[0]?.id,
   );
-  const showCTA = useDelayedReveal(phase === "videoPreview", screen.resultCtaDelayMs);
-
-  const selectedPreset =
-    screen.presetOptions.find((option) => option.id === selectedPresetId) ??
-    screen.presetOptions[0];
+  const showCTA = useDelayedReveal(phase === "lightingToggle", screen.resultCtaDelayMs);
   const activeLighting =
     screen.lightingOptions.find((option) => option.id === selectedLightingId) ??
     screen.lightingOptions[0];
@@ -790,23 +769,7 @@ export function MantelCampaignTemplate({
     return () => window.clearTimeout(timeoutId);
   }, [phase, screen.lightingRevealMs]);
 
-  useEffect(() => {
-    if (phase !== "lightingToggle") {
-      return;
-    }
-
-    const timeoutId = window.setTimeout(() => {
-      setPhase("videoPreview");
-    }, screen.videoAutoAdvanceMs);
-
-    return () => window.clearTimeout(timeoutId);
-  }, [phase, screen.videoAutoAdvanceMs]);
-
   const activeCampaignImage = useMemo(() => {
-    if (phase === "videoPreview") {
-      return screen.videoPoster;
-    }
-
     if (phase === "lightingToggle") {
       return activeLighting.image;
     }
@@ -815,13 +778,12 @@ export function MantelCampaignTemplate({
       return screen.resultDoneImage;
     }
 
-    return selectedPreset.image;
+    return screen.emptyRackImage;
   }, [
     activeLighting.image,
     phase,
+    screen.emptyRackImage,
     screen.resultDoneImage,
-    screen.videoPoster,
-    selectedPreset.image,
   ]);
 
   return (
@@ -852,40 +814,36 @@ export function MantelCampaignTemplate({
           </div>
 
           <div className="flex w-[540px] flex-col items-center gap-[18px]">
-            {phase === "scenePreset" ? (
-              <div className="grid w-full grid-cols-2 gap-[16px]">
-                {screen.presetOptions.map((option) => (
-                  <button
-                    key={option.id}
-                    type="button"
-                    onClick={() => {
-                      setSelectedPresetId(option.id);
-                      setPhase("prompt");
-                    }}
-                    className="text-left"
-                  >
-                    <FramedStage className="relative h-[380px] w-[256px] rounded-[28px] border-2 border-[var(--border-frame)] bg-white">
-                      <img
-                        src={option.image}
-                        alt=""
-                        className="pointer-events-none absolute inset-0 h-full w-full object-cover"
-                      />
-                      <div className="absolute bottom-[18px] left-[18px] rounded-full bg-[rgba(0,0,0,0.46)] px-[16px] py-[8px] text-kiosk-label-md text-white backdrop-blur-[14px]">
-                        {option.label}
-                      </div>
-                    </FramedStage>
-                  </button>
-                ))}
-              </div>
-            ) : phase === "prompt" ? (
+            {phase === "weather" ? (
               <>
-                <FramedStage className="relative h-[344px] w-[454px] rounded-[28px] border-2 border-[var(--border-frame)] bg-white">
+                <FramedStage className="relative h-[452px] w-[454px] rounded-[34px] border-2 border-[var(--border-frame)] bg-white">
                   <img
-                    src={selectedPreset.image}
+                    src={screen.emptyRackImage}
                     alt=""
                     className="pointer-events-none absolute inset-0 h-full w-full object-cover"
                   />
                 </FramedStage>
+                <div className="flex items-center gap-[18px]">
+                  {screen.presetOptions.map((option) => (
+                    <button
+                      key={option.id}
+                      type="button"
+                      onClick={() => setPhase("prompt")}
+                      aria-label={option.label}
+                      className="flex h-[72px] min-w-[132px] items-center justify-center gap-[10px] rounded-full border border-[rgba(255,255,255,0.18)] bg-[rgba(255,255,255,0.12)] px-[20px] text-[18px] font-medium text-white backdrop-blur-[16px] transition hover:bg-[rgba(255,255,255,0.16)]"
+                    >
+                      {option.icon === "rainy" ? (
+                        <CloudySnowingIcon sx={{ fontSize: 30 }} />
+                      ) : (
+                        <WbSunnyIcon sx={{ fontSize: 30 }} />
+                      )}
+                      <span>{option.id === "rain" ? "regen" : "sonne"}</span>
+                    </button>
+                  ))}
+                </div>
+              </>
+            ) : phase === "prompt" ? (
+              <>
                 <div className="glass-card flex w-[454px] flex-col items-start rounded-[22px] px-[24px] py-[22px] text-left text-white">
                   <p className="text-kiosk-label-md font-semibold">Prompt:</p>
                   <p className="mt-[14px] text-kiosk-body-md leading-[1.45]">
@@ -900,7 +858,7 @@ export function MantelCampaignTemplate({
               <div className="flex flex-col items-center gap-[16px]">
                 <FramedStage className="relative h-[452px] w-[454px] rounded-[34px] border-2 border-[var(--border-frame)] bg-white">
                   <img
-                    src={selectedPreset.image}
+                    src={screen.emptyRackImage}
                     alt=""
                     className="pointer-events-none absolute inset-0 h-full w-full object-cover blur-[16px]"
                   />
@@ -935,31 +893,12 @@ export function MantelCampaignTemplate({
                       label: option.label,
                       icon: "spark",
                       active: option.id === selectedLightingId,
-                      onClick: () => {
-                        setSelectedLightingId(option.id);
-                        setPhase("videoPreview");
-                      },
+                      onClick: () => setSelectedLightingId(option.id),
                     }))}
                   />
                 </div>
               </>
-            ) : (
-              <FramedStage className="relative h-[520px] w-[454px] rounded-[34px] border-2 border-[var(--border-frame)] bg-white">
-                <img
-                  src={screen.videoPoster}
-                  alt=""
-                  className="pointer-events-none absolute inset-0 h-full w-full object-cover"
-                />
-                <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.04),rgba(0,0,0,0.28))]" />
-                {screen.videoOverlay ? (
-                  <img
-                    src={screen.videoOverlay}
-                    alt=""
-                    className="pointer-events-none absolute left-1/2 top-1/2 h-[104px] w-[104px] -translate-x-1/2 -translate-y-1/2"
-                  />
-                ) : null}
-              </FramedStage>
-            )}
+            ) : null}
           </div>
         </div>
       </div>
@@ -994,9 +933,9 @@ export function MantelClosingTemplate({
         initial={{ opacity: 0, y: 18 }}
         animate={{ opacity: 1, y: 0 }}
         transition={entryTransition}
-        className="absolute left-[84px] top-[144px] z-10 flex h-[738px] w-[1272px] flex-col justify-between"
+        className="absolute left-[84px] top-[176px] z-10 flex h-[676px] w-[1272px] flex-col justify-between"
       >
-        <div className="flex w-[670px] flex-col gap-[16px]">
+        <div className="flex w-[670px] flex-col gap-[10px]">
           <div className="flex items-start gap-[14px]">
             <div className="flex flex-col items-center gap-[5px]">
               <AvatarDiamond
@@ -1011,7 +950,7 @@ export function MantelClosingTemplate({
             </div>
           </div>
 
-          <div className="ml-[112px] flex items-start gap-[14px]">
+          <div className="ml-[96px] flex items-start gap-[14px]">
             <div className="max-w-[420px] rounded-[18px] border border-[rgba(212,130,255,0.18)] bg-[rgba(70,36,77,0.42)] px-[20px] py-[14px] text-[16px] leading-[1.38] text-white backdrop-blur-[18px]">
               {screen.rightBubble}
             </div>
@@ -1025,26 +964,21 @@ export function MantelClosingTemplate({
             </div>
           </div>
 
-          <div className="w-[620px] pt-[2px] text-[20px] leading-[1.36] text-white">
+          <div className="w-[620px] pt-[2px] text-[20px] leading-[1.32] text-white">
             {screen.body.map((line) => (
-              <p key={line} className="mb-[8px] last:mb-0">
+              <p key={line} className="mb-[4px] last:mb-0">
                 {line}
               </p>
             ))}
           </div>
         </div>
 
-        <div className="flex w-full items-center justify-between">
+        <div className="flex w-full items-center justify-start">
           <div className="flex items-center gap-[16px]">
             <ActionPill onClick={() => router.push(screen.primaryHref)}>
               {screen.primaryCtaLabel}
             </ActionPill>
             <SecondaryPill>{screen.secondaryCtaLabel}</SecondaryPill>
-          </div>
-          <div className="flex items-center gap-[12px] text-kiosk-title-shell font-extralight text-white">
-            <span>{screen.footer?.current ?? 7}</span>
-            <span className="block h-[2px] w-[165px] rounded-[100px] bg-[#757575]" />
-            <span>{screen.footer?.total ?? 7}</span>
           </div>
         </div>
       </motion.section>

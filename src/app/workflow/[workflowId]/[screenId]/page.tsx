@@ -41,7 +41,7 @@ export default async function WorkflowScreenPage({
 
   return (
     <>
-      {workflow.id === "workwear" ? (
+      {workflow.id === "workwear" || workflow.id === "mantel" ? (
         <WorkwearInactivityWatcher workflowId={workflow.id} />
       ) : null}
       <WorkflowChrome workflow={workflow} footer={fixedFooter}>
