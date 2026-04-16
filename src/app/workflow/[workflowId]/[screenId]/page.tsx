@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 
 import { WorkflowChrome } from "@/components/workflow-chrome";
 import { WorkflowRenderer } from "@/components/workflow-renderer";
+import { WorkwearInactivityWatcher } from "@/components/workwear-inactivity-watcher";
 import {
   getScreen,
   getScreenIds,
@@ -39,8 +40,13 @@ export default async function WorkflowScreenPage({
   const fixedFooter = showFixedFooter ? screen.footer : null;
 
   return (
-    <WorkflowChrome workflow={workflow} footer={fixedFooter}>
-      <WorkflowRenderer workflow={workflow} screen={screen} />
-    </WorkflowChrome>
+    <>
+      {workflow.id === "workwear" ? (
+        <WorkwearInactivityWatcher workflowId={workflow.id} />
+      ) : null}
+      <WorkflowChrome workflow={workflow} footer={fixedFooter}>
+        <WorkflowRenderer workflow={workflow} screen={screen} />
+      </WorkflowChrome>
+    </>
   );
 }

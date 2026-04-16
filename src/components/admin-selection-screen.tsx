@@ -125,8 +125,8 @@ export function AdminSelectionScreen() {
           Workflow Auswahl
         </h1>
         <p className="mt-[18px] max-w-[740px] text-[24px] font-[300] leading-[1.4] text-white/78">
-          Wähle die aktive Demo aus. Workwear und Mantel sind bereit, weitere
-          Workflows bleiben sichtbar und noch deaktiviert.
+          Wähle die passende Demo aus. Alle vier Showcase-Workflows sind jetzt
+          live und können direkt gestartet werden.
         </p>
       </section>
 
