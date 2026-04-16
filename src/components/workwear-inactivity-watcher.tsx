@@ -3,8 +3,11 @@
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
 
-const WORKWEAR_TIMEOUT_MS = 60_000;
-const WORKWEAR_SCREENSAVER_HREF = "/workflow/workwear/screensaver";
+const INACTIVITY_TIMEOUT_MS = 60_000;
+const SCREENSAVER_HREFS: Record<string, string> = {
+  workwear: "/workflow/workwear/screensaver",
+  mantel: "/workflow/mantel/screensaver",
+};
 
 export function WorkwearInactivityWatcher({
   workflowId,
@@ -16,7 +19,9 @@ export function WorkwearInactivityWatcher({
   const timeoutRef = useRef<number | null>(null);
 
   useEffect(() => {
-    if (workflowId !== "workwear") {
+    const screensaverHref = SCREENSAVER_HREFS[workflowId];
+
+    if (!screensaverHref) {
       return;
     }
 
@@ -30,10 +35,10 @@ export function WorkwearInactivityWatcher({
     const scheduleTimeout = () => {
       clearExistingTimer();
       timeoutRef.current = window.setTimeout(() => {
-        if (pathname !== WORKWEAR_SCREENSAVER_HREF) {
-          router.push(WORKWEAR_SCREENSAVER_HREF);
+        if (pathname !== screensaverHref) {
+          router.push(screensaverHref);
         }
-      }, WORKWEAR_TIMEOUT_MS);
+      }, INACTIVITY_TIMEOUT_MS);
     };
 
     const resetTimeout = () => {
