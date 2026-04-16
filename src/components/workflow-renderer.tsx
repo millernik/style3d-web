@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import AutorenewIcon from "@mui/icons-material/Autorenew";
 import CelebrationIcon from "@mui/icons-material/Celebration";
+import PlayCircleFilledRoundedIcon from "@mui/icons-material/PlayCircleFilledRounded";
 import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 
@@ -636,7 +637,7 @@ function StyleDesignTemplate({
 
   const activeVariant =
     variants.find((variant) => variant.id === selectedVariantId) ?? hiddenDefaultVariant;
-  const showCTA = selectedVariantId === "pants";
+  const showCTA = useLatchedDelay(true, 5000);
   const isBlueDetailMode =
     selectedVariantId === "blue-jacket" || selectedVariantId === hiddenDefaultVariant.id;
   const selectedDetail =
@@ -1001,9 +1002,9 @@ function StyleRedrawTemplate({
       buttonLeftPct: 45.15,
       buttonTopPct: 22.8,
       artClassName:
-        "h-full w-full object-cover object-[42%_24%] scale-[1.48]",
+        "h-full w-full object-cover object-[42%_24%] scale-[1.26]",
       renderArtClassName:
-        "h-full w-full object-cover object-[42%_24%] scale-[1.48]",
+        "h-full w-full object-cover object-[42%_20%] scale-[1.08]",
       beforeSrc: kioskAssets.workwear.styleRedrawBefore,
       afterSrc: kioskAssets.workwear.styleRedrawAfter,
     },
@@ -1304,7 +1305,10 @@ function AiGraphicTemplate({
                     className="pointer-events-none h-[260px] w-[260px] scale-[1.05] object-contain blur-[24px]"
                   />
                 </FramedStage>
-                <StepThreeStatusPill state="processing" label="Bearbeitung Läuft" />
+                <StepThreeStatusPill
+                  state="processing"
+                  label={screen.statusLabel ?? "Bearbeitung Läuft"}
+                />
               </div>
             ) : (
               <>
@@ -1368,21 +1372,29 @@ function LogoPlacementTemplate({
       id: "logo-1",
       thumbSrc: kioskAssets.workwear.logoThumbOne,
       mainSrc: kioskAssets.workwear.logoMainPlacement,
+      mainImageClassName:
+        "pointer-events-none absolute inset-0 h-full w-full object-cover object-[50%_26%] scale-[1.08]",
     },
     {
       id: "logo-2",
       thumbSrc: kioskAssets.workwear.logoThumbTwo,
       mainSrc: kioskAssets.workwear.logoMainPlacementTwo,
+      mainImageClassName:
+        "pointer-events-none absolute inset-0 h-full w-full object-cover",
     },
     {
       id: "logo-3",
       thumbSrc: kioskAssets.workwear.logoThumbThree,
       mainSrc: kioskAssets.workwear.logoMainPlacementThree,
+      mainImageClassName:
+        "pointer-events-none absolute inset-0 h-full w-full object-cover",
     },
     {
       id: "logo-4",
       thumbSrc: kioskAssets.workwear.logoThumbFour,
       mainSrc: kioskAssets.workwear.logoMainPlacementFour,
+      mainImageClassName:
+        "pointer-events-none absolute inset-0 h-full w-full object-cover",
     },
   ] as const;
 
@@ -1434,14 +1446,14 @@ function LogoPlacementTemplate({
                       animate={{ opacity: 1, scale: 1 }}
                       exit={{ opacity: 0, scale: 1.01 }}
                       transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
-                      className="pointer-events-none absolute inset-0 h-full w-full object-cover"
+                      className={activePlacement.mainImageClassName}
                     />
                   </AnimatePresence>
                 ) : (
                   <img
                     src={kioskAssets.workwear.logoMainPlacement}
                     alt=""
-                    className="pointer-events-none absolute inset-0 h-full w-full object-cover"
+                    className={placementVariants[0]!.mainImageClassName}
                   />
                 )}
               </FramedStage>
@@ -1490,26 +1502,41 @@ function EcommerceTemplate({
   screen: EcommerceScreen;
 }) {
   const router = useRouter();
+  const videoReview = {
+    id: "video",
+    type: "video",
+    thumbSrc: workflow.attract.posterSrc ?? kioskAssets.workwear.attractBackdrop,
+    videoSrc: workflow.attract.videoSrc,
+    posterSrc: workflow.attract.posterSrc ?? kioskAssets.workwear.attractBackdrop,
+  } as const;
   const reviewVariants = [
     {
       id: "scene",
+      type: "image",
       src: kioskAssets.workwear.reviewScene,
       thumbSrc: kioskAssets.workwear.reviewScene,
     },
     {
-      id: "running",
-      src: kioskAssets.workwear.reviewRunning,
-      thumbSrc: kioskAssets.workwear.reviewRunning,
+      id: "gear",
+      type: "image",
+      src: kioskAssets.workwear.reviewGear,
+      thumbSrc: kioskAssets.workwear.reviewGear,
     },
     {
       id: "plain",
+      type: "image",
       src: kioskAssets.workwear.reviewThumbThree,
       thumbSrc: kioskAssets.workwear.reviewThumbThree,
     },
+    videoReview,
   ] as const;
   const [hasPoseChanged, setHasPoseChanged] = useState(false);
-  const [selectedReviewId, setSelectedReviewId] = useState<string>("scene");
+  const [selectedReviewId, setSelectedReviewId] = useState<
+    "scene" | "gear" | "plain" | "video" | "running"
+  >("scene");
   const showCTA = useLatchedDelay(hasPoseChanged, 5000);
+  const activeThumbnailId =
+    hasPoseChanged && selectedReviewId === "running" ? null : selectedReviewId;
 
   const activeReview =
     reviewVariants.find((variant) => variant.id === selectedReviewId) ??
@@ -1549,18 +1576,48 @@ function EcommerceTemplate({
           <div className="flex w-[500px] items-start gap-[14px]">
             <div className="flex flex-col items-center gap-[16px]">
               <FramedStage className="h-[452px] w-[396px] rounded-[32px] border-2 border-[var(--border-frame)] bg-black">
-                <AnimatePresence mode="wait" initial={false}>
-                  <motion.img
-                    key={activeReview.id}
-                    src={activeReview.src}
-                    alt=""
-                    initial={{ opacity: 0.45, scale: 0.99 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 1.01 }}
-                    transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-                    className="pointer-events-none absolute inset-0 h-full w-full object-cover"
-                  />
-                </AnimatePresence>
+                {hasPoseChanged && selectedReviewId === "running" ? (
+                  <AnimatePresence mode="wait" initial={false}>
+                    <motion.img
+                      key="running"
+                      src={kioskAssets.workwear.reviewRunning}
+                      alt=""
+                      initial={{ opacity: 0.45, scale: 0.99 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 1.01 }}
+                      transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+                      className="pointer-events-none absolute inset-0 h-full w-full object-cover"
+                    />
+                  </AnimatePresence>
+                ) : activeReview.type === "video" ? (
+                  <div className="absolute inset-0">
+                    <video
+                      key={activeReview.id}
+                      src={activeReview.videoSrc}
+                      poster={activeReview.posterSrc}
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      preload="auto"
+                      className="pointer-events-none absolute inset-0 h-full w-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.18)_0%,rgba(0,0,0,0.28)_100%)]" />
+                  </div>
+                ) : (
+                  <AnimatePresence mode="wait" initial={false}>
+                    <motion.img
+                      key={activeReview.id}
+                      src={activeReview.src}
+                      alt=""
+                      initial={{ opacity: 0.45, scale: 0.99 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 1.01 }}
+                      transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+                      className="pointer-events-none absolute inset-0 h-full w-full object-cover"
+                    />
+                  </AnimatePresence>
+                )}
               </FramedStage>
 
               {!hasPoseChanged ? (
@@ -1582,15 +1639,22 @@ function EcommerceTemplate({
                   type="button"
                   onClick={() => setSelectedReviewId(variant.id)}
                 >
-                  <ThumbnailCard
-                    active={variant.id === selectedReviewId}
+                    <ThumbnailCard
+                    active={variant.id === activeThumbnailId}
                     className="h-[86px] w-[86px] rounded-[18px] border border-[var(--border-frame)]"
                   >
-                    <img
-                      src={variant.thumbSrc}
-                      alt=""
-                      className="pointer-events-none h-full w-full object-cover"
-                    />
+                    <div className="relative h-full w-full">
+                      <img
+                        src={variant.thumbSrc}
+                        alt=""
+                        className="pointer-events-none h-full w-full object-cover"
+                      />
+                      {variant.type === "video" ? (
+                        <div className="absolute inset-0 flex items-center justify-center bg-[linear-gradient(180deg,rgba(0,0,0,0.14)_0%,rgba(0,0,0,0.38)_100%)]">
+                          <PlayCircleFilledRoundedIcon sx={{ fontSize: 32, color: "#fff" }} />
+                        </div>
+                      ) : null}
+                    </div>
                   </ThumbnailCard>
                 </button>
               ))}
@@ -1653,7 +1717,7 @@ function ClosingTemplate({
                   className="h-[22px] w-[22px]"
                 />
                 <span className="text-center text-[17px] font-semibold text-white">
-                  Jetzt Produkt-Demo buchen – hier am Stand
+                  {screen.ctaLabel ?? "Jetzt Produkt-Demo buchen – hier am Stand"}
                 </span>
               </div>
             </div>

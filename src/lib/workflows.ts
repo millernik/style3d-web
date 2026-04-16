@@ -15,6 +15,7 @@ export const kioskAssets = {
     attractBackdrop: "/assets/workwear/review-3.png",
     attractFigure: "/assets/workwear/firefighter-side.png",
     screensaverVideo: "/assets/workwear/screensaver/workwear-screensaver.mp4",
+    screensaverPoster: "/assets/workwear/review-3.png",
     introAvatar: "/assets/workwear/nina-intro.png",
     sketchBase: "/assets/workwear/sketch-base.png",
     sketchRender: "/assets/workwear/sketch-highlight-overlay.png",
@@ -29,10 +30,10 @@ export const kioskAssets = {
     styleDesignZoomArm: "/assets/workwear/style-design-zoom-arm.png",
     styleDesignZoomTopPocket: "/assets/workwear/style-design-zoom-top-pocket.png",
     tryOnFront: "/assets/workwear/style-redraw-source.png",
-    tryOnBack: "/assets/workwear/tryon-hero.png",
+    tryOnBack: "/assets/workwear/tryon-blue-back-updated.png",
     tryOnSandFront: "/assets/workwear/tryon-sand-front.png",
     tryOnSandBack: "/assets/workwear/tryon-sand-back.png",
-    tryOnGreenFront: "/assets/workwear/tryon-green-front.png",
+    tryOnGreenFront: "/assets/workwear/tryon-green-front-no-bg.png",
     tryOnGreenBack: "/assets/workwear/tryon-green-back.png",
     tryOnThumbSand: "/assets/workwear/tryon-thumb-sand.png",
     tryOnThumbGreen: "/assets/workwear/tryon-thumb-green-front.png",
@@ -58,7 +59,7 @@ export const kioskAssets = {
     reviewThumbThree: "/assets/workwear/review-thumb-3-updated.png",
     reviewScene: "/assets/workwear/review-3.png",
     closingBackground: "/assets/workwear/closing-background-updated.png",
-    closingQr: "/assets/workwear/closing-qr.svg",
+    closingQr: "/assets/workwear/closing-qr-contact.svg",
   },
   mantel: {
     attractBackdrop: "/assets/mantel/intro/moodboard-backdrop.png",
@@ -290,6 +291,7 @@ export type ClosingScreen = BaseScreen & {
   avatar: string;
   body: string[];
   qrImage?: string;
+  ctaLabel?: string;
 };
 
 export type OverviewCard = {
@@ -678,7 +680,7 @@ const workwearScreens: WorkflowScreen[] = [
     kind: "intro",
     headline: "Hi, ich bin Nina!",
     body:
-      "Es ist Donnerstag Nachmittag – eine Ausschreibung für eine Feuerwehr-Jacke kommt rein und es eilt. Ich zeige dir jetzt, wie ich mit KI in kürzester Zeit zu realistischen Design-Vorschlägen komme.",
+      "Es ist Donnerstag-Nachmittag – eine Ausschreibung für eine Feuerwehr-Jacke kommt rein und es eilt. Ich zeige dir jetzt, wie ich mit KI in kürzester Zeit zu realistischen Design-Vorschlägen komme.",
     avatar: kioskAssets.workwear.introAvatar,
     leftAmbient: kioskAssets.workwear.attractFigure,
     rightAmbient: kioskAssets.workwear.attractFigure,
@@ -794,7 +796,7 @@ const workwearScreens: WorkflowScreen[] = [
     id: "step-6",
     frameName: "Workwear Step 6",
     kind: "style-redraw",
-    footer: { label: "Style Redraw (Details)", current: 4, total: 6 },
+    footer: { label: "Style Redraw", current: 4, total: 6 },
     narrative:
       "Jetzt gehe ich ins Detail. Die KI hilft mir, einzelne Bereiche gezielt zu überarbeiten – ohne das ganze Design neu aufzusetzen.",
     variant: "focus",
@@ -806,20 +808,21 @@ const workwearScreens: WorkflowScreen[] = [
     id: "step-7",
     frameName: "Workwear Step 7",
     kind: "ai-graphic",
-    footer: { label: "AI Graphic + AI Graphic Try-on", current: 5, total: 6 },
+    footer: { label: "Graphic Design Agent", current: 5, total: 6 },
     narrative:
       "Bevor ich ein Logo platziere, lasse ich es von der KI entwickeln. Wichtig ist mir dabei: klare Lesbarkeit, funktionaler Stil und volle Produkttreue. Die KI arbeitet nicht frei, sondern auf Basis unserer bestehenden Designs und klarer Vorgaben.",
     variant: "prompt",
     ctaLabel: "Generieren",
+    statusLabel: "Bearbeitung läuft",
     backdropImage: kioskAssets.workwear.logoThumbOne,
   },
   {
     id: "step-8",
     frameName: "Workwear Step 8",
     kind: "logo-placement",
-    footer: { label: "AI Graphic + AI Graphic Try-on", current: 5, total: 6 },
+    footer: { label: "Graphic Design Agent", current: 5, total: 6 },
     narrative:
-      "Sobald das Logo steht, prüfe ich, wo es auf der Jacke am besten funktioniert.",
+      "Sobald das Logo steht, prüfe ich, wie es auf der Jacke aussieht.",
     variant: "place",
     ctaLabel: "Place Logo",
     backdropImage: kioskAssets.workwear.logoMainPlacement,
@@ -830,7 +833,7 @@ const workwearScreens: WorkflowScreen[] = [
     kind: "ecommerce",
     footer: { label: "E-Commerce Agent", current: 6, total: 6 },
     narrative:
-      "Zum Schluss bereite ich die Designs für den Kunden vor. Die KI erstellt konsistente, hochwertige Präsentationen – perfekt für Review, Ausschreibung oder Shop",
+      "Zum Schluss bereite ich die Design für den Kunden vor. Style3D Moda erstellt mir konsistente, hochwertige Bilder und Videos - perfekt für die interne Abstimmung, die Ausschreibung oder unseren Shop",
     variant: "change-pose",
     ctaLabel: "Change pose",
     backdropImage: kioskAssets.workwear.reviewScene,
@@ -842,10 +845,9 @@ const workwearScreens: WorkflowScreen[] = [
     footer: { current: 7, total: 7 },
     avatar: kioskAssets.workwear.introAvatar,
     body: [
-      "So sind wir am Freitagmorgen bereit –",
-      "mit realistischen, durchdachten Designs.",
-      "Schnell. Kontrolliert. Produktnah.",
+      "So, jetzt ist unsere Präsentation für Freitag fertig – mit realistischen, durchdachten Designs. Mit KI ging es diesmal einfach schneller.",
     ],
+    ctaLabel: "Jetzt Demo buchen - hier am Stand oder online",
     qrImage: kioskAssets.workwear.closingQr,
     backdropImage: kioskAssets.workwear.closingBackground,
   },
@@ -885,7 +887,7 @@ const workwearOverview: OverviewScreen = {
     },
     {
       number: 5,
-      title: "AI Graphic + Try-on",
+      title: "Graphic Design Agent",
       target: "step-7",
       artwork: [kioskAssets.workwear.logoMainPlacement],
     },
@@ -1166,6 +1168,7 @@ const workwearWorkflow: Workflow = {
     workflowMark: kioskAssets.shared.workflowMarkLarge,
     workflowTitle: "AI for Workwear",
     videoSrc: kioskAssets.workwear.screensaverVideo,
+    posterSrc: kioskAssets.workwear.screensaverPoster,
   },
   screens: workwearScreens,
   overview: workwearOverview,
