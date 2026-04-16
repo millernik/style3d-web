@@ -1,1 +1,0 @@
-self.__SSG_MANIFEST=new Set(["\u002Fworkflow\u002F[workflowId]","\u002Fworkflow\u002F[workflowId]\u002F[screenId]"]);self.__SSG_MANIFEST_CB&&self.__SSG_MANIFEST_CB()
