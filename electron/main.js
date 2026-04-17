@@ -66,7 +66,7 @@ function resolveStaticFile(requestPathname) {
   const strippedPath = normalizedPathname.replace(/^\/+/, "");
   const fileCandidates = [];
 
-  if (!strippedPath) {
+  if (!strippedPath || strippedPath === "index.html") {
     fileCandidates.push(path.join(outDir, "index.html"));
   } else if (hasFileExtension(strippedPath)) {
     fileCandidates.push(path.join(outDir, strippedPath));
@@ -112,6 +112,11 @@ function isAllowedNavigation(targetUrl) {
   }
 }
 
+function quitApp() {
+  allowClose = true;
+  app.quit();
+}
+
 async function registerStaticProtocol() {
   if (useDevServer) {
     return;
@@ -138,6 +143,14 @@ function registerKioskProtection(window) {
       key === "f12" || (commandOrControl && input.shift && key === "i");
     const blockQuit =
       (input.alt && key === "f4") || (commandOrControl && key === "q");
+    const triggerQuitShortcut =
+      commandOrControl && input.shift && input.alt && key === "q";
+
+    if (triggerQuitShortcut) {
+      event.preventDefault();
+      quitApp();
+      return;
+    }
 
     if (blockReload || blockDevTools || blockQuit) {
       event.preventDefault();
@@ -182,7 +195,7 @@ async function loadRenderer(window) {
     return;
   }
 
-  await window.loadURL(`${APP_PROTOCOL}://${APP_HOST}/index.html`);
+  await window.loadURL(`${APP_PROTOCOL}://${APP_HOST}/`);
 }
 
 async function createMainWindow() {
@@ -246,7 +259,7 @@ app.whenReady().then(async () => {
   globalShortcut.register("F12", () => {});
   globalShortcut.register("CommandOrControl+Shift+I", () => {});
   globalShortcut.register("CommandOrControl+Q", () => {});
-  globalShortcut.register(QUIT_SHORTCUT, () => app.quit());
+  globalShortcut.register(QUIT_SHORTCUT, quitApp);
 
   try {
     await registerStaticProtocol();
