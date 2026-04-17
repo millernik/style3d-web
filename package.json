@@ -2,9 +2,20 @@
   "name": "style3d-app",
   "version": "0.1.0",
   "private": true,
+  "description": "Style3D expo kiosk app packaged with Electron.",
+  "author": "Style3D",
+  "main": "electron/main.js",
   "scripts": {
     "dev": "next dev",
+    "build:next": "next build",
     "build": "next build",
+    "export": "node -e \"const fs=require('node:fs'); if(!fs.existsSync('out/index.html')) { console.error('Missing out/index.html. Run npm run build:next first.'); process.exit(1); } console.log('Static export available in out/.');\"",
+    "electron:start": "npm run build:next && npm run export && electron electron/main.js",
+    "dist": "npm run build:next && npm run export && electron-builder --win --publish=never",
+    "dist:win:x64": "npm run build:next && npm run export && electron-builder --win --x64 --publish=never",
+    "dist:win:nsis": "npm run build:next && npm run export && electron-builder --win nsis --x64 --publish=never",
+    "dist:win:portable": "npm run build:next && npm run export && electron-builder --win portable --x64 --publish=never",
+    "dist:win:all": "npm run dist:win:x64",
     "start": "next start",
     "lint": "next lint"
   },
@@ -23,10 +34,49 @@
     "@types/react": "^19.0.2",
     "@types/react-dom": "^19.0.2",
     "autoprefixer": "^10.4.20",
+    "electron": "^35.1.5",
+    "electron-builder": "^26.8.1",
     "eslint": "^9.17.0",
     "eslint-config-next": "^15.0.0",
     "postcss": "^8.4.49",
     "tailwindcss": "^3.4.17",
     "typescript": "^5.7.2"
+  },
+  "build": {
+    "appId": "com.style3d.kiosk",
+    "productName": "Style3D Kiosk",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "electron/**/*",
+      "out/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "artifactName": "style3d-kiosk-win-x64-setup.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": false
+    },
+    "portable": {
+      "artifactName": "style3d-kiosk-win-x64-portable.${ext}"
+    }
   }
 }
