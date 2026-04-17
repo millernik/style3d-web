@@ -7,6 +7,7 @@ const INACTIVITY_TIMEOUT_MS = 60_000;
 const SCREENSAVER_HREFS: Record<string, string> = {
   workwear: "/workflow/workwear/screensaver",
   mantel: "/workflow/mantel/screensaver",
+  "key-visual": "/workflow/key-visual/screensaver",
 };
 
 export function WorkwearInactivityWatcher({

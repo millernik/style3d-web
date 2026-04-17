@@ -9,11 +9,10 @@ import { useRouter } from "next/navigation";
 
 import { KioskViewport } from "@/components/kiosk-viewport";
 import {
-  KeyVisualCampaignTemplate,
   KeyVisualClosingTemplate,
-  KeyVisualLookbookTemplate,
-  KeyVisualProductVariantsTemplate,
-  KeyVisualReferenceTemplate,
+  KeyVisualGalleryTemplate,
+  KeyVisualPromptTemplate,
+  KeyVisualStageSwapTemplate,
 } from "@/components/keyvisual-workflow-templates";
 import {
   MantelCampaignTemplate,
@@ -42,11 +41,10 @@ import {
   type ClosingScreen,
   type EcommerceScreen,
   type IntroScreen,
-  type KeyVisualCampaignScreen,
   type KeyVisualClosingScreen,
-  type KeyVisualLookbookScreen,
-  type KeyVisualProductVariantsScreen,
-  type KeyVisualReferenceScreen,
+  type KeyVisualGalleryScreen,
+  type KeyVisualPromptScreen,
+  type KeyVisualStageSwapScreen,
   type LogoPlacementScreen,
   type MantelCampaignScreen,
   type MantelClosingScreen,
@@ -178,35 +176,27 @@ export function WorkflowRenderer({ workflow, screen }: WorkflowRendererProps) {
           shared={sharedWorkflowUi}
         />
       );
-    case "keyvisual-reference":
+    case "keyvisual-stage-swap":
       return (
-        <KeyVisualReferenceTemplate
+        <KeyVisualStageSwapTemplate
           workflow={workflow}
-          screen={screen}
+          screen={screen as KeyVisualStageSwapScreen}
           shared={sharedWorkflowUi}
         />
       );
-    case "keyvisual-product-variants":
+    case "keyvisual-gallery":
       return (
-        <KeyVisualProductVariantsTemplate
+        <KeyVisualGalleryTemplate
           workflow={workflow}
-          screen={screen}
+          screen={screen as KeyVisualGalleryScreen}
           shared={sharedWorkflowUi}
         />
       );
-    case "keyvisual-lookbook":
+    case "keyvisual-prompt":
       return (
-        <KeyVisualLookbookTemplate
+        <KeyVisualPromptTemplate
           workflow={workflow}
-          screen={screen}
-          shared={sharedWorkflowUi}
-        />
-      );
-    case "keyvisual-campaign":
-      return (
-        <KeyVisualCampaignTemplate
-          workflow={workflow}
-          screen={screen}
+          screen={screen as KeyVisualPromptScreen}
           shared={sharedWorkflowUi}
         />
       );
@@ -332,6 +322,8 @@ function IntroTemplate({
           workflowId={workflow.id}
           targetId={screen.ctaTarget}
           glowPreset="workwear-intro"
+          className={screen.ctaNoWrap ? "w-auto min-w-[147px]" : undefined}
+          contentClassName={screen.ctaNoWrap ? "whitespace-nowrap px-[22px]" : undefined}
         >
           {screen.ctaLabel}
         </ActionPill>
@@ -2235,12 +2227,16 @@ function ActionPill({
   targetId,
   glowPreset = "default",
   onClick,
+  className,
+  contentClassName,
 }: {
   children: React.ReactNode;
   workflowId?: string;
   targetId?: string;
   glowPreset?: "default" | "workwear-intro";
   onClick?: () => void;
+  className?: string;
+  contentClassName?: string;
 }) {
   const router = useRouter();
 
@@ -2252,8 +2248,12 @@ function ActionPill({
       transition={{ duration: 0.18 }}
       className={
         isIntroPreset
-          ? "relative isolate z-10 h-[50px] w-[147px] rounded-full bg-transparent text-kiosk-label-md font-semibold text-white"
-          : "relative rounded-full px-[40px] py-[10px] text-kiosk-label-md font-semibold text-white"
+          ? `relative isolate z-10 h-[50px] w-[147px] rounded-full bg-transparent text-kiosk-label-md font-semibold text-white ${
+              className ?? ""
+            }`
+          : `relative rounded-full px-[40px] py-[10px] text-kiosk-label-md font-semibold text-white ${
+              className ?? ""
+            }`
       }
       onClick={() => {
         if (onClick) {
@@ -2277,8 +2277,12 @@ function ActionPill({
       <span
         className={
           isIntroPreset
-            ? "relative z-10 flex h-full w-full items-center justify-center rounded-full bg-kiosk-gradient"
-            : "relative flex items-center gap-[10px] rounded-full bg-kiosk-gradient px-[40px] py-[10px]"
+            ? `relative z-10 flex h-full w-full items-center justify-center rounded-full bg-kiosk-gradient ${
+                contentClassName ?? ""
+              }`
+            : `relative flex items-center gap-[10px] rounded-full bg-kiosk-gradient px-[40px] py-[10px] ${
+                contentClassName ?? ""
+              }`
         }
       >
         {children}

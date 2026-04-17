@@ -28,7 +28,9 @@ export default async function WorkflowIntroPage({
 
   return (
     <>
-      {workflow.id === "workwear" || workflow.id === "mantel" ? (
+      {workflow.id === "workwear" ||
+      workflow.id === "mantel" ||
+      workflow.id === "key-visual" ? (
         <WorkwearInactivityWatcher workflowId={workflow.id} />
       ) : null}
       <WorkflowChrome workflow={workflow}>

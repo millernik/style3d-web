@@ -100,28 +100,32 @@ export const kioskAssets = {
     closingAdrian: "/assets/mantel/closing/adrian.png",
   },
   keyVisual: {
+    screensaverVideo: "/assets/key-visual/screensaver/key-visual-screensaver.mp4",
     screensaverPoster: "/assets/key-visual/screensaver/poster.png",
-    introAvatar: "/assets/key-visual/intro/lea-avatar.png",
+    introAvatar: "/assets/key-visual/intro/raul-avatar.png",
     introLeftAmbient: "/assets/key-visual/intro/model-left.png",
     introRightAmbient: "/assets/key-visual/intro/model-right.png",
-    referenceAvatar: "/assets/key-visual/step-2-reference/lea-avatar.png",
+    referenceAvatar: "/assets/key-visual/intro/raul-avatar.png",
     referenceBoard: "/assets/key-visual/step-2-reference/reference-board.png",
     referenceStage: "/assets/key-visual/step-2-reference/studio-catalog.png",
-    referenceProductStill: "/assets/key-visual/step-2-reference/product-still.png",
-    variantProduct: "/assets/key-visual/step-3-product-variants/variant-product.png",
-    variantCoral: "/assets/key-visual/step-3-product-variants/variant-coral.png",
-    variantSteel: "/assets/key-visual/step-3-product-variants/variant-steel.png",
-    lookbookSpreadLeft: "/assets/key-visual/step-4-lookbook/spread-left.png",
-    lookbookSpreadRight: "/assets/key-visual/step-4-lookbook/spread-right.png",
-    tryOnFront: "/assets/key-visual/step-5-try-on/front.png",
-    tryOnBack: "/assets/key-visual/step-5-try-on/back.png",
-    tryOnDetail: "/assets/key-visual/step-5-try-on/detail.png",
-    campaignReference: "/assets/key-visual/step-6-campaign/reference.png",
+    referenceProductStill: "/assets/key-visual/step-2-reference/product-still-updated.png",
+    colorwayBlack: "/assets/key-visual/step-3-colorways/black.png",
+    colorwayBlue: "/assets/key-visual/step-3-colorways/blue.png",
+    colorwayGrey: "/assets/key-visual/step-3-colorways/grey.png",
+    colorwayOrange: "/assets/key-visual/step-3-colorways/orange.png",
+    patternSquaresThumb: "/assets/key-visual/step-4-patterns/thumbs/squares-thumb.png",
+    patternCirclesThumb: "/assets/key-visual/step-4-patterns/thumbs/circles-thumb.png",
+    patternCurvesThumb: "/assets/key-visual/step-4-patterns/thumbs/curves-thumb.png",
+    patternOriginalThumb: "/assets/key-visual/step-4-patterns/thumbs/original-thumb.png",
+    patternSquaresJacket: "/assets/key-visual/step-4-patterns/jackets/squares-jacket.png",
+    patternCirclesJacket: "/assets/key-visual/step-4-patterns/jackets/circles-jacket.png",
+    patternCurvesJacket: "/assets/key-visual/step-4-patterns/jackets/curves-jacket.png",
+    patternOriginalJacket: "/assets/key-visual/step-4-patterns/jackets/original-jacket.png",
     campaignResult: "/assets/key-visual/step-6-campaign/result.png",
     campaignResultAlt: "/assets/key-visual/step-6-campaign/result-alt.png",
     closingBackground: "/assets/key-visual/closing/background.png",
     closingBackgroundAccent: "/assets/key-visual/closing/background-left.png",
-    closingAvatar: "/assets/key-visual/closing/lea-avatar.png",
+    closingAvatar: "/assets/key-visual/intro/raul-avatar.png",
   },
   nachtwaesche: {
     screensaverPoster: "/assets/nachtwaesche/intro/background.png",
@@ -175,10 +179,9 @@ export type BaseScreen = {
     | "mantel-colorways"
     | "mantel-campaign"
     | "mantel-closing"
-    | "keyvisual-reference"
-    | "keyvisual-product-variants"
-    | "keyvisual-lookbook"
-    | "keyvisual-campaign"
+    | "keyvisual-stage-swap"
+    | "keyvisual-gallery"
+    | "keyvisual-prompt"
     | "keyvisual-closing"
     | "nachtwaesche-intro"
     | "nachtwaesche-moodboard"
@@ -201,6 +204,7 @@ export type IntroScreen = BaseScreen & {
   rightAmbient: string;
   ctaLabel: string;
   ctaTarget: string;
+  ctaNoWrap?: boolean;
 };
 
 export type SketchScreen = BaseScreen & {
@@ -452,17 +456,18 @@ export type MantelClosingScreen = BaseScreen & {
   secondaryCtaLabel: string;
 };
 
-export type KeyVisualReferenceScreen = BaseScreen & {
-  kind: "keyvisual-reference";
+export type KeyVisualStageSwapScreen = BaseScreen & {
+  kind: "keyvisual-stage-swap";
   narrative: string;
   avatar: string;
-  stageImage: string;
-  referenceImage: string;
+  initialImage: string;
+  swappedImage: string;
+  swapAfterMs: number;
   ctaLabel: string;
   ctaTarget: string;
 };
 
-export type KeyVisualProductVariantOption = {
+export type KeyVisualGalleryOption = {
   id: string;
   label: string;
   image: string;
@@ -471,40 +476,27 @@ export type KeyVisualProductVariantOption = {
   thumbClassName?: string;
 };
 
-export type KeyVisualProductVariantsScreen = BaseScreen & {
-  kind: "keyvisual-product-variants";
+export type KeyVisualGalleryScreen = BaseScreen & {
+  kind: "keyvisual-gallery";
   narrative: string;
   avatar: string;
-  options: KeyVisualProductVariantOption[];
+  options: KeyVisualGalleryOption[];
+  showCtaOnLoad?: boolean;
   ctaLabel: string;
   ctaTarget: string;
 };
 
-export type KeyVisualLookbookScreen = BaseScreen & {
-  kind: "keyvisual-lookbook";
-  narrative: string;
-  avatar: string;
-  spreadImages: [string, string];
-  ctaLabel: string;
-  ctaTarget: string;
-  ctaDelayMs: number;
-};
-
-export type KeyVisualCampaignScreen = BaseScreen & {
-  kind: "keyvisual-campaign";
+export type KeyVisualPromptScreen = BaseScreen & {
+  kind: "keyvisual-prompt";
   narrative: string;
   avatar: string;
   promptTitle: string;
   promptBody: string;
-  promptReferenceImage: string;
-  resultImage: string;
-  alternateResultImage?: string;
   generateLabel: string;
   processingLabel: string;
   ctaLabel: string;
   ctaTarget: string;
   processingMs: number;
-  resultCtaDelayMs: number;
 };
 
 export type KeyVisualClosingScreen = BaseScreen & {
@@ -638,10 +630,9 @@ export type WorkflowScreen =
   | MantelColorwaysScreen
   | MantelCampaignScreen
   | MantelClosingScreen
-  | KeyVisualReferenceScreen
-  | KeyVisualProductVariantsScreen
-  | KeyVisualLookbookScreen
-  | KeyVisualCampaignScreen
+  | KeyVisualStageSwapScreen
+  | KeyVisualGalleryScreen
+  | KeyVisualPromptScreen
   | KeyVisualClosingScreen
   | NachtwaescheIntroScreen
   | NachtwaescheMoodboardScreen
@@ -1228,7 +1219,7 @@ const keyVisualScreens: WorkflowScreen[] = [
     id: "step-1",
     frameName: "Keyvisual 1",
     kind: "intro",
-    headline: "Hi, ich bin Lea!",
+    headline: "Hi, ich bin Raul!",
     body:
       "Ich arbeite an unserer Outdoor-Kollektion. Fit und Style sind uns enorm wichtig. Wir geben auf unsere Schnitte acht. Uns gehört der ganze Prozess. 3D ist Pflicht, aber nur mit KI – damit es schneller geht und besser aussieht. Die letzte Kollektion war sehr erfolgreich. Wir möchten eine Übergangsjacke nachschicken.",
     avatar: kioskAssets.keyVisual.introAvatar,
@@ -1236,18 +1227,20 @@ const keyVisualScreens: WorkflowScreen[] = [
     rightAmbient: kioskAssets.keyVisual.introRightAmbient,
     ctaLabel: "Workflow starten",
     ctaTarget: "step-2",
+    ctaNoWrap: true,
     backdropImage: kioskAssets.keyVisual.introRightAmbient,
   },
   {
     id: "step-2",
     frameName: "Keyvisual 2",
-    kind: "keyvisual-reference",
-    footer: { label: "E-commerce agents", current: 1, total: 6 },
+    kind: "keyvisual-stage-swap",
+    footer: { label: "Concept Input", current: 1, total: 5 },
     narrative:
       "Ich starte in Style3D Studio. Ich suche mir das passende WhiteShell aus unserer 3D-Library aus. Der Schnitt ist auch gleich da. Aus unserer Stoff-Library hole ich mir den passenden Stoff und passe das Whiteshell an. Jetzt ist es mein Entwurf.",
     avatar: kioskAssets.keyVisual.referenceAvatar,
-    stageImage: kioskAssets.keyVisual.referenceStage,
-    referenceImage: kioskAssets.keyVisual.referenceProductStill,
+    initialImage: kioskAssets.keyVisual.referenceStage,
+    swappedImage: kioskAssets.keyVisual.referenceProductStill,
+    swapAfterMs: 5000,
     ctaLabel: "Zum nächsten Schritt",
     ctaTarget: "step-3",
     backdropImage: kioskAssets.keyVisual.referenceStage,
@@ -1255,120 +1248,142 @@ const keyVisualScreens: WorkflowScreen[] = [
   {
     id: "step-3",
     frameName: "Keyvisual 3",
-    kind: "keyvisual-product-variants",
-    footer: { label: "Product Variant", current: 2, total: 6 },
+    kind: "keyvisual-gallery",
+    footer: { label: "Colorways", current: 2, total: 5 },
     narrative:
-      "Jetzt prüfe ich, wie die Übergangsjacke in den finalen Varianten wirkt. Mit einem Tap wechsle ich zwischen Produktstill, Colorway und Key-Look und entscheide, welche Richtung in die Präsentation geht.",
+      "Jetzt prüfe ich die Farbwelten der Jacke. Mit einem Tap wechsle ich zwischen den Colorways und sehe sofort, welche Richtung für den Key Visual am stärksten funktioniert.",
     avatar: kioskAssets.keyVisual.referenceAvatar,
     options: [
       {
-        id: "studio",
-        label: "Studio",
-        image: kioskAssets.keyVisual.variantProduct,
-        thumbImage: kioskAssets.keyVisual.variantProduct,
-        imageClassName: "object-contain p-[18px]",
+        id: "black",
+        label: "Black",
+        image: kioskAssets.keyVisual.colorwayBlack,
+        thumbImage: kioskAssets.keyVisual.colorwayBlack,
+        imageClassName: "object-contain p-[12px]",
         thumbClassName: "object-contain p-[8px]",
       },
       {
-        id: "coral",
-        label: "Coral",
-        image: kioskAssets.keyVisual.variantCoral,
-        thumbImage: kioskAssets.keyVisual.variantCoral,
-        imageClassName: "object-cover object-[26%_50%]",
-        thumbClassName: "object-cover object-[40%_24%]",
+        id: "blue",
+        label: "Blue",
+        image: kioskAssets.keyVisual.colorwayBlue,
+        thumbImage: kioskAssets.keyVisual.colorwayBlue,
+        imageClassName: "object-contain p-[12px]",
+        thumbClassName: "object-contain p-[8px]",
       },
       {
-        id: "steel",
-        label: "Steel",
-        image: kioskAssets.keyVisual.variantSteel,
-        thumbImage: kioskAssets.keyVisual.variantSteel,
-        imageClassName: "object-cover object-[70%_34%]",
-        thumbClassName: "object-cover object-[64%_20%]",
+        id: "grey",
+        label: "Grey",
+        image: kioskAssets.keyVisual.colorwayGrey,
+        thumbImage: kioskAssets.keyVisual.colorwayGrey,
+        imageClassName: "object-contain p-[12px]",
+        thumbClassName: "object-contain p-[8px]",
+      },
+      {
+        id: "orange",
+        label: "Orange",
+        image: kioskAssets.keyVisual.colorwayOrange,
+        thumbImage: kioskAssets.keyVisual.colorwayOrange,
+        imageClassName: "object-contain p-[12px]",
+        thumbClassName: "object-contain p-[8px]",
       },
     ],
     ctaLabel: "Zum nächsten Schritt",
     ctaTarget: "step-4",
-    backdropImage: kioskAssets.keyVisual.variantSteel,
+    backdropImage: kioskAssets.keyVisual.colorwayGrey,
   },
   {
     id: "step-4",
     frameName: "Keyvisual 4",
-    kind: "keyvisual-lookbook",
-    footer: { label: "Layout Review", current: 3, total: 6 },
+    kind: "keyvisual-gallery",
+    footer: { label: "Patterns", current: 3, total: 5 },
     narrative:
-      "Bevor wir in die finale Kampagne gehen, prüfe ich die Präsentations-Layouts. So sehe ich sofort, ob Produktbild und Referenzmaterial in der Story sauber zusammenarbeiten.",
+      "Jetzt teste ich die Muster auf dem Stoff. So kann ich schnell vergleichen, welche grafische Richtung auf der Jacke am überzeugendsten wirkt.",
     avatar: kioskAssets.keyVisual.referenceAvatar,
-    spreadImages: [
-      kioskAssets.keyVisual.lookbookSpreadLeft,
-      kioskAssets.keyVisual.lookbookSpreadRight,
+    options: [
+      {
+        id: "squares",
+        label: "Squares",
+        image: kioskAssets.keyVisual.patternSquaresJacket,
+        thumbImage: kioskAssets.keyVisual.patternSquaresThumb,
+        imageClassName: "object-contain scale-[1.12] p-[4px]",
+        thumbClassName: "object-cover",
+      },
+      {
+        id: "circles",
+        label: "Circles",
+        image: kioskAssets.keyVisual.patternCirclesJacket,
+        thumbImage: kioskAssets.keyVisual.patternCirclesThumb,
+        imageClassName: "object-contain scale-[1.12] p-[4px]",
+        thumbClassName: "object-cover",
+      },
+      {
+        id: "curves",
+        label: "Curves",
+        image: kioskAssets.keyVisual.patternCurvesJacket,
+        thumbImage: kioskAssets.keyVisual.patternCurvesThumb,
+        imageClassName: "object-contain scale-[1.12] p-[4px]",
+        thumbClassName: "object-cover",
+      },
+      {
+        id: "original",
+        label: "Original",
+        image: kioskAssets.keyVisual.patternOriginalJacket,
+        thumbImage: kioskAssets.keyVisual.patternOriginalThumb,
+        imageClassName: "object-contain scale-[1.12] p-[4px]",
+        thumbClassName: "object-cover",
+      },
     ],
     ctaLabel: "Zum nächsten Schritt",
     ctaTarget: "step-5",
-    ctaDelayMs: 3000,
-    backdropImage: kioskAssets.keyVisual.lookbookSpreadRight,
+    backdropImage: kioskAssets.keyVisual.patternSquaresJacket,
   },
   {
     id: "step-5",
     frameName: "Keyvisual 5",
-    kind: "try-on",
-    footer: { label: "Virtual Try-on", current: 4, total: 6 },
+    kind: "keyvisual-prompt",
+    footer: { label: "Prompt", current: 4, total: 5 },
     narrative:
-      "Jetzt prüfe ich die Übergangsjacke am Modell. Ein schneller Front-Back-Check reicht, um Proportion, Farbe und Wirkung im Gesamtlook zu bewerten.",
-    view: "front",
+      "Jetzt formuliere ich den finalen Generierungs-Prompt für die Modellbilder. Damit überführe ich die freigegebene Jacke in eine klare, kampagnenreife Bildsprache.",
     avatar: kioskAssets.keyVisual.referenceAvatar,
-    stageImages: {
-      front: kioskAssets.keyVisual.tryOnFront,
-      back: kioskAssets.keyVisual.tryOnBack,
-    },
-    previewVariants: [
-      {
-        id: "front",
-        src: kioskAssets.keyVisual.tryOnFront,
-        thumbImageClassName: "object-cover object-[40%_22%]",
-        heroFilter: "none",
-      },
-      {
-        id: "back",
-        src: kioskAssets.keyVisual.tryOnBack,
-        thumbImageClassName: "object-cover object-[62%_18%]",
-        heroFilter: "none",
-      },
-      {
-        id: "detail",
-        src: kioskAssets.keyVisual.tryOnDetail,
-        thumbImageClassName: "object-contain p-[8px]",
-        heroFilter: "saturate(1.06) contrast(1.02)",
-      },
-    ],
-    toggleLabels: {
-      front: "Front",
-      back: "Back",
-    },
+    promptTitle: "Prompt:",
+    promptBody:
+      "Generate photoreal model imagery for the approved key visual jacket. Keep the silhouette product-true, preserve the selected surface design language, and create premium campaign-ready portraits with one female orange version and one male grey version.",
+    generateLabel: "Generieren",
+    processingLabel: "Bearbeitung Läuft",
     ctaLabel: "Zum nächsten Schritt",
     ctaTarget: "step-6",
-    ctaDelayMs: 4000,
-    backdropImage: kioskAssets.keyVisual.tryOnBack,
+    processingMs: 1250,
+    backdropImage: kioskAssets.keyVisual.referenceProductStill,
   },
   {
     id: "step-6",
     frameName: "Keyvisual 6",
-    kind: "keyvisual-campaign",
-    footer: { label: "Key Visual", current: 5, total: 6 },
+    kind: "keyvisual-gallery",
+    footer: { label: "Generated Images", current: 5, total: 5 },
     narrative:
-      "Zum Schluss generiere ich das finale Key Visual. Ich starte mit dem freigegebenen Produkt, lasse die Szene erzeugen und prüfe dann direkt das Ergebnis für die Kampagnenpräsentation.",
+      "Die finalen Modellbilder sind da. Jetzt wechsle ich zwischen den freigegebenen Motiven und prüfe direkt, welches Bild wir für Präsentation und Kampagne verwenden.",
     avatar: kioskAssets.keyVisual.referenceAvatar,
-    promptTitle: "Prompt:",
-    promptBody:
-      "Create a premium outdoor key visual for the approved transition jacket. Keep the silhouette product-true, the styling modern, and the overall mood aspirational and clean.",
-    promptReferenceImage: kioskAssets.keyVisual.campaignReference,
-    resultImage: kioskAssets.keyVisual.campaignResult,
-    alternateResultImage: kioskAssets.keyVisual.campaignResultAlt,
-    generateLabel: "Generieren",
-    processingLabel: "Bearbeitung Läuft",
+    options: [
+      {
+        id: "man-grey",
+        label: "Man Grey",
+        image: kioskAssets.keyVisual.campaignResult,
+        thumbImage: kioskAssets.keyVisual.campaignResult,
+        imageClassName: "object-cover object-center",
+        thumbClassName: "object-cover object-center",
+      },
+      {
+        id: "woman-orange",
+        label: "Woman Orange",
+        image: kioskAssets.keyVisual.campaignResultAlt,
+        thumbImage: kioskAssets.keyVisual.campaignResultAlt,
+        imageClassName: "object-cover object-center",
+        thumbClassName: "object-cover object-center",
+      },
+    ],
+    showCtaOnLoad: true,
     ctaLabel: "Zum nächsten Schritt",
     ctaTarget: "step-7",
-    processingMs: 1250,
-    resultCtaDelayMs: 5000,
     backdropImage: kioskAssets.keyVisual.campaignResult,
   },
   {
@@ -1382,7 +1397,7 @@ const keyVisualScreens: WorkflowScreen[] = [
       "Damit ist die neue Übergangsjacke bereit für Review, Entscheidung und Kampagnen-Launch.",
     ],
     primaryCtaLabel: "Neustarten",
-    primaryHref: "/admin",
+    primaryHref: "/workflow/key-visual",
     secondaryCtaLabel: "Overview",
     secondaryCtaTarget: "overview",
     backgroundAccentImage: kioskAssets.keyVisual.closingBackgroundAccent,
@@ -1399,31 +1414,43 @@ const keyVisualOverview: OverviewScreen = {
       number: 1,
       title: "Concept Input",
       target: "step-2",
-      artwork: [kioskAssets.keyVisual.referenceBoard, kioskAssets.keyVisual.referenceStage],
+      artwork: [
+        kioskAssets.keyVisual.referenceStage,
+        kioskAssets.keyVisual.referenceProductStill,
+      ],
     },
     {
       number: 2,
-      title: "Product Variant",
+      title: "Colorways",
       target: "step-3",
-      artwork: [kioskAssets.keyVisual.variantProduct, kioskAssets.keyVisual.variantSteel],
+      artwork: [
+        kioskAssets.keyVisual.colorwayBlack,
+        kioskAssets.keyVisual.colorwayOrange,
+      ],
     },
     {
       number: 3,
-      title: "Layout Review",
+      title: "Patterns",
       target: "step-4",
-      artwork: [kioskAssets.keyVisual.lookbookSpreadLeft, kioskAssets.keyVisual.lookbookSpreadRight],
+      artwork: [
+        kioskAssets.keyVisual.patternSquaresJacket,
+        kioskAssets.keyVisual.patternCurvesJacket,
+      ],
     },
     {
       number: 4,
-      title: "Virtual Try-on",
+      title: "Prompt",
       target: "step-5",
-      artwork: [kioskAssets.keyVisual.tryOnFront, kioskAssets.keyVisual.tryOnBack],
+      artwork: [kioskAssets.keyVisual.referenceProductStill],
     },
     {
       number: 5,
-      title: "Key Visual",
+      title: "Generated Images",
       target: "step-6",
-      artwork: [kioskAssets.keyVisual.campaignResult],
+      artwork: [
+        kioskAssets.keyVisual.campaignResult,
+        kioskAssets.keyVisual.campaignResultAlt,
+      ],
     },
   ],
   backdropImage: kioskAssets.keyVisual.campaignResult,
@@ -1443,7 +1470,7 @@ const keyVisualWorkflow: Workflow = {
     brandLogo: kioskAssets.shared.brandLogoLarge,
     workflowMark: kioskAssets.shared.keyVisualWorkflowMarkLarge,
     workflowTitle: "AI.Showcase Key Visual",
-    videoSrc: kioskAssets.keyVisual.screensaverPoster,
+    videoSrc: kioskAssets.keyVisual.screensaverVideo,
     posterSrc: kioskAssets.keyVisual.screensaverPoster,
   },
   screens: keyVisualScreens,
