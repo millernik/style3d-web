@@ -6,7 +6,11 @@ import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 import { KioskViewport } from "@/components/kiosk-viewport";
-import type { Workflow } from "@/lib/workflows";
+import {
+  buildScreenHref,
+  getStartScreen,
+  type Workflow,
+} from "@/lib/workflows";
 
 const EXIT_DURATION_MS = 340;
 
@@ -15,6 +19,10 @@ export function AttractScreen({ workflow }: { workflow: Workflow }) {
   const timeoutRef = useRef<number | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [isExiting, setIsExiting] = useState(false);
+  const startScreen = getStartScreen(workflow.id);
+  const startHref = startScreen
+    ? buildScreenHref(workflow.id, startScreen.id)
+    : `/workflow/${workflow.id}/step-1`;
 
   useEffect(() => {
     return () => {
@@ -61,7 +69,7 @@ export function AttractScreen({ workflow }: { workflow: Workflow }) {
 
     setIsExiting(true);
     timeoutRef.current = window.setTimeout(() => {
-      router.push(`/workflow/${workflow.id}`);
+      router.push(startHref);
     }, EXIT_DURATION_MS);
   };
 

@@ -1,4 +1,4 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 
 import { WorkflowChrome } from "@/components/workflow-chrome";
 import { WorkflowRenderer } from "@/components/workflow-renderer";
@@ -24,6 +24,15 @@ export default async function WorkflowIntroPage({
 
   if (!workflow || !screen) {
     notFound();
+  }
+
+  if (
+    workflow.id === "workwear" ||
+    workflow.id === "mantel" ||
+    workflow.id === "key-visual" ||
+    workflow.id === "nachtwaesche"
+  ) {
+    redirect(`/workflow/${workflow.id}/screensaver`);
   }
 
   return (

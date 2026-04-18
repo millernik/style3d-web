@@ -3,7 +3,7 @@
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
 
-const INACTIVITY_TIMEOUT_MS = 60_000;
+const INACTIVITY_TIMEOUT_MS = 120_000;
 const SCREENSAVER_HREFS: Record<string, string> = {
   workwear: "/workflow/workwear/screensaver",
   mantel: "/workflow/mantel/screensaver",
