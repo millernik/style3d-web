@@ -15,37 +15,56 @@ export const kioskAssets = {
     attractBackdrop: "/assets/workwear/review-3.png",
     attractFigure: "/assets/workwear/firefighter-side.png",
     screensaverVideo: "/assets/workwear/screensaver/workwear-screensaver.mp4",
+    screensaverPoster: "/assets/workwear/review-3.png",
     introAvatar: "/assets/workwear/nina-intro.png",
     sketchBase: "/assets/workwear/sketch-base.png",
     sketchRender: "/assets/workwear/sketch-highlight-overlay.png",
     sketchHighlightOverlay: "/assets/workwear/sketch-highlight-overlay.png",
     sketchFinishedCollage: "/assets/workwear/sketch-finished-collage.png",
     styleDesignMain: "/assets/workwear/style-design-main.png",
+    styleDesignThumbSand: "/assets/workwear/style-design-thumb-sand.png",
     styleDesignThumbJacket: "/assets/workwear/style-design-thumb-jacket.png",
-    styleDesignThumbHelmet: "/assets/workwear/style-design-thumb-helmet.png",
+    styleDesignThumbHelmet: "/assets/workwear/style-design-thumb-helmet-updated.png",
     styleDesignThumbPants: "/assets/workwear/style-design-thumb-pants.png",
     styleDesignThumbBoots: "/assets/workwear/style-design-thumb-boots.png",
+    styleDesignZoomArm: "/assets/workwear/style-design-zoom-arm.png",
+    styleDesignZoomTopPocket: "/assets/workwear/style-design-zoom-top-pocket.png",
     tryOnFront: "/assets/workwear/style-redraw-source.png",
-    tryOnBack: "/assets/workwear/tryon-hero.png",
+    tryOnBack: "/assets/workwear/tryon-blue-back-updated.png",
+    tryOnSandFront: "/assets/workwear/tryon-sand-front.png",
+    tryOnSandBack: "/assets/workwear/tryon-sand-back.png",
+    tryOnGreenFront: "/assets/workwear/tryon-green-front-no-bg.png",
+    tryOnGreenBack: "/assets/workwear/tryon-green-back.png",
+    tryOnThumbSand: "/assets/workwear/tryon-thumb-sand.png",
+    tryOnThumbGreen: "/assets/workwear/tryon-thumb-green-front.png",
     tryOnThumbWarm: "/assets/workwear/tryon-detail-1.png",
     tryOnThumbCool: "/assets/workwear/tryon-detail-2.png",
     styleRedrawSource: "/assets/workwear/style-redraw-source.png",
     styleRedrawBefore: "/assets/workwear/style-redraw-before.png",
     styleRedrawAfter: "/assets/workwear/style-redraw-after.png",
+    styleRedrawLowerDetail: "/assets/workwear/style-redraw-lower-detail.png",
+    styleRedrawLowerDetailAfter:
+      "/assets/workwear/style-redraw-lower-detail-after.png",
     logoMainPlacement: "/assets/workwear/logo-main.png",
+    logoMainPlacementTwo: "/assets/workwear/logo-placement-main-2.png",
+    logoMainPlacementThree: "/assets/workwear/logo-placement-main-3.png",
+    logoMainPlacementFour: "/assets/workwear/logo-placement-main-4.png",
     logoThumbOne: "/assets/workwear/logo-thumb-1.png",
     logoThumbTwo: "/assets/workwear/logo-thumb-2.png",
     logoThumbThree: "/assets/workwear/logo-thumb-3.png",
     logoThumbFour: "/assets/workwear/logo-thumb-4.png",
     reviewPlain: "/assets/workwear/review-1.png",
     reviewGear: "/assets/workwear/review-2.png",
+    reviewRunning: "/assets/workwear/review-running.png",
+    reviewThumbThree: "/assets/workwear/review-thumb-3-updated.png",
     reviewScene: "/assets/workwear/review-3.png",
-    closingBackground: "/assets/workwear/closing-background.png",
-    closingQr: "/assets/workwear/closing-qr.png",
+    closingBackground: "/assets/workwear/closing-background-updated.png",
+    closingQr: "/assets/workwear/closing-qr-contact.svg",
   },
   mantel: {
-    attractBackdrop: "/assets/mantel/intro/moodboard-backdrop.png",
-    screensaverPoster: "/assets/mantel/intro/moodboard-backdrop.png",
+    attractBackdrop: "/assets/mantel/intro/moodboard-backdrop-updated.png",
+    screensaverVideo: "/assets/mantel/screensaver/mantel-screensaver.mp4",
+    screensaverPoster: "/assets/mantel/intro/moodboard-backdrop-updated.png",
     introDaniel: "/assets/mantel/intro/daniel.png",
     introAdrian: "/assets/mantel/intro/adrian.png",
     imageToSketchBase: "/assets/mantel/step-2-image-to-sketch/sketch.png",
@@ -56,11 +75,13 @@ export const kioskAssets = {
     detailWaist: "/assets/mantel/step-3-detail-gallery/detail-waist.jpg",
     detailCollar: "/assets/mantel/step-3-detail-gallery/detail-collar.jpg",
     detailCuff: "/assets/mantel/step-3-detail-gallery/detail-cuff.jpg",
-    tryOnSmall: "/assets/mantel/step-4-try-on/look-small.png",
-    tryOnLarge: "/assets/mantel/step-4-try-on/look-large.png",
+    detailPocket: "/assets/mantel/step-3-detail-gallery/detail-pocket.svg",
+    tryOnSetCard: "/assets/mantel/step-4-try-on/set-card.png",
+    tryOnSmall: "/assets/mantel/step-4-try-on/look-small-updated.png",
+    tryOnLarge: "/assets/mantel/step-4-try-on/look-large-updated.png",
     techPackPromptReference: "/assets/mantel/step-5-tech-pack/reference.png",
-    techPackSketch: "/assets/mantel/step-5-tech-pack/tech-sketch.png",
-    techPackImage: "/assets/mantel/step-5-tech-pack/tech-image.png",
+    techPackSketchPlain: "/assets/mantel/step-5-tech-pack/sketch-wo.png",
+    techPackSketchAnnotated: "/assets/mantel/step-5-tech-pack/sketch-b.png",
     colorwayCamel: "/assets/mantel/step-6-colorways/main-camel.png",
     colorwayNavy: "/assets/mantel/step-6-colorways/main-navy.png",
     colorwayGrey: "/assets/mantel/step-6-colorways/main-grey.png",
@@ -69,38 +90,42 @@ export const kioskAssets = {
     colorwayThumbGrey: "/assets/mantel/step-6-colorways/thumb-grey.png",
     campaignSceneSun: "/assets/mantel/step-7-campaign/preset-sun.png",
     campaignSceneRain: "/assets/mantel/step-7-campaign/preset-rain.png",
-    campaignResultFinished: "/assets/mantel/step-7-campaign/result-finished.png",
-    campaignResultLight: "/assets/mantel/step-7-campaign/result-light.png",
-    campaignResultDark: "/assets/mantel/step-7-campaign/result-dark.png",
+    campaignEmptyRack: "/assets/mantel/step-7-campaign/rack-empty.png",
+    campaignResultLight: "/assets/mantel/step-7-campaign/s7-model-h.png",
+    campaignResultDark: "/assets/mantel/step-7-campaign/s7-model-d.png",
     campaignVideoPoster: "/assets/mantel/step-7-campaign/video-poster.png",
     campaignVideoOverlay: "/assets/mantel/step-7-campaign/video-overlay.svg",
-    closingBackground: "/assets/mantel/closing/jogger-background.png",
+    closingBackground: "/assets/mantel/closing/s8-new.png",
     closingDaniel: "/assets/mantel/closing/daniel.png",
     closingAdrian: "/assets/mantel/closing/adrian.png",
   },
   keyVisual: {
+    screensaverVideo: "/assets/key-visual/screensaver/key-visual-screensaver.mp4",
     screensaverPoster: "/assets/key-visual/screensaver/poster.png",
-    introAvatar: "/assets/key-visual/intro/lea-avatar.png",
+    introAvatar: "/assets/key-visual/intro/raul-avatar.png",
     introLeftAmbient: "/assets/key-visual/intro/model-left.png",
     introRightAmbient: "/assets/key-visual/intro/model-right.png",
-    referenceAvatar: "/assets/key-visual/step-2-reference/lea-avatar.png",
+    referenceAvatar: "/assets/key-visual/intro/raul-avatar.png",
     referenceBoard: "/assets/key-visual/step-2-reference/reference-board.png",
     referenceStage: "/assets/key-visual/step-2-reference/studio-catalog.png",
-    referenceProductStill: "/assets/key-visual/step-2-reference/product-still.png",
-    variantProduct: "/assets/key-visual/step-3-product-variants/variant-product.png",
-    variantCoral: "/assets/key-visual/step-3-product-variants/variant-coral.png",
-    variantSteel: "/assets/key-visual/step-3-product-variants/variant-steel.png",
-    lookbookSpreadLeft: "/assets/key-visual/step-4-lookbook/spread-left.png",
-    lookbookSpreadRight: "/assets/key-visual/step-4-lookbook/spread-right.png",
-    tryOnFront: "/assets/key-visual/step-5-try-on/front.png",
-    tryOnBack: "/assets/key-visual/step-5-try-on/back.png",
-    tryOnDetail: "/assets/key-visual/step-5-try-on/detail.png",
-    campaignReference: "/assets/key-visual/step-6-campaign/reference.png",
+    referenceProductStill: "/assets/key-visual/step-2-reference/product-still-updated.png",
+    colorwayBlack: "/assets/key-visual/step-3-colorways/black.png",
+    colorwayBlue: "/assets/key-visual/step-3-colorways/blue.png",
+    colorwayGrey: "/assets/key-visual/step-3-colorways/grey.png",
+    colorwayOrange: "/assets/key-visual/step-3-colorways/orange.png",
+    patternSquaresThumb: "/assets/key-visual/step-4-patterns/thumbs/squares-thumb.png",
+    patternCirclesThumb: "/assets/key-visual/step-4-patterns/thumbs/circles-thumb.png",
+    patternCurvesThumb: "/assets/key-visual/step-4-patterns/thumbs/curves-thumb.png",
+    patternOriginalThumb: "/assets/key-visual/step-4-patterns/thumbs/original-thumb.png",
+    patternSquaresJacket: "/assets/key-visual/step-4-patterns/jackets/squares-jacket.png",
+    patternCirclesJacket: "/assets/key-visual/step-4-patterns/jackets/circles-jacket.png",
+    patternCurvesJacket: "/assets/key-visual/step-4-patterns/jackets/curves-jacket.png",
+    patternOriginalJacket: "/assets/key-visual/step-4-patterns/jackets/original-jacket.png",
     campaignResult: "/assets/key-visual/step-6-campaign/result.png",
     campaignResultAlt: "/assets/key-visual/step-6-campaign/result-alt.png",
     closingBackground: "/assets/key-visual/closing/background.png",
     closingBackgroundAccent: "/assets/key-visual/closing/background-left.png",
-    closingAvatar: "/assets/key-visual/closing/lea-avatar.png",
+    closingAvatar: "/assets/key-visual/intro/raul-avatar.png",
   },
   nachtwaesche: {
     screensaverPoster: "/assets/nachtwaesche/intro/background.png",
@@ -154,10 +179,9 @@ export type BaseScreen = {
     | "mantel-colorways"
     | "mantel-campaign"
     | "mantel-closing"
-    | "keyvisual-reference"
-    | "keyvisual-product-variants"
-    | "keyvisual-lookbook"
-    | "keyvisual-campaign"
+    | "keyvisual-stage-swap"
+    | "keyvisual-gallery"
+    | "keyvisual-prompt"
     | "keyvisual-closing"
     | "nachtwaesche-intro"
     | "nachtwaesche-moodboard"
@@ -180,6 +204,7 @@ export type IntroScreen = BaseScreen & {
   rightAmbient: string;
   ctaLabel: string;
   ctaTarget: string;
+  ctaNoWrap?: boolean;
 };
 
 export type SketchScreen = BaseScreen & {
@@ -220,6 +245,10 @@ export type TryOnScreen = BaseScreen & {
     src: string;
     thumbImageClassName?: string;
     heroFilter?: string;
+    stageImages?: {
+      front: string;
+      back: string;
+    };
   }>;
   toggleLabels?: {
     front: string;
@@ -268,6 +297,8 @@ export type ClosingScreen = BaseScreen & {
   kind: "closing";
   avatar: string;
   body: string[];
+  qrImage?: string;
+  ctaLabel?: string;
 };
 
 export type OverviewCard = {
@@ -317,6 +348,8 @@ export type MantelDetailOption = {
   label: string;
   thumbImage: string;
   heroImage: string;
+  heroImageClassName?: string;
+  thumbImageClassName?: string;
 };
 
 export type MantelDetailGalleryScreen = BaseScreen & {
@@ -338,6 +371,8 @@ export type MantelTryOnScreen = BaseScreen & {
   kind: "mantel-try-on";
   narrative: string;
   options: MantelTryOnOption[];
+  introImage?: string;
+  introTransitionMs?: number;
   ctaLabel: string;
   ctaTarget: string;
   ctaDelayMs: number;
@@ -350,10 +385,10 @@ export type MantelTechPackScreen = BaseScreen & {
   promptBody: string;
   promptReferenceImage: string;
   sketchImage: string;
-  renderImage: string;
+  annotatedImage: string;
   generateLabel: string;
   processingLabel: string;
-  resultToggleLabels: [string, string];
+  annotationLabel: string;
   ctaLabel: string;
   ctaTarget: string;
   processingMs: number;
@@ -379,6 +414,7 @@ export type MantelCampaignPreset = {
   id: string;
   label: string;
   image: string;
+  icon?: "rainy" | "wb_sunny";
 };
 
 export type MantelCampaignLightingOption = {
@@ -390,6 +426,7 @@ export type MantelCampaignLightingOption = {
 export type MantelCampaignScreen = BaseScreen & {
   kind: "mantel-campaign";
   narrative: string;
+  emptyRackImage: string;
   presetOptions: MantelCampaignPreset[];
   promptBody: string;
   generateLabel: string;
@@ -419,17 +456,18 @@ export type MantelClosingScreen = BaseScreen & {
   secondaryCtaLabel: string;
 };
 
-export type KeyVisualReferenceScreen = BaseScreen & {
-  kind: "keyvisual-reference";
+export type KeyVisualStageSwapScreen = BaseScreen & {
+  kind: "keyvisual-stage-swap";
   narrative: string;
   avatar: string;
-  stageImage: string;
-  referenceImage: string;
+  initialImage: string;
+  swappedImage: string;
+  swapAfterMs: number;
   ctaLabel: string;
   ctaTarget: string;
 };
 
-export type KeyVisualProductVariantOption = {
+export type KeyVisualGalleryOption = {
   id: string;
   label: string;
   image: string;
@@ -438,40 +476,27 @@ export type KeyVisualProductVariantOption = {
   thumbClassName?: string;
 };
 
-export type KeyVisualProductVariantsScreen = BaseScreen & {
-  kind: "keyvisual-product-variants";
+export type KeyVisualGalleryScreen = BaseScreen & {
+  kind: "keyvisual-gallery";
   narrative: string;
   avatar: string;
-  options: KeyVisualProductVariantOption[];
+  options: KeyVisualGalleryOption[];
+  showCtaOnLoad?: boolean;
   ctaLabel: string;
   ctaTarget: string;
 };
 
-export type KeyVisualLookbookScreen = BaseScreen & {
-  kind: "keyvisual-lookbook";
-  narrative: string;
-  avatar: string;
-  spreadImages: [string, string];
-  ctaLabel: string;
-  ctaTarget: string;
-  ctaDelayMs: number;
-};
-
-export type KeyVisualCampaignScreen = BaseScreen & {
-  kind: "keyvisual-campaign";
+export type KeyVisualPromptScreen = BaseScreen & {
+  kind: "keyvisual-prompt";
   narrative: string;
   avatar: string;
   promptTitle: string;
   promptBody: string;
-  promptReferenceImage: string;
-  resultImage: string;
-  alternateResultImage?: string;
   generateLabel: string;
   processingLabel: string;
   ctaLabel: string;
   ctaTarget: string;
   processingMs: number;
-  resultCtaDelayMs: number;
 };
 
 export type KeyVisualClosingScreen = BaseScreen & {
@@ -605,10 +630,9 @@ export type WorkflowScreen =
   | MantelColorwaysScreen
   | MantelCampaignScreen
   | MantelClosingScreen
-  | KeyVisualReferenceScreen
-  | KeyVisualProductVariantsScreen
-  | KeyVisualLookbookScreen
-  | KeyVisualCampaignScreen
+  | KeyVisualStageSwapScreen
+  | KeyVisualGalleryScreen
+  | KeyVisualPromptScreen
   | KeyVisualClosingScreen
   | NachtwaescheIntroScreen
   | NachtwaescheMoodboardScreen
@@ -656,7 +680,7 @@ const workwearScreens: WorkflowScreen[] = [
     kind: "intro",
     headline: "Hi, ich bin Nina!",
     body:
-      "Es ist Donnerstag Nachmittag – eine Ausschreibung für eine Feuerwehr-Jacke kommt rein und es eilt. Ich zeige dir jetzt, wie ich mit KI in kürzester Zeit zu realistischen Design-Vorschlägen komme.",
+      "Es ist Donnerstag-Nachmittag – eine Ausschreibung für eine Feuerwehr-Jacke kommt rein und es eilt. Ich zeige dir jetzt, wie ich mit KI in kürzester Zeit zu realistischen Design-Vorschlägen komme.",
     avatar: kioskAssets.workwear.introAvatar,
     leftAmbient: kioskAssets.workwear.attractFigure,
     rightAmbient: kioskAssets.workwear.attractFigure,
@@ -723,7 +747,7 @@ const workwearScreens: WorkflowScreen[] = [
     narrative:
       "Hier nutze ich den Style Design Agent. Die KI schlägt mir Outfit-Varianten vor, die zum bestehenden Workwear-Style passen und funktional sinnvoll sind. Zum Beispiel eine Hose und Schuhe",
     variant: "selection",
-    ctaLabel: "Zum nächsten Schritt",
+    ctaLabel: "Outfit anprobieren",
     ctaTarget: "step-5",
     backdropImage: kioskAssets.workwear.styleDesignMain,
   },
@@ -737,13 +761,42 @@ const workwearScreens: WorkflowScreen[] = [
     view: "front",
     ctaLabel: "Zum nächsten Schritt",
     ctaTarget: "step-6",
+    previewVariants: [
+      {
+        id: "blue",
+        src: kioskAssets.workwear.styleDesignMain,
+        thumbImageClassName: "object-cover object-center",
+        stageImages: {
+          front: kioskAssets.workwear.tryOnFront,
+          back: kioskAssets.workwear.tryOnBack,
+        },
+      },
+      {
+        id: "sand",
+        src: kioskAssets.workwear.styleDesignThumbJacket,
+        thumbImageClassName: "object-cover object-center",
+        stageImages: {
+          front: kioskAssets.workwear.tryOnSandFront,
+          back: kioskAssets.workwear.tryOnSandBack,
+        },
+      },
+      {
+        id: "green",
+        src: kioskAssets.workwear.tryOnThumbGreen,
+        thumbImageClassName: "object-cover object-center",
+        stageImages: {
+          front: kioskAssets.workwear.tryOnGreenFront,
+          back: kioskAssets.workwear.tryOnGreenBack,
+        },
+      },
+    ],
     backdropImage: kioskAssets.workwear.tryOnFront,
   },
   {
     id: "step-6",
     frameName: "Workwear Step 6",
     kind: "style-redraw",
-    footer: { label: "Style Redraw (Details)", current: 4, total: 6 },
+    footer: { label: "Style Redraw", current: 4, total: 6 },
     narrative:
       "Jetzt gehe ich ins Detail. Die KI hilft mir, einzelne Bereiche gezielt zu überarbeiten – ohne das ganze Design neu aufzusetzen.",
     variant: "focus",
@@ -755,20 +808,21 @@ const workwearScreens: WorkflowScreen[] = [
     id: "step-7",
     frameName: "Workwear Step 7",
     kind: "ai-graphic",
-    footer: { label: "AI Graphic + AI Graphic Try-on", current: 5, total: 6 },
+    footer: { label: "Graphic Design Agent", current: 5, total: 6 },
     narrative:
       "Bevor ich ein Logo platziere, lasse ich es von der KI entwickeln. Wichtig ist mir dabei: klare Lesbarkeit, funktionaler Stil und volle Produkttreue. Die KI arbeitet nicht frei, sondern auf Basis unserer bestehenden Designs und klarer Vorgaben.",
     variant: "prompt",
     ctaLabel: "Generieren",
+    statusLabel: "Bearbeitung läuft",
     backdropImage: kioskAssets.workwear.logoThumbOne,
   },
   {
     id: "step-8",
     frameName: "Workwear Step 8",
     kind: "logo-placement",
-    footer: { label: "AI Graphic + AI Graphic Try-on", current: 5, total: 6 },
+    footer: { label: "Graphic Design Agent", current: 5, total: 6 },
     narrative:
-      "Sobald das Logo steht, prüfe ich, wo es auf der Jacke am besten funktioniert.",
+      "Sobald das Logo steht, prüfe ich, wie es auf der Jacke aussieht.",
     variant: "place",
     ctaLabel: "Place Logo",
     backdropImage: kioskAssets.workwear.logoMainPlacement,
@@ -779,7 +833,7 @@ const workwearScreens: WorkflowScreen[] = [
     kind: "ecommerce",
     footer: { label: "E-Commerce Agent", current: 6, total: 6 },
     narrative:
-      "Zum Schluss bereite ich die Designs für den Kunden vor. Die KI erstellt konsistente, hochwertige Präsentationen – perfekt für Review, Ausschreibung oder Shop",
+      "Zum Schluss bereite ich die Design für den Kunden vor. Style3D Moda erstellt mir konsistente, hochwertige Bilder und Videos - perfekt für die interne Abstimmung, die Ausschreibung oder unseren Shop",
     variant: "change-pose",
     ctaLabel: "Change pose",
     backdropImage: kioskAssets.workwear.reviewScene,
@@ -791,10 +845,10 @@ const workwearScreens: WorkflowScreen[] = [
     footer: { current: 7, total: 7 },
     avatar: kioskAssets.workwear.introAvatar,
     body: [
-      "So sind wir am Freitagmorgen bereit –",
-      "mit realistischen, durchdachten Designs.",
-      "Schnell. Kontrolliert. Produktnah.",
+      "So, jetzt ist unsere Präsentation für Freitag fertig – mit realistischen, durchdachten Designs. Mit KI ging es diesmal einfach schneller.",
     ],
+    ctaLabel: "Jetzt Demo buchen - hier am Stand oder online",
+    qrImage: kioskAssets.workwear.closingQr,
     backdropImage: kioskAssets.workwear.closingBackground,
   },
 ];
@@ -833,7 +887,7 @@ const workwearOverview: OverviewScreen = {
     },
     {
       number: 5,
-      title: "AI Graphic + Try-on",
+      title: "Graphic Design Agent",
       target: "step-7",
       artwork: [kioskAssets.workwear.logoMainPlacement],
     },
@@ -870,7 +924,8 @@ const mantelScreens: WorkflowScreen[] = [
         id: "adrian",
         name: "Adrian",
         avatar: kioskAssets.mantel.introAdrian,
-        bubble: "ok geht klar.",
+        bubble:
+          "ok geht klar. Lass uns loslegen. Ich will im Fokus auf den Mantel bleiben und sicherstellen, dass alles zusammenpasst. Deshalb mache ich es mit Style3D Moda AI Agents. Wichtig: Meine Ankerpunkte sind der Mantelstoff und die Colorways – die haben wir schon festgelegt. Auch ein Moodboard für die Story gibt es schon.",
         align: "right",
         tone: "warm",
       },
@@ -887,7 +942,7 @@ const mantelScreens: WorkflowScreen[] = [
     kind: "mantel-image-to-sketch",
     footer: { label: "Image to Sketch", current: 1, total: 6 },
     narrative:
-      "Der Mantel im Moodboard muss an unsere Designsprache angepasst werden. Ich starte mit einer groben Skizze oder einem Beispielbild. Die KI übersetzt sie direkt in ein realistisches Bild.",
+      "Der Mantel im Moodboard muss an unsere Designsprache angepasst werden. Ich starte mit einer groben Skizze oder einem Beispielbild. Ich gebe noch den Stoff dazu.",
     baseImage: kioskAssets.mantel.imageToSketchBase,
     renderImage: kioskAssets.mantel.imageToSketchRender,
     swatchImage: kioskAssets.mantel.imageToSketchSwatch,
@@ -902,32 +957,34 @@ const mantelScreens: WorkflowScreen[] = [
     kind: "mantel-detail-gallery",
     footer: { label: "Detail Review", current: 2, total: 6 },
     narrative:
-      "Hier prüfe ich die entscheidenden Mantel-Details. Mit einem Tap hole ich Kragen, Taille, Ärmel oder Tasche in den Fokus und gleiche sie mit unserer Linie ab.",
+      "Mal im Detail sehen - Revers, Knöpfe, Taschen. Weil meine Zeichnung schon so gut war, gibt es für mich nichts zu ändern. Ich könnte aber Edits in der KI machen. Die Details halte ich als Detailshots für das Tech Pack fest.",
     heroImage: kioskAssets.mantel.detailHero,
     detailOptions: [
+      {
+        id: "whole",
+        label: "Mantel",
+        thumbImage: kioskAssets.mantel.detailHero,
+        heroImage: kioskAssets.mantel.detailHero,
+        heroImageClassName: "absolute inset-0 h-full w-full object-cover",
+        thumbImageClassName: "h-full w-full object-contain p-[6px]",
+      },
+      {
+        id: "lapel",
+        label: "Revers",
+        thumbImage: kioskAssets.mantel.detailCollar,
+        heroImage: kioskAssets.mantel.detailCollar,
+      },
+      {
+        id: "buttons",
+        label: "Knöpfe",
+        thumbImage: kioskAssets.mantel.detailWaist,
+        heroImage: kioskAssets.mantel.detailWaist,
+      },
       {
         id: "fabric",
         label: "Stoff",
         thumbImage: kioskAssets.mantel.detailFabric,
         heroImage: kioskAssets.mantel.detailFabric,
-      },
-      {
-        id: "waist",
-        label: "Knopfleiste",
-        thumbImage: kioskAssets.mantel.detailWaist,
-        heroImage: kioskAssets.mantel.detailWaist,
-      },
-      {
-        id: "collar",
-        label: "Kragen",
-        thumbImage: kioskAssets.mantel.detailCollar,
-        heroImage: kioskAssets.mantel.detailCollar,
-      },
-      {
-        id: "cuff",
-        label: "Manschette",
-        thumbImage: kioskAssets.mantel.detailCuff,
-        heroImage: kioskAssets.mantel.detailCuff,
       },
     ],
     ctaLabel: "Zum nächsten Schritt",
@@ -940,7 +997,9 @@ const mantelScreens: WorkflowScreen[] = [
     kind: "mantel-try-on",
     footer: { label: "Virtual Try-on", current: 3, total: 6 },
     narrative:
-      "Jetzt prüfe ich die Silhouette am Modell. Mit einem schnellen Größenwechsel sehe ich sofort, ob der Mantel in der Young Business Women Line die richtige Präsenz hat.",
+      "Zeige mir den Mantel am Model aus der Set Card Und kombiniere ihn in einem eher Outfit für kältere Frühlingstage und kombiniere Stiefeletten, Stoffhose und Strickpullover in Beigetönen.",
+    introImage: kioskAssets.mantel.tryOnSetCard,
+    introTransitionMs: 1200,
     options: [
       { id: "small", label: "0-Größe", image: kioskAssets.mantel.tryOnSmall },
       { id: "large", label: "Größer", image: kioskAssets.mantel.tryOnLarge },
@@ -954,23 +1013,23 @@ const mantelScreens: WorkflowScreen[] = [
     id: "step-5",
     frameName: "Mantel 5.1 + 5.2 + 5.3",
     kind: "mantel-tech-pack",
-    footer: { label: "Tech Pack", current: 4, total: 6 },
+    footer: { label: "Tech Pack Support", current: 4, total: 6 },
     narrative:
-      "Sobald die Form steht, lasse ich mir den Mantel als Tech-Pack aufbereiten. So kann ich technische Details und Bildreferenz parallel prüfen, ohne den Schritt in Illustrator neu aufzubauen.",
+      "Sobald die Form steht, lasse ich den Mantel für das Tech Pack aufbereiten. Über unseren Customized Agent kann ich sogar Beschriftungen und Maße einfügen.",
     promptTitle: "Prompt:",
     promptBody:
       "Please build a clean technical fashion drawing for this double-breasted coat. Keep collar, pockets, button line, hem and waist proportion consistent with the approved concept.",
     promptReferenceImage: kioskAssets.mantel.techPackPromptReference,
-    sketchImage: kioskAssets.mantel.techPackSketch,
-    renderImage: kioskAssets.mantel.techPackImage,
+    sketchImage: kioskAssets.mantel.techPackSketchPlain,
+    annotatedImage: kioskAssets.mantel.techPackSketchAnnotated,
     generateLabel: "Generieren",
     processingLabel: "Bearbeitung Läuft",
-    resultToggleLabels: ["Skizze", "Bild"],
+    annotationLabel: "Beschriftungen Hinzufügen",
     ctaLabel: "Zum nächsten Schritt",
     ctaTarget: "step-6",
     processingMs: 1250,
     resultCtaDelayMs: 5000,
-    backdropImage: kioskAssets.mantel.techPackImage,
+    backdropImage: kioskAssets.mantel.techPackSketchAnnotated,
   },
   {
     id: "step-6",
@@ -1009,20 +1068,31 @@ const mantelScreens: WorkflowScreen[] = [
     kind: "mantel-campaign",
     footer: { label: "Campaign Assets", current: 6, total: 6 },
     narrative:
-      "Zum Schluss erzeuge ich das Kampagnenmotiv. Erst wähle ich die Szene, dann lasse ich die KI eine Präsentationsfassung erzeugen und prüfe anschließend Licht und Hero-Poster.",
+      "Zum Schluss erzeuge ich das Kampagnenmotiv. Erst entscheide ich mich für das Wetter, dann lasse ich die finale Szene generieren und wechsle zwischen dunkler und heller Version.",
+    emptyRackImage: kioskAssets.mantel.campaignEmptyRack,
     presetOptions: [
-      { id: "sun", label: "Sonne", image: kioskAssets.mantel.campaignSceneSun },
-      { id: "rain", label: "Regen", image: kioskAssets.mantel.campaignSceneRain },
+      {
+        id: "rain",
+        label: "Regen",
+        image: kioskAssets.mantel.campaignSceneRain,
+        icon: "rainy",
+      },
+      {
+        id: "sun",
+        label: "Sonne",
+        image: kioskAssets.mantel.campaignSceneSun,
+        icon: "wb_sunny",
+      },
     ],
     promptBody:
-      "Create a premium campaign visual for the approved coat. Keep the silhouette elegant, editorial and close to the selected capsule moodboard.",
+      "Fashion model with sleek dark hair, striking confident expression, and intense penetrating eyes, posed dynamically in a high-end studio setting, wearing the coat with minimalist avant-garde clothing, dramatic studio lighting with sharp contrasts, photorealistic detail, professional editorial photography style. Do a light and a dark version",
     generateLabel: "Generieren",
     processingLabel: "Bearbeitung Läuft",
     finishedLabel: "Fertig!",
-    resultDoneImage: kioskAssets.mantel.campaignResultFinished,
+    resultDoneImage: kioskAssets.mantel.campaignResultDark,
     lightingOptions: [
-      { id: "light", label: "Hell", image: kioskAssets.mantel.campaignResultLight },
-      { id: "dark", label: "Dunkel", image: kioskAssets.mantel.campaignResultDark },
+      { id: "dark", label: "dunkel", image: kioskAssets.mantel.campaignResultDark },
+      { id: "light", label: "hell", image: kioskAssets.mantel.campaignResultLight },
     ],
     videoPoster: kioskAssets.mantel.campaignVideoPoster,
     videoOverlay: kioskAssets.mantel.campaignVideoOverlay,
@@ -1032,7 +1102,7 @@ const mantelScreens: WorkflowScreen[] = [
     lightingRevealMs: 1200,
     videoAutoAdvanceMs: 4000,
     resultCtaDelayMs: 5000,
-    backdropImage: kioskAssets.mantel.campaignResultLight,
+    backdropImage: kioskAssets.mantel.campaignResultDark,
   },
   {
     id: "step-8",
@@ -1047,9 +1117,9 @@ const mantelScreens: WorkflowScreen[] = [
       "Fertig – jetzt schaffe ich es doch noch zum Joggen.",
       "Meine Dateien sind alle im Folder – Daniel hat schon „geliked“.",
     ],
-    primaryCtaLabel: "Neustarten",
+    primaryCtaLabel: "Neu starten",
     primaryHref: "/admin",
-    secondaryCtaLabel: "Folder Aufmachen",
+    secondaryCtaLabel: "Folder aufmachen",
     backdropImage: kioskAssets.mantel.closingBackground,
   },
 ];
@@ -1081,7 +1151,10 @@ const mantelOverview: OverviewScreen = {
       number: 4,
       title: "Tech Pack",
       target: "step-5",
-      artwork: [kioskAssets.mantel.techPackSketch, kioskAssets.mantel.techPackImage],
+      artwork: [
+        kioskAssets.mantel.techPackSketchPlain,
+        kioskAssets.mantel.techPackSketchAnnotated,
+      ],
     },
     {
       number: 5,
@@ -1093,7 +1166,7 @@ const mantelOverview: OverviewScreen = {
       number: 6,
       title: "Campaign Assets",
       target: "step-7",
-      artwork: [kioskAssets.mantel.campaignVideoPoster],
+      artwork: [kioskAssets.mantel.campaignResultDark],
     },
   ],
   backdropImage: kioskAssets.mantel.campaignResultLight,
@@ -1114,6 +1187,7 @@ const workwearWorkflow: Workflow = {
     workflowMark: kioskAssets.shared.workflowMarkLarge,
     workflowTitle: "AI for Workwear",
     videoSrc: kioskAssets.workwear.screensaverVideo,
+    posterSrc: kioskAssets.workwear.screensaverPoster,
   },
   screens: workwearScreens,
   overview: workwearOverview,
@@ -1133,7 +1207,7 @@ const mantelWorkflow: Workflow = {
     brandLogo: kioskAssets.shared.brandLogoLarge,
     workflowMark: kioskAssets.shared.mantelWorkflowMarkLarge,
     workflowTitle: "AI.Showcase Mantel",
-    videoSrc: kioskAssets.mantel.screensaverPoster,
+    videoSrc: kioskAssets.mantel.screensaverVideo,
     posterSrc: kioskAssets.mantel.screensaverPoster,
   },
   screens: mantelScreens,
@@ -1145,7 +1219,7 @@ const keyVisualScreens: WorkflowScreen[] = [
     id: "step-1",
     frameName: "Keyvisual 1",
     kind: "intro",
-    headline: "Hi, ich bin Lea!",
+    headline: "Hi, ich bin Raul!",
     body:
       "Ich arbeite an unserer Outdoor-Kollektion. Fit und Style sind uns enorm wichtig. Wir geben auf unsere Schnitte acht. Uns gehört der ganze Prozess. 3D ist Pflicht, aber nur mit KI – damit es schneller geht und besser aussieht. Die letzte Kollektion war sehr erfolgreich. Wir möchten eine Übergangsjacke nachschicken.",
     avatar: kioskAssets.keyVisual.introAvatar,
@@ -1153,18 +1227,20 @@ const keyVisualScreens: WorkflowScreen[] = [
     rightAmbient: kioskAssets.keyVisual.introRightAmbient,
     ctaLabel: "Workflow starten",
     ctaTarget: "step-2",
+    ctaNoWrap: true,
     backdropImage: kioskAssets.keyVisual.introRightAmbient,
   },
   {
     id: "step-2",
     frameName: "Keyvisual 2",
-    kind: "keyvisual-reference",
-    footer: { label: "E-commerce agents", current: 1, total: 6 },
+    kind: "keyvisual-stage-swap",
+    footer: { label: "Concept Input", current: 1, total: 5 },
     narrative:
       "Ich starte in Style3D Studio. Ich suche mir das passende WhiteShell aus unserer 3D-Library aus. Der Schnitt ist auch gleich da. Aus unserer Stoff-Library hole ich mir den passenden Stoff und passe das Whiteshell an. Jetzt ist es mein Entwurf.",
     avatar: kioskAssets.keyVisual.referenceAvatar,
-    stageImage: kioskAssets.keyVisual.referenceStage,
-    referenceImage: kioskAssets.keyVisual.referenceProductStill,
+    initialImage: kioskAssets.keyVisual.referenceStage,
+    swappedImage: kioskAssets.keyVisual.referenceProductStill,
+    swapAfterMs: 5000,
     ctaLabel: "Zum nächsten Schritt",
     ctaTarget: "step-3",
     backdropImage: kioskAssets.keyVisual.referenceStage,
@@ -1172,120 +1248,142 @@ const keyVisualScreens: WorkflowScreen[] = [
   {
     id: "step-3",
     frameName: "Keyvisual 3",
-    kind: "keyvisual-product-variants",
-    footer: { label: "Product Variant", current: 2, total: 6 },
+    kind: "keyvisual-gallery",
+    footer: { label: "Colorways", current: 2, total: 5 },
     narrative:
-      "Jetzt prüfe ich, wie die Übergangsjacke in den finalen Varianten wirkt. Mit einem Tap wechsle ich zwischen Produktstill, Colorway und Key-Look und entscheide, welche Richtung in die Präsentation geht.",
+      "Jetzt prüfe ich die Farbwelten der Jacke. Mit einem Tap wechsle ich zwischen den Colorways und sehe sofort, welche Richtung für den Key Visual am stärksten funktioniert.",
     avatar: kioskAssets.keyVisual.referenceAvatar,
     options: [
       {
-        id: "studio",
-        label: "Studio",
-        image: kioskAssets.keyVisual.variantProduct,
-        thumbImage: kioskAssets.keyVisual.variantProduct,
-        imageClassName: "object-contain p-[18px]",
+        id: "black",
+        label: "Black",
+        image: kioskAssets.keyVisual.colorwayBlack,
+        thumbImage: kioskAssets.keyVisual.colorwayBlack,
+        imageClassName: "object-contain p-[12px]",
         thumbClassName: "object-contain p-[8px]",
       },
       {
-        id: "coral",
-        label: "Coral",
-        image: kioskAssets.keyVisual.variantCoral,
-        thumbImage: kioskAssets.keyVisual.variantCoral,
-        imageClassName: "object-cover object-[26%_50%]",
-        thumbClassName: "object-cover object-[40%_24%]",
+        id: "blue",
+        label: "Blue",
+        image: kioskAssets.keyVisual.colorwayBlue,
+        thumbImage: kioskAssets.keyVisual.colorwayBlue,
+        imageClassName: "object-contain p-[12px]",
+        thumbClassName: "object-contain p-[8px]",
       },
       {
-        id: "steel",
-        label: "Steel",
-        image: kioskAssets.keyVisual.variantSteel,
-        thumbImage: kioskAssets.keyVisual.variantSteel,
-        imageClassName: "object-cover object-[70%_34%]",
-        thumbClassName: "object-cover object-[64%_20%]",
+        id: "grey",
+        label: "Grey",
+        image: kioskAssets.keyVisual.colorwayGrey,
+        thumbImage: kioskAssets.keyVisual.colorwayGrey,
+        imageClassName: "object-contain p-[12px]",
+        thumbClassName: "object-contain p-[8px]",
+      },
+      {
+        id: "orange",
+        label: "Orange",
+        image: kioskAssets.keyVisual.colorwayOrange,
+        thumbImage: kioskAssets.keyVisual.colorwayOrange,
+        imageClassName: "object-contain p-[12px]",
+        thumbClassName: "object-contain p-[8px]",
       },
     ],
     ctaLabel: "Zum nächsten Schritt",
     ctaTarget: "step-4",
-    backdropImage: kioskAssets.keyVisual.variantSteel,
+    backdropImage: kioskAssets.keyVisual.colorwayGrey,
   },
   {
     id: "step-4",
     frameName: "Keyvisual 4",
-    kind: "keyvisual-lookbook",
-    footer: { label: "Layout Review", current: 3, total: 6 },
+    kind: "keyvisual-gallery",
+    footer: { label: "Patterns", current: 3, total: 5 },
     narrative:
-      "Bevor wir in die finale Kampagne gehen, prüfe ich die Präsentations-Layouts. So sehe ich sofort, ob Produktbild und Referenzmaterial in der Story sauber zusammenarbeiten.",
+      "Jetzt teste ich die Muster auf dem Stoff. So kann ich schnell vergleichen, welche grafische Richtung auf der Jacke am überzeugendsten wirkt.",
     avatar: kioskAssets.keyVisual.referenceAvatar,
-    spreadImages: [
-      kioskAssets.keyVisual.lookbookSpreadLeft,
-      kioskAssets.keyVisual.lookbookSpreadRight,
+    options: [
+      {
+        id: "squares",
+        label: "Squares",
+        image: kioskAssets.keyVisual.patternSquaresJacket,
+        thumbImage: kioskAssets.keyVisual.patternSquaresThumb,
+        imageClassName: "object-contain scale-[1.12] p-[4px]",
+        thumbClassName: "object-cover",
+      },
+      {
+        id: "circles",
+        label: "Circles",
+        image: kioskAssets.keyVisual.patternCirclesJacket,
+        thumbImage: kioskAssets.keyVisual.patternCirclesThumb,
+        imageClassName: "object-contain scale-[1.12] p-[4px]",
+        thumbClassName: "object-cover",
+      },
+      {
+        id: "curves",
+        label: "Curves",
+        image: kioskAssets.keyVisual.patternCurvesJacket,
+        thumbImage: kioskAssets.keyVisual.patternCurvesThumb,
+        imageClassName: "object-contain scale-[1.12] p-[4px]",
+        thumbClassName: "object-cover",
+      },
+      {
+        id: "original",
+        label: "Original",
+        image: kioskAssets.keyVisual.patternOriginalJacket,
+        thumbImage: kioskAssets.keyVisual.patternOriginalThumb,
+        imageClassName: "object-contain scale-[1.12] p-[4px]",
+        thumbClassName: "object-cover",
+      },
     ],
     ctaLabel: "Zum nächsten Schritt",
     ctaTarget: "step-5",
-    ctaDelayMs: 3000,
-    backdropImage: kioskAssets.keyVisual.lookbookSpreadRight,
+    backdropImage: kioskAssets.keyVisual.patternSquaresJacket,
   },
   {
     id: "step-5",
     frameName: "Keyvisual 5",
-    kind: "try-on",
-    footer: { label: "Virtual Try-on", current: 4, total: 6 },
+    kind: "keyvisual-prompt",
+    footer: { label: "Prompt", current: 4, total: 5 },
     narrative:
-      "Jetzt prüfe ich die Übergangsjacke am Modell. Ein schneller Front-Back-Check reicht, um Proportion, Farbe und Wirkung im Gesamtlook zu bewerten.",
-    view: "front",
+      "Jetzt formuliere ich den finalen Generierungs-Prompt für die Modellbilder. Damit überführe ich die freigegebene Jacke in eine klare, kampagnenreife Bildsprache.",
     avatar: kioskAssets.keyVisual.referenceAvatar,
-    stageImages: {
-      front: kioskAssets.keyVisual.tryOnFront,
-      back: kioskAssets.keyVisual.tryOnBack,
-    },
-    previewVariants: [
-      {
-        id: "front",
-        src: kioskAssets.keyVisual.tryOnFront,
-        thumbImageClassName: "object-cover object-[40%_22%]",
-        heroFilter: "none",
-      },
-      {
-        id: "back",
-        src: kioskAssets.keyVisual.tryOnBack,
-        thumbImageClassName: "object-cover object-[62%_18%]",
-        heroFilter: "none",
-      },
-      {
-        id: "detail",
-        src: kioskAssets.keyVisual.tryOnDetail,
-        thumbImageClassName: "object-contain p-[8px]",
-        heroFilter: "saturate(1.06) contrast(1.02)",
-      },
-    ],
-    toggleLabels: {
-      front: "Front",
-      back: "Back",
-    },
+    promptTitle: "Prompt:",
+    promptBody:
+      "Generate photoreal model imagery for the approved key visual jacket. Keep the silhouette product-true, preserve the selected surface design language, and create premium campaign-ready portraits with one female orange version and one male grey version.",
+    generateLabel: "Generieren",
+    processingLabel: "Bearbeitung Läuft",
     ctaLabel: "Zum nächsten Schritt",
     ctaTarget: "step-6",
-    ctaDelayMs: 4000,
-    backdropImage: kioskAssets.keyVisual.tryOnBack,
+    processingMs: 1250,
+    backdropImage: kioskAssets.keyVisual.referenceProductStill,
   },
   {
     id: "step-6",
     frameName: "Keyvisual 6",
-    kind: "keyvisual-campaign",
-    footer: { label: "Key Visual", current: 5, total: 6 },
+    kind: "keyvisual-gallery",
+    footer: { label: "Generated Images", current: 5, total: 5 },
     narrative:
-      "Zum Schluss generiere ich das finale Key Visual. Ich starte mit dem freigegebenen Produkt, lasse die Szene erzeugen und prüfe dann direkt das Ergebnis für die Kampagnenpräsentation.",
+      "Die finalen Modellbilder sind da. Jetzt wechsle ich zwischen den freigegebenen Motiven und prüfe direkt, welches Bild wir für Präsentation und Kampagne verwenden.",
     avatar: kioskAssets.keyVisual.referenceAvatar,
-    promptTitle: "Prompt:",
-    promptBody:
-      "Create a premium outdoor key visual for the approved transition jacket. Keep the silhouette product-true, the styling modern, and the overall mood aspirational and clean.",
-    promptReferenceImage: kioskAssets.keyVisual.campaignReference,
-    resultImage: kioskAssets.keyVisual.campaignResult,
-    alternateResultImage: kioskAssets.keyVisual.campaignResultAlt,
-    generateLabel: "Generieren",
-    processingLabel: "Bearbeitung Läuft",
+    options: [
+      {
+        id: "man-grey",
+        label: "Man Grey",
+        image: kioskAssets.keyVisual.campaignResult,
+        thumbImage: kioskAssets.keyVisual.campaignResult,
+        imageClassName: "object-cover object-center",
+        thumbClassName: "object-cover object-center",
+      },
+      {
+        id: "woman-orange",
+        label: "Woman Orange",
+        image: kioskAssets.keyVisual.campaignResultAlt,
+        thumbImage: kioskAssets.keyVisual.campaignResultAlt,
+        imageClassName: "object-cover object-center",
+        thumbClassName: "object-cover object-center",
+      },
+    ],
+    showCtaOnLoad: true,
     ctaLabel: "Zum nächsten Schritt",
     ctaTarget: "step-7",
-    processingMs: 1250,
-    resultCtaDelayMs: 5000,
     backdropImage: kioskAssets.keyVisual.campaignResult,
   },
   {
@@ -1299,7 +1397,7 @@ const keyVisualScreens: WorkflowScreen[] = [
       "Damit ist die neue Übergangsjacke bereit für Review, Entscheidung und Kampagnen-Launch.",
     ],
     primaryCtaLabel: "Neustarten",
-    primaryHref: "/admin",
+    primaryHref: "/workflow/key-visual",
     secondaryCtaLabel: "Overview",
     secondaryCtaTarget: "overview",
     backgroundAccentImage: kioskAssets.keyVisual.closingBackgroundAccent,
@@ -1316,31 +1414,43 @@ const keyVisualOverview: OverviewScreen = {
       number: 1,
       title: "Concept Input",
       target: "step-2",
-      artwork: [kioskAssets.keyVisual.referenceBoard, kioskAssets.keyVisual.referenceStage],
+      artwork: [
+        kioskAssets.keyVisual.referenceStage,
+        kioskAssets.keyVisual.referenceProductStill,
+      ],
     },
     {
       number: 2,
-      title: "Product Variant",
+      title: "Colorways",
       target: "step-3",
-      artwork: [kioskAssets.keyVisual.variantProduct, kioskAssets.keyVisual.variantSteel],
+      artwork: [
+        kioskAssets.keyVisual.colorwayBlack,
+        kioskAssets.keyVisual.colorwayOrange,
+      ],
     },
     {
       number: 3,
-      title: "Layout Review",
+      title: "Patterns",
       target: "step-4",
-      artwork: [kioskAssets.keyVisual.lookbookSpreadLeft, kioskAssets.keyVisual.lookbookSpreadRight],
+      artwork: [
+        kioskAssets.keyVisual.patternSquaresJacket,
+        kioskAssets.keyVisual.patternCurvesJacket,
+      ],
     },
     {
       number: 4,
-      title: "Virtual Try-on",
+      title: "Prompt",
       target: "step-5",
-      artwork: [kioskAssets.keyVisual.tryOnFront, kioskAssets.keyVisual.tryOnBack],
+      artwork: [kioskAssets.keyVisual.referenceProductStill],
     },
     {
       number: 5,
-      title: "Key Visual",
+      title: "Generated Images",
       target: "step-6",
-      artwork: [kioskAssets.keyVisual.campaignResult],
+      artwork: [
+        kioskAssets.keyVisual.campaignResult,
+        kioskAssets.keyVisual.campaignResultAlt,
+      ],
     },
   ],
   backdropImage: kioskAssets.keyVisual.campaignResult,
@@ -1360,7 +1470,7 @@ const keyVisualWorkflow: Workflow = {
     brandLogo: kioskAssets.shared.brandLogoLarge,
     workflowMark: kioskAssets.shared.keyVisualWorkflowMarkLarge,
     workflowTitle: "AI.Showcase Key Visual",
-    videoSrc: kioskAssets.keyVisual.screensaverPoster,
+    videoSrc: kioskAssets.keyVisual.screensaverVideo,
     posterSrc: kioskAssets.keyVisual.screensaverPoster,
   },
   screens: keyVisualScreens,

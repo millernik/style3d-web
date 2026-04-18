@@ -7,11 +7,10 @@ import { useRouter } from "next/navigation";
 
 import {
   buildScreenHref,
-  type KeyVisualCampaignScreen,
   type KeyVisualClosingScreen,
-  type KeyVisualLookbookScreen,
-  type KeyVisualProductVariantsScreen,
-  type KeyVisualReferenceScreen,
+  type KeyVisualGalleryScreen,
+  type KeyVisualPromptScreen,
+  type KeyVisualStageSwapScreen,
   type Workflow,
   type WorkflowScreen,
 } from "@/lib/workflows";
@@ -83,80 +82,41 @@ const childTransition = {
   ease: [0.22, 1, 0.36, 1] as const,
 };
 
-function useDelayedReveal(active: boolean, delayMs: number) {
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    setVisible(false);
-
-    if (!active) {
-      return;
-    }
-
-    const timeoutId = window.setTimeout(() => {
-      setVisible(true);
-    }, delayMs);
-
-    return () => window.clearTimeout(timeoutId);
-  }, [active, delayMs]);
-
-  return visible;
-}
-
-export function KeyVisualReferenceTemplate({
+function StageLayout({
   workflow,
   screen,
   shared,
-}: SharedProps<KeyVisualReferenceScreen>) {
-  const router = useRouter();
-  const { ScreenShell, NarrativeCard, FramedStage, SubtleActionPill } = shared;
+  cta,
+  stage,
+}: SharedProps<
+  KeyVisualStageSwapScreen | KeyVisualGalleryScreen | KeyVisualPromptScreen
+> & {
+  cta?: ReactNode;
+  stage: ReactNode;
+}) {
+  const { ScreenShell, NarrativeCard } = shared;
 
   return (
     <ScreenShell workflow={workflow} screen={screen} hideFooter disableEntryAnimation>
       <div className="absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
-        <div className="flex w-[1160px] items-center justify-between">
+        <div className="flex w-[1160px] items-center justify-between gap-[34px]">
           <div className="flex w-[486px] flex-col items-center gap-[18px]">
             <NarrativeCard
-              className="relative left-auto top-auto w-[478px]"
+              className="relative left-auto top-auto w-[486px]"
               avatar={screen.avatar}
               text={screen.narrative}
               avatarGlowPreset="workwear-card"
             />
-            <motion.div
-              initial={{ opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={childTransition}
-            >
-              <SubtleActionPill
-                label={screen.ctaLabel}
-                onClick={() =>
-                  router.push(buildScreenHref(workflow.id, screen.ctaTarget))
-                }
-              />
-            </motion.div>
+            {cta}
           </div>
 
           <motion.div
             initial={{ opacity: 0, x: 22 }}
             animate={{ opacity: 1, x: 0 }}
             transition={entryTransition}
-            className="relative flex w-[560px] justify-end"
+            className="flex w-[560px] justify-end"
           >
-            <FramedStage className="relative h-[498px] w-[494px] rounded-[34px] border-2 border-[var(--border-frame)] bg-white">
-              <img
-                src={screen.stageImage}
-                alt=""
-                className="pointer-events-none absolute inset-0 h-full w-full object-cover"
-              />
-            </FramedStage>
-
-            <FramedStage className="absolute left-0 top-[24px] h-[204px] w-[156px] rounded-[24px] border border-[var(--border-frame)] bg-white shadow-[0_16px_34px_rgba(0,0,0,0.18)]">
-              <img
-                src={screen.referenceImage}
-                alt=""
-                className="pointer-events-none absolute inset-0 h-full w-full object-contain p-[10px]"
-              />
-            </FramedStage>
+            {stage}
           </motion.div>
         </div>
       </div>
@@ -164,284 +124,184 @@ export function KeyVisualReferenceTemplate({
   );
 }
 
-export function KeyVisualProductVariantsTemplate({
+export function KeyVisualStageSwapTemplate({
   workflow,
   screen,
   shared,
-}: SharedProps<KeyVisualProductVariantsScreen>) {
+}: SharedProps<KeyVisualStageSwapScreen>) {
   const router = useRouter();
-  const { ScreenShell, NarrativeCard, FramedStage, ThumbnailCard, SubtleActionPill } =
-    shared;
+  const { FramedStage, SubtleActionPill } = shared;
+  const [showSwappedImage, setShowSwappedImage] = useState(false);
+
+  useEffect(() => {
+    setShowSwappedImage(false);
+
+    const timeoutId = window.setTimeout(() => {
+      setShowSwappedImage(true);
+    }, screen.swapAfterMs);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [screen.swapAfterMs]);
+
+  return (
+    <StageLayout
+      workflow={workflow}
+      screen={screen}
+      shared={shared}
+      cta={
+        showSwappedImage ? (
+          <motion.div
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={childTransition}
+          >
+            <SubtleActionPill
+              label={screen.ctaLabel}
+              onClick={() => router.push(buildScreenHref(workflow.id, screen.ctaTarget))}
+            />
+          </motion.div>
+        ) : null
+      }
+      stage={
+        <FramedStage className="relative h-[520px] w-[560px] overflow-hidden rounded-[34px] border-2 border-[var(--border-frame)] bg-white">
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.img
+              key={showSwappedImage ? screen.swappedImage : screen.initialImage}
+              src={showSwappedImage ? screen.swappedImage : screen.initialImage}
+              alt=""
+              initial={{ opacity: 0.4, scale: 0.985 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 1.01 }}
+              transition={{ duration: 0.34, ease: [0.22, 1, 0.36, 1] }}
+              className="pointer-events-none absolute inset-0 h-full w-full object-cover"
+            />
+          </AnimatePresence>
+        </FramedStage>
+      }
+    />
+  );
+}
+
+export function KeyVisualGalleryTemplate({
+  workflow,
+  screen,
+  shared,
+}: SharedProps<KeyVisualGalleryScreen>) {
+  const router = useRouter();
+  const { FramedStage, SubtleActionPill, ThumbnailCard } = shared;
   const [selectedId, setSelectedId] = useState(screen.options[0]?.id);
-  const [hasSelectedExplicitly, setHasSelectedExplicitly] = useState(false);
-  const activeOption = screen.options.find((option) => option.id === selectedId);
-
-  return (
-    <ScreenShell workflow={workflow} screen={screen} hideFooter disableEntryAnimation>
-      <div className="absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
-        <div className="flex w-[1120px] items-center justify-between">
-          <div className="flex w-[486px] flex-col items-center gap-[18px]">
-            <NarrativeCard
-              className="relative left-auto top-auto w-[486px]"
-              avatar={screen.avatar}
-              text={screen.narrative}
-              avatarGlowPreset="workwear-card"
-            />
-            {hasSelectedExplicitly ? (
-              <motion.div
-                initial={{ opacity: 0, y: 14 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={childTransition}
-              >
-                <SubtleActionPill
-                  label={screen.ctaLabel}
-                  onClick={() =>
-                    router.push(buildScreenHref(workflow.id, screen.ctaTarget))
-                  }
-                />
-              </motion.div>
-            ) : null}
-          </div>
-
-          <div className="flex w-[520px] items-start justify-center gap-[16px]">
-            <FramedStage className="relative h-[520px] w-[414px] rounded-[34px] border-2 border-[var(--border-frame)] bg-white">
-              <AnimatePresence mode="wait" initial={false}>
-                <motion.img
-                  key={activeOption?.image}
-                  src={activeOption?.image}
-                  alt=""
-                  initial={{ opacity: 0.45, scale: 0.985 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 1.01 }}
-                  transition={{ duration: 0.26, ease: [0.22, 1, 0.36, 1] }}
-                  className={`pointer-events-none absolute inset-0 h-full w-full ${
-                    activeOption?.imageClassName ?? "object-cover"
-                  }`}
-                />
-              </AnimatePresence>
-            </FramedStage>
-
-            <div className="flex flex-col gap-[12px]">
-              {screen.options.map((option) => (
-                <button
-                  key={option.id}
-                  type="button"
-                  onClick={() => {
-                    setSelectedId(option.id);
-                    setHasSelectedExplicitly(true);
-                  }}
-                  aria-label={option.label}
-                >
-                  <ThumbnailCard
-                    active={option.id === selectedId && hasSelectedExplicitly}
-                    className="h-[92px] w-[92px] rounded-[18px]"
-                  >
-                    <img
-                      src={option.thumbImage}
-                      alt=""
-                      className={`pointer-events-none h-full w-full ${
-                        option.thumbClassName ?? "object-cover"
-                      }`}
-                    />
-                  </ThumbnailCard>
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    </ScreenShell>
+  const [hasSelectedExplicitly, setHasSelectedExplicitly] = useState(
+    screen.showCtaOnLoad ?? false,
   );
-}
-
-export function KeyVisualLookbookTemplate({
-  workflow,
-  screen,
-  shared,
-}: SharedProps<KeyVisualLookbookScreen>) {
-  const router = useRouter();
-  const { ScreenShell, NarrativeCard, FramedStage, SubtleActionPill } = shared;
-  const showCTA = useDelayedReveal(true, screen.ctaDelayMs);
+  const activeOption =
+    screen.options.find((option) => option.id === selectedId) ?? screen.options[0];
+  const showCta = (screen.showCtaOnLoad ?? false) || hasSelectedExplicitly;
 
   return (
-    <ScreenShell workflow={workflow} screen={screen} hideFooter disableEntryAnimation>
-      <div className="absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
-        <div className="flex w-[1160px] items-center justify-between">
-          <div className="flex w-[486px] flex-col items-center gap-[18px]">
-            <NarrativeCard
-              className="relative left-auto top-auto w-[486px]"
-              avatar={screen.avatar}
-              text={screen.narrative}
-              avatarGlowPreset="workwear-card"
-            />
-            {showCTA ? (
-              <motion.div
-                initial={{ opacity: 0, y: 14 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={childTransition}
-              >
-                <SubtleActionPill
-                  label={screen.ctaLabel}
-                  onClick={() =>
-                    router.push(buildScreenHref(workflow.id, screen.ctaTarget))
-                  }
-                />
-              </motion.div>
-            ) : null}
-          </div>
-
+    <StageLayout
+      workflow={workflow}
+      screen={screen}
+      shared={shared}
+      cta={
+        showCta ? (
           <motion.div
-            initial={{ opacity: 0, x: 22 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={entryTransition}
-            className="w-[560px]"
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={childTransition}
           >
-            <FramedStage className="relative h-[450px] w-[560px] rounded-[34px] border-2 border-[var(--border-frame)] bg-white px-[22px] py-[20px]">
-              <div className="flex h-full items-center justify-center gap-[18px]">
-                {screen.spreadImages.map((image, index) => (
-                  <div
-                    key={image}
-                    className={`relative h-[390px] overflow-hidden rounded-[22px] border border-[var(--border-frame)] bg-white shadow-[0_14px_28px_rgba(0,0,0,0.12)] ${
-                      index === 0 ? "w-[214px]" : "w-[272px]"
-                    }`}
-                  >
-                    <img
-                      src={image}
-                      alt=""
-                      className="pointer-events-none absolute inset-0 h-full w-full object-cover"
-                    />
-                  </div>
-                ))}
-              </div>
-            </FramedStage>
+            <SubtleActionPill
+              label={screen.ctaLabel}
+              onClick={() => router.push(buildScreenHref(workflow.id, screen.ctaTarget))}
+            />
           </motion.div>
+        ) : null
+      }
+      stage={
+        <div className="flex items-start gap-[16px]">
+          <FramedStage className="relative h-[520px] w-[430px] overflow-hidden rounded-[34px] border-2 border-[var(--border-frame)] bg-white">
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.img
+                key={activeOption.image}
+                src={activeOption.image}
+                alt=""
+                initial={{ opacity: 0.45, scale: 0.985 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 1.01 }}
+                transition={{ duration: 0.26, ease: [0.22, 1, 0.36, 1] }}
+                className={`pointer-events-none absolute inset-0 h-full w-full ${
+                  activeOption.imageClassName ?? "object-contain p-[12px]"
+                }`}
+              />
+            </AnimatePresence>
+          </FramedStage>
+
+          <div className="flex flex-col gap-[12px]">
+            {screen.options.map((option) => (
+              <button
+                key={option.id}
+                type="button"
+                onClick={() => {
+                  setSelectedId(option.id);
+                  setHasSelectedExplicitly(true);
+                }}
+                aria-label={option.label}
+              >
+                <ThumbnailCard
+                  active={option.id === selectedId}
+                  className="h-[104px] w-[104px] rounded-[20px]"
+                >
+                  <img
+                    src={option.thumbImage}
+                    alt=""
+                    className={`pointer-events-none h-full w-full ${
+                      option.thumbClassName ?? "object-contain p-[8px]"
+                    }`}
+                  />
+                </ThumbnailCard>
+              </button>
+            ))}
+          </div>
         </div>
-      </div>
-    </ScreenShell>
+      }
+    />
   );
 }
 
-export function KeyVisualCampaignTemplate({
+export function KeyVisualPromptTemplate({
   workflow,
   screen,
   shared,
-}: SharedProps<KeyVisualCampaignScreen>) {
+}: SharedProps<KeyVisualPromptScreen>) {
   const router = useRouter();
-  const { ScreenShell, NarrativeCard, FramedStage, StepThreeStatusPill, ActionPill, SubtleActionPill } =
-    shared;
-  const [phase, setPhase] = useState<"prompt" | "processing" | "result">("prompt");
-  const showCTA = useDelayedReveal(phase === "result", screen.resultCtaDelayMs);
-
-  useEffect(() => {
-    if (phase !== "processing") {
-      return;
-    }
-
-    const timeoutId = window.setTimeout(() => {
-      setPhase("result");
-    }, screen.processingMs);
-
-    return () => window.clearTimeout(timeoutId);
-  }, [phase, screen.processingMs]);
+  const { FramedStage, ActionPill } = shared;
 
   return (
-    <ScreenShell workflow={workflow} screen={screen} hideFooter disableEntryAnimation>
-      <div className="absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
-        <div className="flex w-[1160px] items-center justify-between">
-          <div className="flex w-[486px] flex-col items-center gap-[18px]">
-            <NarrativeCard
-              className="relative left-auto top-auto w-[486px]"
-              avatar={screen.avatar}
-              text={screen.narrative}
-              avatarGlowPreset="workwear-card"
-            />
-            {showCTA ? (
-              <motion.div
-                initial={{ opacity: 0, y: 14 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={childTransition}
-              >
-                <SubtleActionPill
-                  label={screen.ctaLabel}
-                  onClick={() =>
-                    router.push(buildScreenHref(workflow.id, screen.ctaTarget))
-                  }
-                />
-              </motion.div>
-            ) : null}
-          </div>
-
-          <div className="flex w-[540px] flex-col items-center gap-[18px]">
-            {phase === "prompt" ? (
-              <>
-                <FramedStage className="relative h-[220px] w-[454px] rounded-[28px] border border-[rgba(255,255,255,0.14)] bg-[rgba(255,255,255,0.08)] backdrop-blur-[18px]">
-                  <div className="flex h-full items-center gap-[18px] px-[20px]">
-                    <div className="h-[176px] w-[132px] overflow-hidden rounded-[20px] border border-[var(--border-frame)] bg-white">
-                      <img
-                        src={screen.promptReferenceImage}
-                        alt=""
-                        className="pointer-events-none h-full w-full object-contain p-[8px]"
-                      />
-                    </div>
-                    <div className="flex-1 text-left text-white">
-                      <p className="text-kiosk-label-md font-semibold">
-                        {screen.promptTitle}
-                      </p>
-                      <p className="mt-[14px] text-kiosk-body-md leading-[1.45]">
-                        {screen.promptBody}
-                      </p>
-                    </div>
-                  </div>
-                </FramedStage>
-                <ActionPill onClick={() => setPhase("processing")}>
-                  {screen.generateLabel}
-                </ActionPill>
-              </>
-            ) : phase === "processing" ? (
-              <div className="flex flex-col items-center gap-[16px]">
-                <FramedStage className="relative h-[430px] w-[454px] rounded-[34px] border-2 border-[var(--border-frame)] bg-white">
-                  <img
-                    src={screen.resultImage}
-                    alt=""
-                    className="pointer-events-none absolute inset-0 h-full w-full object-cover blur-[18px]"
-                  />
-                </FramedStage>
-                <StepThreeStatusPill state="processing" label={screen.processingLabel} />
+    <StageLayout
+      workflow={workflow}
+      screen={screen}
+      shared={shared}
+      cta={null}
+      stage={
+        <div className="flex w-[560px] flex-col items-center gap-[18px]">
+          <FramedStage className="relative min-h-[290px] w-[520px] rounded-[30px] border border-[rgba(255,255,255,0.14)] bg-[rgba(255,255,255,0.08)] px-[28px] py-[26px] backdrop-blur-[18px]">
+            <div className="flex h-full flex-col justify-between gap-[18px] text-white">
+              <div>
+                <p className="text-kiosk-label-md font-semibold">{screen.promptTitle}</p>
+                <p className="mt-[14px] text-kiosk-body-md leading-[1.5]">
+                  {screen.promptBody}
+                </p>
               </div>
-            ) : (
-              <div className="flex w-full items-start justify-center gap-[16px]">
-                <FramedStage className="relative h-[454px] w-[368px] rounded-[34px] border-2 border-[var(--border-frame)] bg-white">
-                  <img
-                    src={screen.resultImage}
-                    alt=""
-                    className="pointer-events-none absolute inset-0 h-full w-full object-cover"
-                  />
-                </FramedStage>
+            </div>
+          </FramedStage>
 
-                <div className="flex flex-col gap-[12px]">
-                  <FramedStage className="relative h-[170px] w-[140px] rounded-[24px] border border-[var(--border-frame)] bg-white">
-                    <img
-                      src={screen.promptReferenceImage}
-                      alt=""
-                      className="pointer-events-none absolute inset-0 h-full w-full object-contain p-[10px]"
-                    />
-                  </FramedStage>
-                  {screen.alternateResultImage ? (
-                    <FramedStage className="relative h-[272px] w-[140px] rounded-[24px] border border-[var(--border-frame)] bg-white">
-                      <img
-                        src={screen.alternateResultImage}
-                        alt=""
-                        className="pointer-events-none absolute inset-0 h-full w-full object-cover"
-                      />
-                    </FramedStage>
-                  ) : null}
-                </div>
-              </div>
-            )}
-          </div>
+          <ActionPill
+            onClick={() => router.push(buildScreenHref(workflow.id, screen.ctaTarget))}
+          >
+            {screen.generateLabel}
+          </ActionPill>
         </div>
-      </div>
-    </ScreenShell>
+      }
+    />
   );
 }
 

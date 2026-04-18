@@ -1,5 +1,6 @@
 "use client";
 
+import TouchAppIcon from "@mui/icons-material/TouchApp";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -12,6 +13,7 @@ const EXIT_DURATION_MS = 340;
 export function AttractScreen({ workflow }: { workflow: Workflow }) {
   const router = useRouter();
   const timeoutRef = useRef<number | null>(null);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
   const [isExiting, setIsExiting] = useState(false);
 
   useEffect(() => {
@@ -21,6 +23,36 @@ export function AttractScreen({ workflow }: { workflow: Workflow }) {
       }
     };
   }, []);
+
+  useEffect(() => {
+    const video = videoRef.current;
+
+    if (!video) {
+      return;
+    }
+
+    video.muted = true;
+    video.defaultMuted = true;
+    video.playsInline = true;
+
+    const tryPlay = () => {
+      const playPromise = video.play();
+      if (playPromise && typeof playPromise.catch === "function") {
+        playPromise.catch(() => {
+          // Keep the poster visible if autoplay still gets blocked.
+        });
+      }
+    };
+
+    tryPlay();
+    video.addEventListener("canplay", tryPlay);
+    video.addEventListener("loadedmetadata", tryPlay);
+
+    return () => {
+      video.removeEventListener("canplay", tryPlay);
+      video.removeEventListener("loadedmetadata", tryPlay);
+    };
+  }, [workflow.attract.videoSrc]);
 
   const handleEnter = () => {
     if (isExiting) {
@@ -36,6 +68,7 @@ export function AttractScreen({ workflow }: { workflow: Workflow }) {
   return (
     <KioskViewport>
       <video
+        ref={videoRef}
         src={workflow.attract.videoSrc}
         poster={workflow.attract.posterSrc}
         autoPlay
@@ -89,6 +122,16 @@ export function AttractScreen({ workflow }: { workflow: Workflow }) {
             {workflow.attract.workflowTitle}
           </p>
         </div>
+        <motion.button
+          type="button"
+          whileTap={{ scale: 0.98 }}
+          transition={{ duration: 0.18 }}
+          onClick={handleEnter}
+          className="z-20 flex h-[58px] w-fit items-center gap-[12px] rounded-full border border-[rgba(255,255,255,0.18)] bg-[rgba(255,255,255,0.12)] px-[28px] text-[22px] font-medium text-white backdrop-blur-[16px]"
+        >
+          <TouchAppIcon sx={{ fontSize: 28 }} />
+          <span>Start workflow</span>
+        </motion.button>
       </motion.div>
 
       <motion.div
