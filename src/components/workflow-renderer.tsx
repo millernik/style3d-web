@@ -366,6 +366,9 @@ function StepThreeSketchTemplate({
   const router = useRouter();
   const isProcessing = screen.variant === "processing";
   const [showCTA, setShowCTA] = useState(false);
+  const [selectedDetailId, setSelectedDetailId] = useState<
+    "breast-pocket" | "lower-sleeve" | null
+  >(null);
 
   useEffect(() => {
     setShowCTA(false);
@@ -380,6 +383,51 @@ function StepThreeSketchTemplate({
 
     return () => window.clearTimeout(timeoutId);
   }, [screen.variant, screen.ctaTarget]);
+
+  if (screen.variant === "done" && screen.doneMode === "hotspots") {
+    return (
+      <WorkflowShell workflow={workflow} backdropImage={screen.backdropImage}>
+        <div
+          className="absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center"
+          data-step-three-state={screen.variant}
+        >
+          <div className="flex w-[1340px] items-center justify-between">
+            <div className="flex w-[520px] flex-col items-center gap-[18px]">
+              <NarrativeCard
+                className="relative left-auto top-auto w-[520px]"
+                avatar={kioskAssets.workwear.introAvatar}
+                text={screen.narrative}
+                avatarGlowPreset="workwear-step3"
+              />
+
+              {showCTA && screen.ctaTarget ? (
+                <motion.div
+                  initial={{ opacity: 0, y: 14 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.36, ease: [0.22, 1, 0.36, 1] }}
+                >
+                  <SubtleActionPill
+                    label={screen.ctaLabel ?? "Zum nächsten Schritt"}
+                    onClick={() =>
+                      router.push(buildScreenHref(workflow.id, screen.ctaTarget!))
+                    }
+                  />
+                </motion.div>
+              ) : null}
+            </div>
+
+            <WorkwearBlueDetailStage
+              mainSrc={kioskAssets.workwear.styleDesignMain}
+              mainImageClassName="pointer-events-none h-full w-full object-contain object-center p-[16px]"
+              selectedDetailId={selectedDetailId}
+              onSelectDetail={setSelectedDetailId}
+              className="translate-y-[4px]"
+            />
+          </div>
+        </div>
+      </WorkflowShell>
+    );
+  }
 
   return (
     <WorkflowShell workflow={workflow} backdropImage={screen.backdropImage}>
@@ -471,6 +519,140 @@ function StepThreeSketchTemplate({
         </div>
       </div>
     </WorkflowShell>
+  );
+}
+
+const workwearBlueDetailHotspots = [
+  {
+    id: "breast-pocket",
+    leftPct: 66.5,
+    topPct: 29.5,
+    previewSrc: kioskAssets.workwear.styleDesignZoomTopPocket,
+    imageClassName:
+      "pointer-events-none h-full w-full object-cover object-center",
+  },
+  {
+    id: "lower-sleeve",
+    leftPct: 17.5,
+    topPct: 63.5,
+    previewSrc: kioskAssets.workwear.styleDesignZoomArm,
+    imageClassName:
+      "pointer-events-none h-full w-full object-cover object-center",
+  },
+] as const;
+
+function WorkwearBlueDetailStage({
+  mainSrc,
+  mainImageClassName,
+  selectedDetailId,
+  onSelectDetail,
+  showHotspots = true,
+  bottomContent,
+  className,
+}: {
+  mainSrc: string;
+  mainImageClassName: string;
+  selectedDetailId: "breast-pocket" | "lower-sleeve" | null;
+  onSelectDetail: (id: "breast-pocket" | "lower-sleeve") => void;
+  showHotspots?: boolean;
+  bottomContent?: React.ReactNode;
+  className?: string;
+}) {
+  const mainCardWidth = 396;
+  const previewCardWidth = 360;
+  const previewGap = 24;
+  const groupHeight = 440 + (bottomContent ? 102 : 0);
+  const previewWorkspaceWidth = mainCardWidth + previewGap + previewCardWidth;
+  const closedMainOffset = (previewWorkspaceWidth - mainCardWidth) / 2;
+  const mainColumnX = selectedDetailId ? 0 : closedMainOffset;
+  const selectedDetail = selectedDetailId
+    ? workwearBlueDetailHotspots.find((detail) => detail.id === selectedDetailId) ?? null
+    : null;
+
+  return (
+    <div
+      className={`relative flex w-[780px] items-start justify-center ${className ?? ""}`}
+      style={{ height: groupHeight }}
+    >
+      <motion.div
+        animate={{ x: mainColumnX }}
+        transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
+        className="absolute left-0 top-0 flex w-[396px] flex-col items-center gap-[16px]"
+      >
+        <div className="relative h-[440px] w-[396px]">
+          <FramedStage className="relative flex h-[440px] w-[396px] items-center justify-center overflow-hidden rounded-[32px] border-2 border-[var(--border-frame)] bg-white shadow-[0_18px_42px_rgba(0,0,0,0.18)]">
+            <div className="absolute inset-[0.5px] overflow-hidden rounded-[30px] bg-white">
+              <div className="relative h-full w-full overflow-hidden rounded-[inherit]">
+                <img src={mainSrc} alt="" className={mainImageClassName} />
+              </div>
+            </div>
+          </FramedStage>
+
+          {showHotspots
+            ? workwearBlueDetailHotspots.map((hotspot) => {
+                const isActive = selectedDetailId === hotspot.id;
+
+                return (
+                  <button
+                    key={hotspot.id}
+                    type="button"
+                    onClick={() => onSelectDetail(hotspot.id)}
+                    className="absolute z-20 flex h-[42px] w-[42px] items-center justify-center rounded-full bg-transparent"
+                    style={{
+                      left: `calc(${hotspot.leftPct}% - 21px)`,
+                      top: `calc(${hotspot.topPct}% - 21px)`,
+                    }}
+                    aria-label={`Blue jacket detail ${hotspot.id}`}
+                  >
+                    <motion.span
+                      aria-hidden="true"
+                      animate={
+                        isActive
+                          ? { scale: [1, 1.12, 1], opacity: [0.52, 0.24, 0.52] }
+                          : { scale: [1, 1.08, 1], opacity: [0.34, 0.16, 0.34] }
+                      }
+                      transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+                      className="absolute inset-[-5px] rounded-full bg-[radial-gradient(circle,rgba(217,66,255,0.56)_0%,rgba(217,66,255,0.28)_42%,rgba(217,66,255,0.1)_60%,transparent_74%)]"
+                    />
+                    <span className="absolute inset-[4px] rounded-full bg-[radial-gradient(circle,#f0abff_0%,#d942ff_46%,#9e34ff_100%)] shadow-[0_0_12px_rgba(217,66,255,0.32)]" />
+                    <span className="absolute inset-[13px] rounded-full bg-white/90" />
+                  </button>
+                );
+              })
+            : null}
+        </div>
+
+        {bottomContent ? (
+          <div className="flex w-full justify-center gap-[16px]">{bottomContent}</div>
+        ) : null}
+      </motion.div>
+
+      <div
+        className="absolute right-0 top-0 flex h-[440px] w-[360px] items-start justify-center"
+        style={{ pointerEvents: selectedDetail ? "auto" : "none" }}
+      >
+        <AnimatePresence mode="wait" initial={false}>
+          {selectedDetail ? (
+            <motion.div
+              key={selectedDetail.id}
+              initial={{ opacity: 0, x: 18 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 18 }}
+              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+              className="h-full w-full"
+            >
+              <FramedStage className="relative h-full w-full rounded-[32px] border-2 border-[var(--border-frame)] bg-white shadow-[0_18px_42px_rgba(0,0,0,0.18)]">
+                <img
+                  src={selectedDetail.previewSrc}
+                  alt=""
+                  className={selectedDetail.imageClassName}
+                />
+              </FramedStage>
+            </motion.div>
+          ) : null}
+        </AnimatePresence>
+      </div>
+    </div>
   );
 }
 
@@ -613,25 +795,6 @@ function StyleDesignTemplate({
     },
   ] as const;
 
-  const blueDetailHotspots = [
-    {
-      id: "breast-pocket",
-      leftPct: 66.5,
-      topPct: 29.5,
-      previewSrc: kioskAssets.workwear.styleDesignZoomTopPocket,
-      imageClassName:
-        "pointer-events-none h-full w-full object-cover object-center",
-    },
-    {
-      id: "lower-sleeve",
-      leftPct: 17.5,
-      topPct: 63.5,
-      previewSrc: kioskAssets.workwear.styleDesignZoomArm,
-      imageClassName:
-        "pointer-events-none h-full w-full object-cover object-center",
-    },
-  ] as const;
-
   const [selectedVariantId, setSelectedVariantId] = useState<string>(hiddenDefaultVariant.id);
   const [selectedDetailId, setSelectedDetailId] = useState<
     "breast-pocket" | "lower-sleeve" | null
@@ -642,16 +805,6 @@ function StyleDesignTemplate({
   const showCTA = useLatchedDelay(true, 5000);
   const isBlueDetailMode =
     selectedVariantId === "blue-jacket" || selectedVariantId === hiddenDefaultVariant.id;
-  const selectedDetail =
-    selectedDetailId
-      ? blueDetailHotspots.find((detail) => detail.id === selectedDetailId) ?? null
-      : null;
-  const mainCardWidth = 396;
-  const previewCardWidth = 360;
-  const previewGap = 24;
-  const previewWorkspaceWidth = mainCardWidth + previewGap + previewCardWidth;
-  const closedMainOffset = (previewWorkspaceWidth - mainCardWidth) / 2;
-  const mainColumnX = selectedDetail ? 0 : closedMainOffset;
 
   return (
     <ScreenShell
@@ -686,140 +839,59 @@ function StyleDesignTemplate({
             ) : null}
           </div>
 
-          <div className="relative flex h-[532px] w-[780px] items-start justify-center">
-            <motion.div
-              animate={{ x: mainColumnX }}
-              transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute left-0 top-0 flex w-[396px] flex-col items-center gap-[16px]"
-            >
-              <div className="relative h-[440px] w-[396px]">
-                <FramedStage className="relative flex h-[440px] w-[396px] items-center justify-center overflow-hidden rounded-[32px] border-2 border-[var(--border-frame)] bg-white shadow-[0_18px_42px_rgba(0,0,0,0.18)]">
-                  <div className="absolute inset-[0.5px] overflow-hidden rounded-[30px] bg-white">
-                    <div className="relative h-full w-full overflow-hidden rounded-[inherit]">
-                      <AnimatePresence mode="wait" initial={false}>
-                        <motion.img
-                          key={activeVariant.id}
-                          src={activeVariant.main}
-                          alt=""
-                          initial={{ opacity: 0.62, scale: 0.985 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          exit={{ opacity: 0, scale: 1.01 }}
-                          transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-                          className={activeVariant.imageClassName}
-                        />
-                      </AnimatePresence>
-                    </div>
-                  </div>
-                </FramedStage>
+          <div className="relative flex h-[542px] w-[780px] items-start justify-center">
+            <WorkwearBlueDetailStage
+              mainSrc={activeVariant.main}
+              mainImageClassName={activeVariant.imageClassName}
+              selectedDetailId={selectedDetailId}
+              onSelectDetail={setSelectedDetailId}
+              showHotspots={isBlueDetailMode}
+              bottomContent={variants.map((variant) => {
+                const isPants = variant.id === "pants";
 
-                {isBlueDetailMode
-                  ? blueDetailHotspots.map((hotspot) => {
-                      const isActive = selectedDetailId === hotspot.id;
-
-                      return (
-                        <button
-                          key={hotspot.id}
-                          type="button"
-                          onClick={() => setSelectedDetailId(hotspot.id)}
-                          className="absolute z-20 flex h-[42px] w-[42px] items-center justify-center rounded-full bg-transparent"
-                          style={{
-                            left: `calc(${hotspot.leftPct}% - 21px)`,
-                            top: `calc(${hotspot.topPct}% - 21px)`,
-                          }}
-                          aria-label={`Blue jacket detail ${hotspot.id}`}
-                        >
-                          <motion.span
-                            aria-hidden="true"
-                            animate={
-                              isActive
-                                ? { scale: [1, 1.12, 1], opacity: [0.52, 0.24, 0.52] }
-                                : { scale: [1, 1.08, 1], opacity: [0.34, 0.16, 0.34] }
-                            }
-                            transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
-                            className="absolute inset-[-5px] rounded-full bg-[radial-gradient(circle,rgba(217,66,255,0.56)_0%,rgba(217,66,255,0.28)_42%,rgba(217,66,255,0.1)_60%,transparent_74%)]"
-                          />
-                          <span className="absolute inset-[4px] rounded-full bg-[radial-gradient(circle,#f0abff_0%,#d942ff_46%,#9e34ff_100%)] shadow-[0_0_12px_rgba(217,66,255,0.32)]" />
-                          <span className="absolute inset-[13px] rounded-full bg-white/90" />
-                        </button>
-                      );
-                    })
-                  : null}
-              </div>
-
-              <div className="flex w-full justify-center gap-[16px]">
-                {variants.map((variant) => {
-                  const isPants = variant.id === "pants";
-
-                  return (
-                    <motion.button
-                      key={variant.id}
-                      type="button"
-                      whileTap={{ scale: 0.97 }}
-                      transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
-                      onClick={() => {
-                        setSelectedVariantId(variant.id);
-                        setSelectedDetailId(variant.id === "blue-jacket" ? selectedDetailId : null);
-                      }}
-                      className="rounded-[14px]"
-                      aria-label={`Variant ${variant.id}`}
-                    >
-                      <div className="relative flex h-[86px] w-[86px] items-center justify-center overflow-visible rounded-[14px] border border-[var(--border-frame)] bg-white shadow-[0_10px_20px_rgba(0,0,0,0.12)]">
-                        {isPants ? (
-                          <motion.div
-                            aria-hidden="true"
-                            animate={{
-                              opacity: [0.34, 0.72, 0.34],
-                              scale: [0.98, 1.06, 0.98],
-                            }}
-                            transition={{
-                              duration: 1.8,
-                              repeat: Infinity,
-                              ease: "easeInOut",
-                            }}
-                            className="absolute inset-[-6px] rounded-[18px] bg-kiosk-gradient blur-[18px]"
-                          />
-                        ) : null}
-                        <div className="relative flex h-full w-full items-center justify-center overflow-hidden rounded-[12px] bg-white">
-                          <img
-                            src={variant.thumb}
-                            alt=""
-                            className={`pointer-events-none h-full w-full object-contain ${
-                              variant.id === "helmet" ? "scale-[1.18]" : ""
-                            }`}
-                          />
-                        </div>
-                      </div>
-                    </motion.button>
-                  );
-                })}
-              </div>
-            </motion.div>
-
-            <div
-              className="absolute right-0 top-0 flex h-[440px] w-[360px] items-start justify-center"
-              style={{ pointerEvents: selectedDetail ? "auto" : "none" }}
-            >
-              <AnimatePresence mode="wait" initial={false}>
-                {selectedDetail ? (
-                  <motion.div
-                    key={selectedDetail.id}
-                    initial={{ opacity: 0, x: 18 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: 18 }}
-                    transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                    className="h-full w-full"
+                return (
+                  <motion.button
+                    key={variant.id}
+                    type="button"
+                    whileTap={{ scale: 0.97 }}
+                    transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
+                    onClick={() => {
+                      setSelectedVariantId(variant.id);
+                      setSelectedDetailId(variant.id === "blue-jacket" ? selectedDetailId : null);
+                    }}
+                    className="rounded-[14px]"
+                    aria-label={`Variant ${variant.id}`}
                   >
-                    <FramedStage className="relative h-full w-full rounded-[32px] border-2 border-[var(--border-frame)] bg-white shadow-[0_18px_42px_rgba(0,0,0,0.18)]">
-                      <img
-                        src={selectedDetail.previewSrc}
-                        alt=""
-                        className={selectedDetail.imageClassName}
-                      />
-                    </FramedStage>
-                  </motion.div>
-                ) : null}
-              </AnimatePresence>
-            </div>
+                    <div className="relative flex h-[86px] w-[86px] items-center justify-center overflow-visible rounded-[14px] border border-[var(--border-frame)] bg-white shadow-[0_10px_20px_rgba(0,0,0,0.12)]">
+                      {isPants ? (
+                        <motion.div
+                          aria-hidden="true"
+                          animate={{
+                            opacity: [0.34, 0.72, 0.34],
+                            scale: [0.98, 1.06, 0.98],
+                          }}
+                          transition={{
+                            duration: 1.8,
+                            repeat: Infinity,
+                            ease: "easeInOut",
+                          }}
+                          className="absolute inset-[-6px] rounded-[18px] bg-kiosk-gradient blur-[18px]"
+                        />
+                      ) : null}
+                      <div className="relative flex h-full w-full items-center justify-center overflow-hidden rounded-[12px] bg-white">
+                        <img
+                          src={variant.thumb}
+                          alt=""
+                          className={`pointer-events-none h-full w-full object-contain ${
+                            variant.id === "helmet" ? "scale-[1.18]" : ""
+                          }`}
+                        />
+                      </div>
+                    </div>
+                  </motion.button>
+                );
+              })}
+            />
           </div>
         </div>
       </div>
@@ -1252,6 +1324,11 @@ function AiGraphicTemplate({
     return () => window.clearTimeout(timeoutId);
   }, [phase]);
 
+  const promptText =
+    "Please create an embroidered logo for me in the shape of a circle with fire and a hammer inside. The background can be dark with a white border. The objects should be clearly visible.";
+  const promptTokens = promptText.match(/\S+|\s+/g) ?? [promptText];
+  let promptWordIndex = 0;
+
   return (
     <ScreenShell
       workflow={workflow}
@@ -1288,10 +1365,39 @@ function AiGraphicTemplate({
               <>
                 <div className="glass-card flex w-[396px] flex-col items-center rounded-[20px] px-[24px] py-[22px] text-center">
                   <p className="text-kiosk-label-md font-semibold">Prompt:</p>
-                  <p className="mt-[18px] text-kiosk-body-md leading-[1.45]">
-                    Please create an embroidered logo for me in the shape of a circle
-                    with fire and a hammer inside. The background can be dark with a
-                    white border. The objects should be clearly visible.
+                  <p
+                    aria-label={promptText}
+                    className="mt-[18px] text-kiosk-body-md leading-[1.45]"
+                  >
+                    {promptTokens.map((token, index) => {
+                      if (/^\s+$/.test(token)) {
+                        return (
+                          <span key={`prompt-space-${index}`} aria-hidden="true">
+                            {token}
+                          </span>
+                        );
+                      }
+
+                      const delay = promptWordIndex * 0.045;
+                      promptWordIndex += 1;
+
+                      return (
+                        <motion.span
+                          key={`prompt-word-${index}`}
+                          aria-hidden="true"
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          transition={{
+                            duration: 0.24,
+                            delay,
+                            ease: [0.22, 1, 0.36, 1],
+                          }}
+                          className="inline-block"
+                        >
+                          {token}
+                        </motion.span>
+                      );
+                    })}
                   </p>
                 </div>
                 <ActionPill onClick={() => setPhase("processing")}>
@@ -1375,7 +1481,7 @@ function LogoPlacementTemplate({
       thumbSrc: kioskAssets.workwear.logoThumbOne,
       mainSrc: kioskAssets.workwear.logoMainPlacement,
       mainImageClassName:
-        "pointer-events-none absolute inset-0 h-full w-full object-cover object-[50%_26%] scale-[1.08]",
+        "pointer-events-none absolute inset-0 h-full w-full object-cover",
     },
     {
       id: "logo-2",
@@ -1513,16 +1619,16 @@ function EcommerceTemplate({
   } as const;
   const reviewVariants = [
     {
-      id: "scene",
-      type: "image",
-      src: kioskAssets.workwear.reviewScene,
-      thumbSrc: kioskAssets.workwear.reviewScene,
-    },
-    {
       id: "gear",
       type: "image",
       src: kioskAssets.workwear.reviewGear,
       thumbSrc: kioskAssets.workwear.reviewGear,
+    },
+    {
+      id: "scene",
+      type: "image",
+      src: kioskAssets.workwear.reviewScene,
+      thumbSrc: kioskAssets.workwear.reviewScene,
     },
     {
       id: "plain",
@@ -1532,13 +1638,10 @@ function EcommerceTemplate({
     },
     videoReview,
   ] as const;
-  const [hasPoseChanged, setHasPoseChanged] = useState(false);
   const [selectedReviewId, setSelectedReviewId] = useState<
-    "scene" | "gear" | "plain" | "video" | "running"
-  >("scene");
-  const showCTA = useLatchedDelay(hasPoseChanged, 5000);
-  const activeThumbnailId =
-    hasPoseChanged && selectedReviewId === "running" ? null : selectedReviewId;
+    "scene" | "gear" | "plain" | "video"
+  >("gear");
+  const showCTA = useLatchedDelay(true, 5000);
 
   const activeReview =
     reviewVariants.find((variant) => variant.id === selectedReviewId) ??
@@ -1578,20 +1681,7 @@ function EcommerceTemplate({
           <div className="flex w-[500px] items-start gap-[14px]">
             <div className="flex flex-col items-center gap-[16px]">
               <FramedStage className="h-[452px] w-[396px] rounded-[32px] border-2 border-[var(--border-frame)] bg-black">
-                {hasPoseChanged && selectedReviewId === "running" ? (
-                  <AnimatePresence mode="wait" initial={false}>
-                    <motion.img
-                      key="running"
-                      src={kioskAssets.workwear.reviewRunning}
-                      alt=""
-                      initial={{ opacity: 0.45, scale: 0.99 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 1.01 }}
-                      transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-                      className="pointer-events-none absolute inset-0 h-full w-full object-cover"
-                    />
-                  </AnimatePresence>
-                ) : activeReview.type === "video" ? (
+                {activeReview.type === "video" ? (
                   <div className="absolute inset-0">
                     <video
                       key={activeReview.id}
@@ -1621,17 +1711,6 @@ function EcommerceTemplate({
                   </AnimatePresence>
                 )}
               </FramedStage>
-
-              {!hasPoseChanged ? (
-                <ActionPill
-                  onClick={() => {
-                    setHasPoseChanged(true);
-                    setSelectedReviewId("running");
-                  }}
-                >
-                  {screen.ctaLabel ?? "Change pose"}
-                </ActionPill>
-              ) : null}
             </div>
 
             <div className="flex flex-col gap-[12px]">
@@ -1642,7 +1721,7 @@ function EcommerceTemplate({
                   onClick={() => setSelectedReviewId(variant.id)}
                 >
                     <ThumbnailCard
-                    active={variant.id === activeThumbnailId}
+                    active={variant.id === selectedReviewId}
                     className="h-[86px] w-[86px] rounded-[18px] border border-[var(--border-frame)]"
                   >
                     <div className="relative h-full w-full">
@@ -1684,74 +1763,55 @@ function ClosingTemplate({
       />
       <div className="absolute inset-0 z-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.7)_0%,rgba(0,0,0,0.6)_48.558%,rgba(0,0,0,0.7)_100%)]" />
 
-      <div className="absolute inset-x-[50px] top-[112px] bottom-[28px] z-20 grid grid-rows-[48px_minmax(0,1fr)_220px]">
-        <div />
-
-        <div className="min-h-0 overflow-hidden">
-          <div className="flex h-full items-center justify-center">
-          <motion.section
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={entryTransition}
-            className="flex w-[520px] flex-col items-center gap-[16px]"
-          >
-            <div className="flex w-full flex-col items-center gap-[12px]">
-              <div className="origin-center scale-[0.68]">
-                <AvatarDiamond
-                  image={screen.avatar}
-                  size="xl"
-                  glowPreset="workwear-intro"
-                />
-              </div>
-              <div className="w-full text-center text-kiosk-body-lg leading-[1.45] text-white">
-                {screen.body.map((line) => (
-                  <p key={line}>{line}</p>
-                ))}
-              </div>
+      <motion.section
+        initial={{ opacity: 0, y: 18 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={entryTransition}
+        className="absolute inset-x-0 top-[190px] z-20 flex flex-col items-center"
+      >
+        <div className="flex w-[680px] flex-col items-center gap-[28px] text-center">
+          <div className="flex flex-col items-center gap-[20px]">
+            <div className="origin-center scale-[0.68]">
+              <AvatarDiamond
+                image={screen.avatar}
+                size="xl"
+                glowPreset="workwear-intro"
+              />
             </div>
-
-            <div className="relative h-[48px] w-[480px]">
-              <div className="absolute left-[8px] top-[10px] h-[28px] w-[464px] rounded-[100px] bg-kiosk-gradient blur-[42px]" />
-              <div className="relative flex h-full w-full items-center justify-center gap-[10px] rounded-[100px] bg-kiosk-gradient px-[24px] py-[10px]">
-                <img
-                  src={workflow.workflowIcon}
-                  alt=""
-                  className="h-[22px] w-[22px]"
-                />
-                <span className="text-center text-[17px] font-semibold text-white">
-                  {screen.ctaLabel ?? "Jetzt Produkt-Demo buchen – hier am Stand"}
-                </span>
-              </div>
-            </div>
-          </motion.section>
-        </div>
-        </div>
-
-        <div className="grid h-[220px] grid-rows-[84px_1fr] items-end gap-[16px]">
-          <div className="flex items-center justify-center">
-            <div className="h-[84px] w-[84px]">
-            <img
-              src={screen.qrImage ?? kioskAssets.workwear.closingQr}
-              alt="QR Code"
-              className="block h-full w-full"
-            />
+            <div className="flex w-full flex-col gap-[8px] text-kiosk-body-lg leading-[1.45] text-white">
+              {screen.body.map((line) => (
+                <p key={line}>{line}</p>
+              ))}
             </div>
           </div>
 
-          <div className="flex h-full w-full items-center justify-between">
-            <div className="flex items-center gap-[24px]">
-              <SecondaryPill href={`/workflow/${workflow.id}/step-1`}>Neustarten</SecondaryPill>
-              <SecondaryPill workflowId={workflow.id} targetId="overview">
-                Overview
-              </SecondaryPill>
-            </div>
-
-            <div className="flex items-center gap-[12px] text-[28px] font-[300] leading-none text-white">
-              <span>{screen.footer?.current ?? 7}</span>
-              <span className="block h-[2px] w-[165px] rounded-[100px] bg-[#757575]" />
-              <span>{screen.footer?.total ?? 7}</span>
+          <div className="flex flex-col items-center gap-[24px]">
+            <p className="w-[480px] text-center text-[17px] font-semibold text-white">
+              {screen.ctaLabel ?? "Jetzt Produkt-Demo buchen – hier am Stand"}
+            </p>
+            <div className="h-[64px] w-[64px]">
+              <img
+                src={screen.qrImage ?? kioskAssets.workwear.closingQr}
+                alt="QR Code"
+                className="block h-full w-full"
+              />
             </div>
           </div>
+        </div>
+      </motion.section>
+
+      <div className="absolute inset-x-[50px] bottom-[120px] z-20 flex items-center justify-between">
+        <div className="flex items-center gap-[24px]">
+          <SecondaryPill href={`/workflow/${workflow.id}/step-1`}>Neustarten</SecondaryPill>
+          <SecondaryPill workflowId={workflow.id} targetId="overview">
+            Overview
+          </SecondaryPill>
+        </div>
+
+        <div className="flex items-center gap-[12px] text-[28px] font-[300] leading-none text-white">
+          <span>{screen.footer?.current ?? 7}</span>
+          <span className="block h-[2px] w-[165px] rounded-[100px] bg-[#757575]" />
+          <span>{screen.footer?.total ?? 7}</span>
         </div>
       </div>
     </WorkflowShell>

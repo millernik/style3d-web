@@ -26,10 +26,10 @@ export const kioskAssets = {
     styleDesignThumbJacket: "/assets/workwear/style-design-thumb-jacket.png",
     styleDesignThumbHelmet: "/assets/workwear/style-design-thumb-helmet-updated.png",
     styleDesignThumbPants: "/assets/workwear/style-design-thumb-pants.png",
-    styleDesignThumbBoots: "/assets/workwear/style-design-thumb-boots.png",
+    styleDesignThumbBoots: "/assets/workwear/style-design-thumb-boots-black.png",
     styleDesignZoomArm: "/assets/workwear/style-design-zoom-arm.png",
     styleDesignZoomTopPocket: "/assets/workwear/style-design-zoom-top-pocket.png",
-    tryOnFront: "/assets/workwear/style-redraw-source.png",
+    tryOnFront: "/assets/workwear/tryon-front-black-boots.png",
     tryOnBack: "/assets/workwear/tryon-blue-back-updated.png",
     tryOnSandFront: "/assets/workwear/tryon-sand-front.png",
     tryOnSandBack: "/assets/workwear/tryon-sand-back.png",
@@ -39,16 +39,16 @@ export const kioskAssets = {
     tryOnThumbGreen: "/assets/workwear/tryon-thumb-green-front.png",
     tryOnThumbWarm: "/assets/workwear/tryon-detail-1.png",
     tryOnThumbCool: "/assets/workwear/tryon-detail-2.png",
-    styleRedrawSource: "/assets/workwear/style-redraw-source.png",
+    styleRedrawSource: "/assets/workwear/style-redraw-source-logos.png",
     styleRedrawBefore: "/assets/workwear/style-redraw-before.png",
     styleRedrawAfter: "/assets/workwear/style-redraw-after.png",
     styleRedrawLowerDetail: "/assets/workwear/style-redraw-lower-detail.png",
     styleRedrawLowerDetailAfter:
       "/assets/workwear/style-redraw-lower-detail-after.png",
-    logoMainPlacement: "/assets/workwear/logo-main.png",
-    logoMainPlacementTwo: "/assets/workwear/logo-placement-main-2.png",
-    logoMainPlacementThree: "/assets/workwear/logo-placement-main-3.png",
-    logoMainPlacementFour: "/assets/workwear/logo-placement-main-4.png",
+    logoMainPlacement: "/assets/workwear/logo-placement-main-step8-01.png",
+    logoMainPlacementTwo: "/assets/workwear/logo-placement-main-step8-02.png",
+    logoMainPlacementThree: "/assets/workwear/logo-placement-main-step8-03.png",
+    logoMainPlacementFour: "/assets/workwear/logo-placement-main-step8-04.png",
     logoThumbOne: "/assets/workwear/logo-thumb-1.png",
     logoThumbTwo: "/assets/workwear/logo-thumb-2.png",
     logoThumbThree: "/assets/workwear/logo-thumb-3.png",
@@ -58,6 +58,7 @@ export const kioskAssets = {
     reviewRunning: "/assets/workwear/review-running.png",
     reviewThumbThree: "/assets/workwear/review-thumb-3-updated.png",
     reviewScene: "/assets/workwear/review-3.png",
+    reviewStanding: "/assets/workwear/review-standing-white-bg.png",
     closingBackground: "/assets/workwear/closing-background-updated.png",
     closingQr: "/assets/workwear/closing-qr-contact.svg",
   },
@@ -221,6 +222,7 @@ export type SketchScreen = BaseScreen & {
   kind: "sketch";
   narrative: string;
   variant: "interactive" | "processing" | "done";
+  doneMode?: "collage" | "hotspots";
   ctaLabel?: string;
   ctaTarget?: string;
   statusLabel?: string;
@@ -736,7 +738,7 @@ const workwearScreens: WorkflowScreen[] = [
       "Ich starte mit einer groben Skizze. Die KI übersetzt sie direkt in ein realistisches Bild – so sehe ich sofort Proportionen, Linienführung und Grundidee.",
     variant: "interactive",
     ctaLabel: "Details hervorheben",
-    ctaTarget: "step-3",
+    ctaTarget: "step-3-1",
     backdropImage: kioskAssets.workwear.sketchBase,
   },
   {
@@ -748,7 +750,7 @@ const workwearScreens: WorkflowScreen[] = [
       "Ich starte mit einer groben Skizze. Die KI übersetzt sie direkt in ein realistisches Bild – so sehe ich sofort Proportionen, Linienführung und Grundidee.",
     variant: "interactive",
     ctaLabel: "Details hervorheben",
-    ctaTarget: "step-3",
+    ctaTarget: "step-3-1",
     controlsVisibleOnLoad: true,
     backdropImage: kioskAssets.workwear.sketchRender,
   },
@@ -773,10 +775,10 @@ const workwearScreens: WorkflowScreen[] = [
     narrative:
       "Ich starte mit einer groben Skizze. Die KI übersetzt sie direkt in ein realistisches Bild – so sehe ich sofort Proportionen, Linienführung und Grundidee.",
     variant: "done",
-    statusLabel: "Fertig!",
+    doneMode: "hotspots",
     ctaLabel: "Zum nächsten Schritt",
     ctaTarget: "step-4",
-    backdropImage: kioskAssets.workwear.sketchFinishedCollage,
+    backdropImage: kioskAssets.workwear.styleDesignMain,
   },
   {
     id: "step-4",
