@@ -8,6 +8,7 @@ const SCREENSAVER_HREFS: Record<string, string> = {
   workwear: "/workflow/workwear/screensaver",
   mantel: "/workflow/mantel/screensaver",
   "key-visual": "/workflow/key-visual/screensaver",
+  nachtwaesche: "/workflow/nachtwaesche/screensaver",
 };
 
 export function WorkwearInactivityWatcher({
