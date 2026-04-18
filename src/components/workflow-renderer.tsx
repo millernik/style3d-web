@@ -31,6 +31,7 @@ import {
   NachtwaescheMoodboardTemplate,
   NachtwaeschePlacementTemplate,
   NachtwaescheProductConceptTemplate,
+  NachtwaescheRenderGalleryTemplate,
   NachtwaescheTryOnTemplate,
 } from "@/components/nachtwaesche-workflow-templates";
 import {
@@ -61,6 +62,7 @@ import {
   type TryOnScreen,
   type Workflow,
   type WorkflowScreen,
+  type NachtwaescheRenderGalleryScreen,
 } from "@/lib/workflows";
 
 type WorkflowRendererProps = {
@@ -237,6 +239,14 @@ export function WorkflowRenderer({ workflow, screen }: WorkflowRendererProps) {
         <NachtwaescheTryOnTemplate
           workflow={workflow}
           screen={screen}
+          shared={sharedWorkflowUi}
+        />
+      );
+    case "nachtwaesche-render-gallery":
+      return (
+        <NachtwaescheRenderGalleryTemplate
+          workflow={workflow}
+          screen={screen as NachtwaescheRenderGalleryScreen}
           shared={sharedWorkflowUi}
         />
       );

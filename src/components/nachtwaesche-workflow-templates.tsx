@@ -13,6 +13,7 @@ import {
   type NachtwaescheMoodboardScreen,
   type NachtwaeschePlacementScreen,
   type NachtwaescheProductConceptScreen,
+  type NachtwaescheRenderGalleryScreen,
   type NachtwaescheTryOnScreen,
   type Workflow,
   type WorkflowScreen,
@@ -54,6 +55,8 @@ type SharedUi = {
     targetId?: string;
     glowPreset?: "default" | "workwear-intro";
     onClick?: () => void;
+    className?: string;
+    contentClassName?: string;
   }) => ReactNode;
   SubtleActionPill: (props: { label: string; onClick: () => void }) => ReactNode;
   SecondaryPill: (props: {
@@ -61,6 +64,16 @@ type SharedUi = {
     workflowId?: string;
     targetId?: string;
     href?: string;
+  }) => ReactNode;
+  SegmentedStateToggle: (props: {
+    options: Array<{
+      id: string;
+      label: string;
+      icon: "human" | "spark";
+      active: boolean;
+      onClick: () => void;
+    }>;
+    className?: string;
   }) => ReactNode;
   ThumbnailCard: (props: {
     children: ReactNode;
@@ -173,7 +186,13 @@ export function NachtwaescheIntroTemplate({
             </div>
           </div>
 
-          <ActionPill workflowId={workflow.id} targetId={screen.ctaTarget} glowPreset="workwear-intro">
+          <ActionPill
+            workflowId={workflow.id}
+            targetId={screen.ctaTarget}
+            glowPreset="workwear-intro"
+            className="w-auto min-w-[147px]"
+            contentClassName="whitespace-nowrap px-[22px]"
+          >
             {screen.ctaLabel}
           </ActionPill>
         </div>
@@ -193,7 +212,7 @@ export function NachtwaescheMoodboardTemplate({
   return (
     <ScreenShell workflow={workflow} screen={screen} hideFooter disableEntryAnimation>
       <div className="absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
-        <div className="flex w-[1160px] items-center justify-between">
+        <div className="flex w-[1218px] items-center justify-between gap-[32px]">
           <div className="flex w-[486px] flex-col items-center gap-[18px]">
             <NarrativeCard
               className="relative left-auto top-auto w-[486px]"
@@ -213,15 +232,15 @@ export function NachtwaescheMoodboardTemplate({
             initial={{ opacity: 0, x: 22 }}
             animate={{ opacity: 1, x: 0 }}
             transition={entryTransition}
-            className="relative w-[806px]"
+            className="relative w-[700px]"
           >
-            <FramedStage className="relative h-[578px] w-[806px] rounded-[40px] border-2 border-[var(--border-frame)] bg-white">
+            <FramedStage className="relative h-[520px] w-[700px] rounded-[40px] border-2 border-[var(--border-frame)] bg-white">
               <img
                 src={screen.moodboardImage}
                 alt=""
                 className="pointer-events-none absolute inset-0 h-full w-full object-cover"
               />
-              <div className="absolute bottom-[22px] right-[22px] h-[212px] w-[158px] overflow-hidden rounded-[18px] border border-[var(--border-frame)] bg-white shadow-[0_16px_34px_rgba(0,0,0,0.18)]">
+              <div className="absolute bottom-[22px] right-[22px] h-[176px] w-[126px] overflow-hidden rounded-[18px] border border-[var(--border-frame)] bg-white shadow-[0_16px_34px_rgba(0,0,0,0.18)]">
                 <img
                   src={screen.mannequinImage}
                   alt=""
@@ -242,15 +261,24 @@ export function NachtwaescheProductConceptTemplate({
   shared,
 }: SharedProps<NachtwaescheProductConceptScreen>) {
   const router = useRouter();
-  const { ScreenShell, NarrativeCard, FramedStage, SubtleActionPill } = shared;
+  const {
+    ScreenShell,
+    NarrativeCard,
+    FramedStage,
+    SubtleActionPill,
+    SegmentedStateToggle,
+  } = shared;
   const [selectedId, setSelectedId] = useState(screen.options[0]?.id);
   const [confirmed, setConfirmed] = useState(false);
   const activeOption = screen.options.find((option) => option.id === selectedId);
+  const activeImageClassName =
+    activeOption?.imageClassName ??
+    "pointer-events-none absolute inset-0 h-full w-full object-cover object-center";
 
   return (
     <ScreenShell workflow={workflow} screen={screen} hideFooter disableEntryAnimation>
       <div className="absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
-        <div className="flex w-[1160px] items-center justify-between">
+        <div className="flex w-[1136px] items-center justify-between gap-[34px]">
           <div className="flex w-[486px] flex-col items-center gap-[18px]">
             <NarrativeCard
               className="relative left-auto top-auto w-[486px]"
@@ -268,8 +296,8 @@ export function NachtwaescheProductConceptTemplate({
             ) : null}
           </div>
 
-          <div className="flex w-[592px] flex-col items-center gap-[24px]">
-            <FramedStage className="relative h-[662px] w-[592px] rounded-[40px] border-2 border-[var(--border-frame)] bg-white">
+          <div className="flex w-[520px] flex-col items-center gap-[18px]">
+            <FramedStage className="relative h-[520px] w-[432px] rounded-[34px] border-2 border-[var(--border-frame)] bg-white">
               <AnimatePresence mode="wait" initial={false}>
                 <motion.img
                   key={activeOption?.image}
@@ -279,25 +307,24 @@ export function NachtwaescheProductConceptTemplate({
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 1.01 }}
                   transition={{ duration: 0.26, ease: [0.22, 1, 0.36, 1] }}
-                  className="pointer-events-none absolute inset-0 h-full w-full object-cover"
+                  className={activeImageClassName}
                 />
               </AnimatePresence>
             </FramedStage>
 
-            <div className="flex w-[392px] items-center gap-[10px]">
-              {screen.options.map((option) => (
-                <div key={option.id} className="flex-1">
-                  <SelectionPill
-                    active={option.id === selectedId}
-                    title={option.label}
-                    onClick={() => {
-                      setSelectedId(option.id);
-                      setConfirmed(true);
-                    }}
-                  />
-                </div>
-              ))}
-            </div>
+            <SegmentedStateToggle
+              className="w-[392px]"
+              options={screen.options.map((option) => ({
+                id: option.id,
+                label: option.label,
+                icon: "spark",
+                active: option.id === selectedId,
+                onClick: () => {
+                  setSelectedId(option.id);
+                  setConfirmed(true);
+                },
+              }))}
+            />
           </div>
         </div>
       </div>
@@ -314,14 +341,23 @@ export function NachtwaescheTryOnTemplate({
   const { ScreenShell, NarrativeCard, FramedStage, SubtleActionPill } = shared;
   const [selectedId, setSelectedId] = useState(screen.options[0]?.id);
   const [hasSelectedExplicitly, setHasSelectedExplicitly] = useState(false);
-  const showDelayedCTA = useDelayedReveal(!hasSelectedExplicitly, screen.ctaDelayMs ?? 0);
-  const showCTA = hasSelectedExplicitly || showDelayedCTA;
   const activeOption = screen.options.find((option) => option.id === selectedId);
+  const activeImageClassName =
+    activeOption?.imageClassName ??
+    "pointer-events-none absolute inset-0 h-full w-full object-cover object-center";
+  const showDelayedCTA = useDelayedReveal(
+    !hasSelectedExplicitly && !screen.options.some((option) => option.ctaHref),
+    screen.ctaDelayMs ?? 0,
+  );
+  const showCTA = screen.options.some((option) => option.ctaHref)
+    ? hasSelectedExplicitly
+    : hasSelectedExplicitly || showDelayedCTA;
+  const ctaHref = activeOption?.ctaHref;
 
   return (
     <ScreenShell workflow={workflow} screen={screen} hideFooter disableEntryAnimation>
       <div className="absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
-        <div className="flex w-[1160px] items-center justify-between">
+        <div className="flex w-[1120px] items-center justify-between gap-[28px]">
           <div className="flex w-[486px] flex-col items-center gap-[18px]">
             <NarrativeCard
               className="relative left-auto top-auto w-[486px]"
@@ -348,18 +384,87 @@ export function NachtwaescheTryOnTemplate({
               <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={childTransition}>
                 <SubtleActionPill
                   label={screen.ctaLabel}
-                  onClick={() => router.push(buildScreenHref(workflow.id, screen.ctaTarget))}
+                  onClick={() =>
+                    router.push(ctaHref ?? buildScreenHref(workflow.id, screen.ctaTarget))
+                  }
                 />
               </motion.div>
             ) : null}
           </div>
 
-          <motion.div
-            initial={{ opacity: 0, x: 22 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={entryTransition}
-          >
-            <FramedStage className="relative h-[662px] w-[592px] rounded-[40px] border-2 border-[var(--border-frame)] bg-white">
+          <motion.div initial={{ opacity: 0, x: 22 }} animate={{ opacity: 1, x: 0 }} transition={entryTransition}>
+            <FramedStage className="relative h-[600px] w-[480px] rounded-[34px] border-2 border-[var(--border-frame)] bg-white">
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.img
+                  key={activeOption?.image}
+                  src={activeOption?.image}
+                  alt=""
+                  initial={{ opacity: 0.42, scale: 0.985 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 1.01 }}
+                  transition={{ duration: 0.26, ease: [0.22, 1, 0.36, 1] }}
+                  className={activeImageClassName}
+                />
+              </AnimatePresence>
+            </FramedStage>
+          </motion.div>
+        </div>
+      </div>
+    </ScreenShell>
+  );
+}
+
+export function NachtwaescheRenderGalleryTemplate({
+  workflow,
+  screen,
+  shared,
+}: SharedProps<NachtwaescheRenderGalleryScreen>) {
+  const router = useRouter();
+  const { ScreenShell, NarrativeCard, FramedStage, ThumbnailCard, SubtleActionPill } = shared;
+  const [activeBranchId, setActiveBranchId] = useState(screen.defaultBranchId);
+  const activeBranch =
+    screen.branches.find((branch) => branch.id === activeBranchId) ??
+    screen.branches.find((branch) => branch.id === screen.defaultBranchId) ??
+    screen.branches[0];
+  const [selectedId, setSelectedId] = useState(activeBranch?.options[0]?.id);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const requestedBranchId = params.get(screen.branchQueryParam);
+    const nextBranchId = screen.branches.some((branch) => branch.id === requestedBranchId)
+      ? requestedBranchId!
+      : screen.defaultBranchId;
+    setActiveBranchId(nextBranchId);
+  }, [screen.branchQueryParam, screen.branches, screen.defaultBranchId]);
+
+  useEffect(() => {
+    setSelectedId(activeBranch?.options[0]?.id);
+  }, [activeBranch?.id, activeBranch?.options]);
+
+  const activeOption =
+    activeBranch?.options.find((option) => option.id === selectedId) ?? activeBranch?.options[0];
+
+  return (
+    <ScreenShell workflow={workflow} screen={screen} hideFooter disableEntryAnimation>
+      <div className="absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
+        <div className="flex w-[1160px] items-center justify-between">
+          <div className="flex w-[486px] flex-col items-center gap-[18px]">
+            <NarrativeCard
+              className="relative left-auto top-auto w-[486px]"
+              avatar={screen.avatar}
+              text={screen.narrative}
+              avatarGlowPreset="workwear-card"
+            />
+            <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={childTransition}>
+              <SubtleActionPill
+                label={screen.ctaLabel}
+                onClick={() => router.push(buildScreenHref(workflow.id, screen.ctaTarget))}
+              />
+            </motion.div>
+          </div>
+
+          <div className="flex w-[560px] items-start gap-[16px]">
+            <FramedStage className="relative h-[560px] w-[432px] rounded-[34px] border-2 border-[var(--border-frame)] bg-white">
               <AnimatePresence mode="wait" initial={false}>
                 <motion.img
                   key={activeOption?.image}
@@ -373,7 +478,29 @@ export function NachtwaescheTryOnTemplate({
                 />
               </AnimatePresence>
             </FramedStage>
-          </motion.div>
+
+            <div className="flex max-h-[560px] flex-col gap-[12px] overflow-y-auto pr-[2px]">
+              {activeBranch?.options.map((option) => (
+                <button
+                  key={option.id}
+                  type="button"
+                  onClick={() => setSelectedId(option.id)}
+                  aria-label={option.label}
+                >
+                  <ThumbnailCard
+                    active={option.id === activeOption?.id}
+                    className="h-[104px] w-[104px] rounded-[20px]"
+                  >
+                    <img
+                      src={option.thumbImage}
+                      alt=""
+                      className="pointer-events-none h-full w-full object-cover"
+                    />
+                  </ThumbnailCard>
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </ScreenShell>
@@ -386,11 +513,19 @@ export function NachtwaescheGraphicGenerationTemplate({
   shared,
 }: SharedProps<NachtwaescheGraphicGenerationScreen>) {
   const router = useRouter();
-  const { ScreenShell, NarrativeCard, FramedStage, StepThreeStatusPill, ActionPill, SubtleActionPill } =
-    shared;
+  const {
+    ScreenShell,
+    NarrativeCard,
+    FramedStage,
+    StepThreeStatusPill,
+    ActionPill,
+    SubtleActionPill,
+    ThumbnailCard,
+  } = shared;
   const [phase, setPhase] = useState<"prompt" | "processing" | "resultGallery">("prompt");
   const [selectedId, setSelectedId] = useState(screen.options[0]?.id);
   const showCTA = useDelayedReveal(phase === "resultGallery", screen.resultCtaDelayMs);
+  const activeOption = screen.options.find((option) => option.id === selectedId) ?? screen.options[0];
 
   useEffect(() => {
     if (phase !== "processing") {
@@ -425,62 +560,78 @@ export function NachtwaescheGraphicGenerationTemplate({
             ) : null}
           </div>
 
-          <div className="flex w-[592px] flex-col items-center gap-[20px]">
+          <div className="flex w-[500px] flex-col items-center gap-[16px]">
             {phase === "prompt" ? (
               <>
-                <FramedStage className="relative h-[662px] w-[592px] rounded-[40px] border-2 border-[var(--border-frame)] bg-white">
+                <FramedStage className="relative h-[300px] w-[420px] rounded-[34px] border-2 border-[var(--border-frame)] bg-white">
                   <img
                     src={screen.blankBagImage}
                     alt=""
-                    className="pointer-events-none absolute inset-0 h-full w-full object-cover"
+                    className="pointer-events-none absolute inset-0 h-full w-full object-contain p-[6px]"
                   />
                 </FramedStage>
 
-                <div className="flex w-[592px] items-center justify-between gap-[18px] rounded-[22px] border border-white/12 bg-white/[0.08] px-[28px] py-[20px] text-white">
+                <div className="flex w-[420px] flex-col items-start gap-[14px] rounded-[22px] border border-white/12 bg-white/[0.08] px-[22px] py-[18px] text-white">
                   <div className="flex flex-col gap-[8px]">
                     <p className="text-[22px] font-semibold">{screen.promptTitle}</p>
-                    <p className="max-w-[360px] text-[18px] leading-[1.42] text-white/78">
+                    <p className="max-w-[360px] text-[17px] leading-[1.42] text-white/78">
                       {screen.promptBody}
                     </p>
                   </div>
-                  <ActionPill onClick={() => setPhase("processing")}>{screen.generateLabel}</ActionPill>
+                  <div className="flex w-full justify-center">
+                    <ActionPill onClick={() => setPhase("processing")}>{screen.generateLabel}</ActionPill>
+                  </div>
                 </div>
               </>
             ) : phase === "processing" ? (
               <>
-                <FramedStage className="relative h-[662px] w-[592px] rounded-[40px] border-2 border-[var(--border-frame)] bg-white">
+                <FramedStage className="relative h-[300px] w-[420px] rounded-[34px] border-2 border-[var(--border-frame)] bg-white">
                   <img
                     src={screen.blankBagImage}
                     alt=""
-                    className="pointer-events-none absolute inset-0 h-full w-full object-cover blur-[14px]"
+                    className="pointer-events-none absolute inset-0 h-full w-full object-contain p-[6px] blur-[14px]"
                   />
                 </FramedStage>
                 <StepThreeStatusPill state="processing" label={screen.processingLabel} />
               </>
             ) : (
-              <div className="flex w-full items-center gap-[24px]">
-                {screen.options.map((option) => (
-                  <button
-                    key={option.id}
-                    type="button"
-                    className="flex-1"
-                    onClick={() => setSelectedId(option.id)}
-                  >
-                    <FramedStage
-                      className={`relative h-[706px] w-full rounded-[40px] bg-white transition duration-200 ${
-                        option.id === selectedId
-                          ? "border-2 border-[#d942ff] shadow-[0_0_0_1px_rgba(217,66,255,0.28),0_22px_46px_rgba(217,66,255,0.18)]"
-                          : "border-2 border-[var(--border-frame)]"
-                      }`}
+              <div className="flex w-[560px] items-start gap-[16px]">
+                <FramedStage className="relative h-[560px] w-[432px] rounded-[34px] border-2 border-[var(--border-frame)] bg-white">
+                  <AnimatePresence mode="wait" initial={false}>
+                    <motion.img
+                      key={activeOption?.image}
+                      src={activeOption?.image}
+                      alt=""
+                      initial={{ opacity: 0.42, scale: 0.985 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 1.01 }}
+                      transition={{ duration: 0.26, ease: [0.22, 1, 0.36, 1] }}
+                      className="pointer-events-none absolute inset-0 h-full w-full object-contain p-[4px]"
+                    />
+                  </AnimatePresence>
+                </FramedStage>
+
+                <div className="flex flex-col gap-[12px]">
+                  {screen.options.map((option) => (
+                    <button
+                      key={option.id}
+                      type="button"
+                      onClick={() => setSelectedId(option.id)}
+                      aria-label={option.label}
                     >
-                      <img
-                        src={option.image}
-                        alt=""
-                        className="pointer-events-none absolute inset-0 h-full w-full object-cover"
-                      />
-                    </FramedStage>
-                  </button>
-                ))}
+                      <ThumbnailCard
+                        active={option.id === activeOption?.id}
+                        className="h-[104px] w-[104px] rounded-[20px]"
+                      >
+                        <img
+                          src={option.thumbImage ?? option.image}
+                          alt=""
+                          className="pointer-events-none h-full w-full object-contain p-[4px]"
+                        />
+                      </ThumbnailCard>
+                    </button>
+                  ))}
+                </div>
               </div>
             )}
           </div>
@@ -590,7 +741,7 @@ export function NachtwaescheClosingTemplate({
         initial={{ opacity: 0, y: 18 }}
         animate={{ opacity: 1, y: 0 }}
         transition={entryTransition}
-        className="absolute inset-x-0 top-[154px] z-10 flex flex-col items-center"
+        className="absolute inset-x-0 top-[190px] z-10 flex flex-col items-center"
       >
         <div className="flex w-[806px] flex-col items-center gap-[34px] text-center">
           <div className="flex flex-col items-center gap-[22px]">
