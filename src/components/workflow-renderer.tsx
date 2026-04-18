@@ -16,11 +16,13 @@ import {
 } from "@/components/keyvisual-workflow-templates";
 import {
   MantelCampaignTemplate,
+  MantelCampaignGenerationTemplate,
   MantelClosingTemplate,
   MantelColorwayTemplate,
   MantelDetailGalleryTemplate,
   MantelImageToSketchTemplate,
   MantelIntroTemplate,
+  MantelReviewGalleryTemplate,
   MantelTechPackTemplate,
   MantelTryOnTemplate,
 } from "@/components/mantel-workflow-templates";
@@ -48,11 +50,13 @@ import {
   type KeyVisualStageSwapScreen,
   type LogoPlacementScreen,
   type MantelCampaignScreen,
+  type MantelCampaignGenerationScreen,
   type MantelClosingScreen,
   type MantelColorwaysScreen,
   type MantelDetailGalleryScreen,
   type MantelImageToSketchScreen,
   type MantelIntroScreen,
+  type MantelReviewGalleryScreen,
   type MantelTechPackScreen,
   type MantelTryOnScreen,
   type OverviewScreen,
@@ -167,6 +171,22 @@ export function WorkflowRenderer({ workflow, screen }: WorkflowRendererProps) {
         <MantelCampaignTemplate
           workflow={workflow}
           screen={screen}
+          shared={sharedWorkflowUi}
+        />
+      );
+    case "mantel-campaign-generation":
+      return (
+        <MantelCampaignGenerationTemplate
+          workflow={workflow}
+          screen={screen as MantelCampaignGenerationScreen}
+          shared={sharedWorkflowUi}
+        />
+      );
+    case "mantel-review-gallery":
+      return (
+        <MantelReviewGalleryTemplate
+          workflow={workflow}
+          screen={screen as MantelReviewGalleryScreen}
           shared={sharedWorkflowUi}
         />
       );
@@ -1912,12 +1932,14 @@ function NarrativeCard({
   avatar,
   text,
   cta,
+  avatarSize = "md",
   avatarGlowPreset = "default",
 }: {
   className: string;
   avatar: string;
   text: string;
   cta?: React.ReactNode;
+  avatarSize?: "sm" | "md";
   avatarGlowPreset?: "default" | "workwear-intro" | "workwear-card" | "workwear-step3";
 }) {
   return (
@@ -1927,7 +1949,11 @@ function NarrativeCard({
       transition={childTransition}
       className={`glass-card absolute flex flex-col items-center gap-[24px] rounded-[20px] px-[28px] py-[24px] text-center ${className}`}
     >
-      <AvatarDiamond image={avatar} size="md" glowPreset={avatarGlowPreset} />
+      <AvatarDiamond
+        image={avatar}
+        size={avatarSize}
+        glowPreset={avatarGlowPreset}
+      />
       <p className="text-kiosk-body-lg leading-[1.5]">{text}</p>
       {cta}
     </motion.section>
@@ -1940,7 +1966,7 @@ function AvatarDiamond({
   glowPreset = "default",
 }: {
   image: string;
-  size: "md" | "xl";
+  size: "sm" | "md" | "xl";
   glowPreset?: "default" | "workwear-intro" | "workwear-card" | "workwear-step3";
 }) {
   const dimensions =
@@ -1951,6 +1977,13 @@ function AvatarDiamond({
           inner: "h-[200px] w-[200px] rounded-[40px]",
           image: "h-[285px] w-[264px]",
         }
+      : size === "sm"
+        ? {
+            wrapper: "h-[155px] w-[155px]",
+            glow: "h-[124px] w-[124px]",
+            inner: "h-[110px] w-[110px] rounded-[22px]",
+            image: "h-[158px] w-[146px]",
+          }
       : {
           wrapper: "h-[203.647px] w-[203.647px]",
           glow: "h-[173.026px] w-[173.026px]",
@@ -1964,6 +1997,12 @@ function AvatarDiamond({
           container: "left-[21.264px] top-[21.264px] h-[240.315px] w-[240.315px]",
           source: "h-[169.928px] w-[169.928px] rounded-[40px] bg-kiosk-gradient blur-[50px]",
         }
+      : glowPreset === "workwear-card" && size === "sm"
+        ? {
+            container: "left-[15px] top-[15px] h-[124px] w-[124px]",
+            source:
+              "h-[86px] w-[86px] rounded-[22px] bg-kiosk-gradient opacity-[0.58] blur-[20px]",
+          }
       : glowPreset === "workwear-card" && size === "md"
       ? {
           container: "left-[21px] top-[21px] h-[160px] w-[160px]",
