@@ -1740,7 +1740,7 @@ function ClosingTemplate({
 
           <div className="flex h-full w-full items-center justify-between">
             <div className="flex items-center gap-[24px]">
-              <SecondaryPill href="/admin">Neustarten</SecondaryPill>
+              <SecondaryPill href={`/workflow/${workflow.id}/step-1`}>Neustarten</SecondaryPill>
               <SecondaryPill workflowId={workflow.id} targetId="overview">
                 Overview
               </SecondaryPill>
