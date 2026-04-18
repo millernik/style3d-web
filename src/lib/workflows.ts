@@ -1359,18 +1359,18 @@ const workwearWorkflow: Workflow = {
 
 const mantelWorkflow: Workflow = {
   id: "mantel",
-  title: "AI.Showcase Mantel",
+  title: "AI.Showcase Retail | Brand",
   brandLogo: kioskAssets.shared.brandLogo,
   workflowIcon: kioskAssets.shared.workflowMark,
   selectionCard: {
-    title: "Mantel",
+    title: "Retail | Brand",
     subtitle: "Capsule-Mantel von Moodboard bis Campaign Assets",
     previewImage: kioskAssets.mantel.attractBackdrop,
   },
   attract: {
     brandLogo: kioskAssets.shared.brandLogoLarge,
     workflowMark: kioskAssets.shared.workflowMarkLarge,
-    workflowTitle: "AI.Showcase Mantel",
+    workflowTitle: "AI.Showcase Retail | Brand",
     videoSrc: kioskAssets.mantel.screensaverVideo,
     posterSrc: kioskAssets.mantel.screensaverPoster,
   },
