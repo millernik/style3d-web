@@ -153,6 +153,8 @@ export const kioskAssets = {
     reviewGalleryOne: "/assets/key-visual/step-9-gallery/img-1.png",
     reviewGalleryTwo: "/assets/key-visual/step-9-gallery/img-2.png",
     reviewGalleryThree: "/assets/key-visual/step-9-gallery/img-3.png",
+    reviewGalleryThreeStep9Replacement:
+      "/assets/key-visual/step-9-gallery/keyv-step9.png",
     reviewGalleryFour: "/assets/key-visual/step-9-gallery/img-4.png",
     reviewVideo: "/assets/key-visual/step-9-gallery/review-video.mp4",
     closingBackground: "/assets/key-visual/closing/background.png",
@@ -544,6 +546,9 @@ export type MantelReviewGalleryOption = {
   label: string;
   image: string;
   thumbImage: string;
+  type?: "image" | "video";
+  videoSrc?: string;
+  posterSrc?: string;
 };
 
 export type MantelReviewGalleryScreen = BaseScreen & {
@@ -929,11 +934,11 @@ const workwearScreens: WorkflowScreen[] = [
     footer: { label: "Sketch to Image", current: 1, total: 6 },
     narrative:
       "Ich starte mit einer groben Skizze. Die KI übersetzt sie direkt in ein realistisches Bild – so sehe ich sofort Proportionen, Linienführung und Grundidee.",
-    variant: "processing",
-    statusLabel: "Bearbeitung Läuft",
-    autoAdvanceMs: 1250,
-    autoTarget: "step-3-1",
-    backdropImage: kioskAssets.workwear.sketchFinishedCollage,
+    variant: "done",
+    doneMode: "hotspots",
+    ctaLabel: "Zum nächsten Schritt",
+    ctaTarget: "step-4",
+    backdropImage: kioskAssets.workwear.styleDesignMain,
   },
   {
     id: "step-3-1",
@@ -1265,7 +1270,7 @@ const mantelScreens: WorkflowScreen[] = [
     sketchImage: kioskAssets.mantel.techPackSketchPlain,
     annotatedImage: kioskAssets.mantel.techPackSketchAnnotated,
     generateLabel: "Generieren",
-    processingLabel: "Bearbeitung Läuft",
+    processingLabel: "Bearbeitung läuft",
     annotationLabel: "Beschriftungen hinzufügen",
     ctaLabel: "Zum nächsten Schritt",
     ctaTarget: "step-6",
@@ -1308,7 +1313,7 @@ const mantelScreens: WorkflowScreen[] = [
     id: "step-7",
     frameName: "Mantel 7",
     kind: "mantel-campaign",
-    footer: { label: "Weather Selection", current: 6, total: 8 },
+    footer: { label: "E-Commerce agent", current: 6, total: 8 },
     mode: "weather-selection",
     narrative:
       "Zum Schluss entscheide ich mich zuerst für die Wetterstimmung, damit das Brand-Team die richtige Richtung für die Szene sehen kann.",
@@ -1343,7 +1348,7 @@ const mantelScreens: WorkflowScreen[] = [
     promptBody:
       "Fashion model with sleek dark hair, striking confident expression, and intense penetrating eyes, posed dynamically in a high-end studio setting, wearing the coat with minimalist avant-garde clothing, dramatic studio lighting with sharp contrasts, photorealistic detail, professional editorial photography style. Do a light and a dark version",
     generateLabel: "Generieren",
-    processingLabel: "Bearbeitung Läuft",
+    processingLabel: "Bearbeitung läuft",
     previewImage: kioskAssets.mantel.campaignEmptyRack,
     options: [
       {
@@ -1396,10 +1401,13 @@ const mantelScreens: WorkflowScreen[] = [
         thumbImage: kioskAssets.mantel.reviewGalleryFour,
       },
       {
-        id: "fabric-detail",
-        label: "Stoff",
-        image: kioskAssets.mantel.reviewGalleryFive,
-        thumbImage: kioskAssets.mantel.reviewGalleryFive,
+        id: "video",
+        label: "Video",
+        image: kioskAssets.mantel.campaignVideoPoster,
+        thumbImage: kioskAssets.mantel.campaignVideoPoster,
+        type: "video",
+        videoSrc: kioskAssets.mantel.screensaverVideo,
+        posterSrc: kioskAssets.mantel.campaignVideoPoster,
       },
     ],
     ctaLabel: "Zum nächsten Schritt",
@@ -1429,7 +1437,7 @@ const mantelScreens: WorkflowScreen[] = [
 
 const mantelOverview: OverviewScreen = {
   id: "overview",
-  frameName: "Mantel Overview",
+  frameName: "AI for Retail | Brand Overview",
   kind: "overview",
   cards: [
     {
@@ -1467,7 +1475,7 @@ const mantelOverview: OverviewScreen = {
     },
     {
       number: 6,
-      title: "Weather Selection",
+      title: "E-Commerce agent",
       target: "step-7",
       artwork: [kioskAssets.mantel.weatherRain, kioskAssets.mantel.weatherSun],
     },
@@ -1513,18 +1521,18 @@ const workwearWorkflow: Workflow = {
 
 const mantelWorkflow: Workflow = {
   id: "mantel",
-  title: "AI.Showcase Retail | Brand",
+  title: "AI for Retail | Brand",
   brandLogo: kioskAssets.shared.brandLogo,
   workflowIcon: kioskAssets.shared.workflowMark,
   selectionCard: {
-    title: "Retail | Brand",
+    title: "AI for Retail | Brand",
     subtitle: "Capsule-Mantel von Moodboard bis Campaign Assets",
     previewImage: kioskAssets.mantel.attractBackdrop,
   },
   attract: {
     brandLogo: kioskAssets.shared.brandLogoLarge,
     workflowMark: kioskAssets.shared.workflowMarkLarge,
-    workflowTitle: "AI.Showcase Retail | Brand",
+    workflowTitle: "AI for Retail | Brand",
     videoSrc: kioskAssets.mantel.screensaverVideo,
     posterSrc: kioskAssets.mantel.screensaverPoster,
   },
@@ -1739,13 +1747,13 @@ const keyVisualScreens: WorkflowScreen[] = [
     selectorOptions: [
       {
         id: "rack",
-        label: "clothing rack",
+        label: "Clothing Rack",
         image: kioskAssets.keyVisual.storeRackSelector,
         imageClassName: "object-cover object-center",
       },
       {
         id: "mannequin",
-        label: "mannequin",
+        label: "Mannequin",
         image: kioskAssets.keyVisual.storeMannequinSelector,
         imageClassName: "object-cover object-center",
       },
@@ -1785,7 +1793,7 @@ const keyVisualScreens: WorkflowScreen[] = [
     promptBody:
       "Generate photoreal model imagery for the approved key visual jacket. Keep the silhouette product-true, preserve the selected surface design language, and create premium campaign-ready portraits with one female orange version and one male grey version.",
     generateLabel: "Generieren",
-    processingLabel: "Bearbeitung Läuft",
+    processingLabel: "Bearbeitung läuft",
     ctaLabel: "Zum nächsten Schritt",
     ctaTarget: "step-9",
     processingMs: 1250,
@@ -1809,18 +1817,18 @@ const keyVisualScreens: WorkflowScreen[] = [
         thumbClassName: "object-cover object-center",
       },
       {
-        id: "img-3",
-        label: "Image 3",
-        image: kioskAssets.keyVisual.reviewGalleryThree,
-        thumbImage: kioskAssets.keyVisual.reviewGalleryThree,
+        id: "img-2",
+        label: "Image 2",
+        image: kioskAssets.keyVisual.reviewGalleryTwo,
+        thumbImage: kioskAssets.keyVisual.reviewGalleryTwo,
         imageClassName: "object-cover object-center",
         thumbClassName: "object-cover object-center",
       },
       {
         id: "img-4",
         label: "Image 4",
-        image: kioskAssets.keyVisual.reviewGalleryFour,
-        thumbImage: kioskAssets.keyVisual.reviewGalleryFour,
+        image: kioskAssets.keyVisual.reviewGalleryThreeStep9Replacement,
+        thumbImage: kioskAssets.keyVisual.reviewGalleryThreeStep9Replacement,
         imageClassName: "object-cover object-center",
         thumbClassName: "object-cover object-center",
       },
@@ -2194,7 +2202,7 @@ const nachtwaescheScreens: WorkflowScreen[] = [
     ],
     ctaLabel: "Zum nächsten Schritt",
     ctaTarget: "step-8",
-    processingLabel: "Bearbeitung Läuft",
+    processingLabel: "Bearbeitung läuft",
     processingMs: 1250,
     showCtaOnLoad: true,
     ctaRevealDelayMs: 1800,
@@ -2268,7 +2276,7 @@ const nachtwaescheScreens: WorkflowScreen[] = [
 
 const nachtwaescheOverview: OverviewScreen = {
   id: "overview",
-  frameName: "AI for Branding Overview",
+  frameName: "AI for Branding Campaigns Overview",
   kind: "overview",
   cards: [
     {
@@ -2340,18 +2348,18 @@ const nachtwaescheOverview: OverviewScreen = {
 
 const nachtwaescheWorkflow: Workflow = {
   id: "nachtwaesche",
-  title: "AI for Branding",
+  title: "AI for Branding Campaigns",
   brandLogo: kioskAssets.shared.brandLogo,
   workflowIcon: kioskAssets.shared.nachtwaescheWorkflowMark,
   selectionCard: {
-    title: "AI for Branding",
+    title: "AI for Branding Campaigns",
     subtitle: "Von Moodboard bis Print-Placement für die Sleepwear-Kapsel",
     previewImage: kioskAssets.nachtwaesche.introBackground,
   },
   attract: {
     brandLogo: kioskAssets.shared.brandLogoLarge,
     workflowMark: kioskAssets.shared.nachtwaescheWorkflowMarkLarge,
-    workflowTitle: "AI for Branding",
+    workflowTitle: "AI for Branding Campaigns",
     videoSrc: kioskAssets.nachtwaesche.screensaverVideo,
     posterSrc: kioskAssets.nachtwaesche.screensaverPoster,
   },

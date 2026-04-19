@@ -33,6 +33,7 @@ type ScreenLocalePatch = {
   processingLabel?: LocalizedText;
   annotationLabel?: LocalizedText;
   resultCtaLabel?: LocalizedText;
+  continueLabel?: LocalizedText;
   nextCtaLabel?: LocalizedText;
   bookingCtaLabel?: LocalizedText;
   primaryCtaLabel?: LocalizedText;
@@ -127,7 +128,8 @@ const workflowLocales: Partial<Record<Workflow["id"], WorkflowLocalePatch>> = {
           "I start with a rough sketch. The AI instantly turns it into a realistic image – so I can immediately see proportions, lines, and the overall idea.",
         ),
         footerLabel: text("Sketch to Image", "Sketch to Image"),
-        statusLabel: text("Bearbeitung läuft", "Processing"),
+        doneLabel: text("Fertig", "Done"),
+        ctaLabel: text("Zum nächsten Schritt", "Next step"),
       },
       "step-3-1": {
         narrative: text(
@@ -231,19 +233,22 @@ const workflowLocales: Partial<Record<Workflow["id"], WorkflowLocalePatch>> = {
   },
   mantel: {
     title: text(
-      "AI.Showcase Retail | Brand",
-      "AI.Showcase Retail | Brand",
+      "AI for Retail | Brand",
+      "AI for Retail | Brand",
     ),
-    selectionCardTitle: text("Retail | Brand", "Retail | Brand"),
+    selectionCardTitle: text("AI for Retail | Brand", "AI for Retail | Brand"),
     selectionCardSubtitle: text(
       "Capsule-Mantel von Moodboard bis Campaign Assets",
       "Capsule coat from moodboard to campaign assets",
     ),
     attractTitle: text(
-      "AI.Showcase Retail | Brand",
-      "AI.Showcase Retail | Brand",
+      "AI for Retail | Brand",
+      "AI for Retail | Brand",
     ),
-    overviewTitle: text("Retail | Brand Overview", "Retail | Brand Overview"),
+    overviewTitle: text(
+      "AI for Retail | Brand Overview",
+      "AI for Retail | Brand Overview",
+    ),
     screens: {
       "step-1": {
         participants: {
@@ -288,7 +293,7 @@ const workflowLocales: Partial<Record<Workflow["id"], WorkflowLocalePatch>> = {
         ctaLabel: text("Zum nächsten Schritt", "Next step"),
         generateLabel: text("Generate", "Generate"),
         optionLabels: {
-          small: text("0-Größe", "Base Size"),
+          small: text("Base", "Base Size"),
           large: text("Größer", "Extended Size"),
         },
       },
@@ -300,6 +305,7 @@ const workflowLocales: Partial<Record<Workflow["id"], WorkflowLocalePatch>> = {
         footerLabel: text("Tech Pack Support", "Tech Pack Support"),
         ctaLabel: text("Zum nächsten Schritt", "Next step"),
         generateLabel: text("Create", "Create"),
+        processingLabel: text("Bearbeitung läuft", "Processing"),
         annotationLabel: text("Beschriftung hinzufügen", "Add annotations"),
       },
       "step-6": {
@@ -315,7 +321,7 @@ const workflowLocales: Partial<Record<Workflow["id"], WorkflowLocalePatch>> = {
           "Ich habe noch Zeit und zeige, wie mein Mantel sich in die Kollektion und ins Store-Konzept einfügt. Letztes Jahr war das Wetter im Frühjahr auf einmal superwarm. Es kann aber auch kalt sein, deshalb zeige ich verschiedene Accessoires.",
           "I still have time and show how my coat fits into the collection and store concept. Last year, spring weather suddenly became very warm. But it can also be cold, so I’m showing different accessories.",
         ),
-        footerLabel: text("Design Agent", "Design Agent"),
+        footerLabel: text("E-Commerce agent", "E-Commerce agent"),
         ctaLabel: text("Zum nächsten Schritt", "Next step"),
         optionLabels: {
           rain: text("Regen", "Rain"),
@@ -332,7 +338,29 @@ const workflowLocales: Partial<Record<Workflow["id"], WorkflowLocalePatch>> = {
           "Fashion model with sleek dark hair, striking confident expression, and intense penetrating eyes, posed dynamically in a high-end studio setting, wearing the coat with minimalist avant-garde clothing, dramatic studio lighting with sharp contrasts, photorealistic detail, professional editorial photography style. Do a light and a dark version",
           "Fashion model with sleek dark hair, striking confident expression, and intense penetrating eyes, posed dynamically in a high-end studio setting, wearing the coat with minimalist avant-garde clothing, dramatic studio lighting with sharp contrasts, photorealistic detail, professional editorial photography style. Do a light and a dark version",
         ),
+        processingLabel: text("Bearbeitung läuft", "Processing"),
+        generateLabel: text("Generieren", "Create"),
         ctaLabel: text("Zum nächsten Schritt", "Next step"),
+        optionLabels: {
+          dark: text("dunkel", "Dark"),
+          light: text("hell", "Light"),
+        },
+      },
+      "step-9": {
+        narrative: text(
+          "Hier sammle ich die finalen Modelshots zusammen mit den wichtigsten Detailansichten vom Mantel. So kann das Team Look und Produktqualität auf einen Blick prüfen.",
+          "Here I collect the final model shots together with the most important coat detail views. This lets the team review look and product quality at a glance.",
+        ),
+        footerLabel: text("Review Gallery", "Review Gallery"),
+        ctaLabel: text("Zum nächsten Schritt", "Next step"),
+        optionLabels: {
+          "dark-model": text("Model dunkel", "Dark model"),
+          "light-model": text("Model hell", "Light model"),
+          "collar-detail": text("Revers", "Lapel"),
+          "waist-detail": text("Knöpfe", "Buttons"),
+          "fabric-detail": text("Stoff", "Fabric"),
+          video: text("Video", "Video"),
+        },
       },
       "step-10": {
         leftBubble: text(
@@ -363,7 +391,7 @@ const workflowLocales: Partial<Record<Workflow["id"], WorkflowLocalePatch>> = {
           "step-4": text("E-Commerce Agent", "E-Commerce Agent"),
           "step-5": text("Tech Pack Support", "Tech Pack Support"),
           "step-6": text("Colorways", "Colorways"),
-          "step-7": text("Design Agent", "Design Agent"),
+          "step-7": text("E-Commerce agent", "E-Commerce agent"),
           "step-8": text("E-Commerce Agent", "E-Commerce Agent"),
           "step-9": text("Review Gallery", "Review Gallery"),
         },
@@ -371,17 +399,20 @@ const workflowLocales: Partial<Record<Workflow["id"], WorkflowLocalePatch>> = {
     },
   },
   nachtwaesche: {
-    title: text("AI for Branding", "AI for Branding"),
-    selectionCardTitle: text("AI for Branding", "AI for Branding"),
+    title: text("AI for Branding Campaigns", "AI for Branding Campaigns"),
+    selectionCardTitle: text("AI for Branding Campaigns", "AI for Branding Campaigns"),
     selectionCardSubtitle: text(
       "Von Moodboard bis Print-Placement für die Sleepwear-Kapsel",
       "From moodboard to print placement for the sleepwear capsule",
     ),
-    attractTitle: text("AI for Branding", "AI for Branding"),
-    overviewTitle: text("AI for Branding Overview", "AI for Branding Overview"),
+    attractTitle: text("AI for Branding Campaigns", "AI for Branding Campaigns"),
+    overviewTitle: text(
+      "AI for Branding Campaigns Overview",
+      "AI for Branding Campaigns Overview",
+    ),
     screens: {
       "step-1": {
-        headline: text("Hi, ich bin Celina!", "Hi, I’m Celina!"),
+        headline: text("Hi,\nich bin Celina!", "Hi,\nI’m Celina!"),
         body: text(
           "Ich entwickle die Visuals für unsere klassische Pyjama-Kollektion für den Sommer. Das Brand-Team will eine Girls Pyjama-Party als Thema. Unsere beliebte Pyjama-Linie bekommt neue, schöne Sommer-Farben und wir wollen die Vermarktung starten.",
           "I create the visuals for our classic summer pyjama collection. The theme is Girls’ Pyjama Party. Our bestselling line gets fresh summer colors, and we prepare for the campaign.",
@@ -421,12 +452,12 @@ const workflowLocales: Partial<Record<Workflow["id"], WorkflowLocalePatch>> = {
         },
         optionBodies: {
           green: text(
-            "grünes Outfit / afroamerikanisches Model",
-            "green outfit / African American model",
+            "African American female model in her early 20s, student age, natural and authentic look, soft light curves, warm and friendly face, open and approachable expression, relaxed and confident demeanor.\n\nClear skin, subtle natural makeup, expressive eyes, gentle smile, youthful energy, effortless beauty. Long, straight hair, smooth and well-kept, with a natural shine. Well-groomed but not overly styled.\n\nCasual, modern appearance with a strong sense of authenticity and relatability, body-positive presence. Conveying ease and genuine emotion.",
+            "African American female model in her early 20s, student age, natural and authentic look, soft light curves, warm and friendly face, open and approachable expression, relaxed and confident demeanor.\n\nClear skin, subtle natural makeup, expressive eyes, gentle smile, youthful energy, effortless beauty. Long, straight hair, smooth and well-kept, with a natural shine. Well-groomed but not overly styled.\n\nCasual, modern appearance with a strong sense of authenticity and relatability, body-positive presence. Conveying ease and genuine emotion.",
           ),
           pink: text(
-            "pinkes Outfit / europäisches Model",
-            "pink outfit / European model",
+            "White female model in her early 20s, student age, Scandinavian type (fair skin, blonde hair), natural and authentic look, soft light curves, warm and friendly face, open and approachable expression, relaxed and confident demeanor.\n\nClear skin, subtle natural makeup, expressive eyes, gentle smile, youthful energy, effortless beauty. Long, straight blonde hair, smooth and well-kept, with a natural shine.\n\nStrong sense of joy and liveliness, radiating positivity and lightness. Casual, modern appearance with authenticity and relatability, body-positive presence. Comfortable in front of the camera, conveying ease and genuine emotion.",
+            "White female model in her early 20s, student age, Scandinavian type (fair skin, blonde hair), natural and authentic look, soft light curves, warm and friendly face, open and approachable expression, relaxed and confident demeanor.\n\nClear skin, subtle natural makeup, expressive eyes, gentle smile, youthful energy, effortless beauty. Long, straight blonde hair, smooth and well-kept, with a natural shine.\n\nStrong sense of joy and liveliness, radiating positivity and lightness. Casual, modern appearance with authenticity and relatability, body-positive presence. Comfortable in front of the camera, conveying ease and genuine emotion.",
           ),
         },
       },
@@ -469,6 +500,9 @@ const workflowLocales: Partial<Record<Workflow["id"], WorkflowLocalePatch>> = {
         bookingCtaLabel: text("Demo buchen", "Book a demo"),
         primaryCtaLabel: text("Neu starten", "Restart"),
         secondaryCtaLabel: text("Overview", "Overview"),
+      },
+      "step-7": {
+        processingLabel: text("Bearbeitung läuft", "Processing"),
       },
       overview: {
         cardTitles: {
@@ -545,7 +579,8 @@ const workflowLocales: Partial<Record<Workflow["id"], WorkflowLocalePatch>> = {
           "Jetzt mache ich die Fotoshoots für das Store-Konzept fertig und zeige die Jacken am Mannequin und am Rack. Hängt gut. Aber sollte Schwarz lieber außen sein?",
           "I finalize the photoshoots for the store concept and present the jackets on a mannequin and on a rack. Looks good—but should black be on the outside?",
         ),
-        footerLabel: text("Design Agent", "E-Commerce Agent"),
+        footerLabel: text("Style Design Agent", "Style Design Agent"),
+        continueLabel: text("Weiter", "Continue"),
         ctaLabel: text("Zum nächsten Schritt", "Next step"),
       },
       "step-8": {
@@ -554,6 +589,8 @@ const workflowLocales: Partial<Record<Workflow["id"], WorkflowLocalePatch>> = {
           "I want to create a clear, campaign-ready visual style for the approved jacket. Here is my final prompt for the model images.",
         ),
         footerLabel: text("E-Commerce Agent", "E-Commerce Agent"),
+        generateLabel: text("Generieren", "Create"),
+        processingLabel: text("Bearbeitung läuft", "Processing"),
         ctaLabel: text("Zum nächsten Schritt", "Next step"),
       },
       "step-9": {
@@ -583,7 +620,7 @@ const workflowLocales: Partial<Record<Workflow["id"], WorkflowLocalePatch>> = {
           "step-4": text("Style3D Studio", "Style3D Studio"),
           "step-5": text("Style3D Studio", "Style3D Studio"),
           "step-6": text("Style3D Moda", "Style3D Moda"),
-          "step-7": text("Design Agent", "E-Commerce Agent"),
+          "step-7": text("Style Design Agent", "Style Design Agent"),
           "step-8": text("E-Commerce Agent", "E-Commerce Agent"),
           "step-9": text("E-Commerce Agent", "E-Commerce Agent"),
         },
@@ -756,6 +793,10 @@ export function localizeScreen(
     localizedScreen.resultCtaLabel = patch.resultCtaLabel[language];
   }
 
+  if ("continueLabel" in localizedScreen && patch?.continueLabel) {
+    localizedScreen.continueLabel = patch.continueLabel[language];
+  }
+
   if ("nextCtaLabel" in localizedScreen && patch?.nextCtaLabel) {
     localizedScreen.nextCtaLabel = patch.nextCtaLabel[language];
   }
@@ -815,6 +856,13 @@ export function localizeScreen(
               option.body ?? "",
             )
           : undefined,
+    }));
+  }
+
+  if ("presetOptions" in localizedScreen && patch?.optionLabels) {
+    localizedScreen.presetOptions = localizedScreen.presetOptions.map((option) => ({
+      ...option,
+      label: resolveText(patch.optionLabels?.[option.id], language, option.label),
     }));
   }
 

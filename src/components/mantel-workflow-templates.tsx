@@ -1,6 +1,7 @@
 "use client";
 
 import CloudySnowingIcon from "@mui/icons-material/CloudySnowing";
+import PlayCircleFilledRoundedIcon from "@mui/icons-material/PlayCircleFilledRounded";
 import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import type { ReactNode } from "react";
 import { useEffect, useMemo, useState } from "react";
@@ -641,8 +642,8 @@ export function MantelTryOnTemplate({
             ) : null}
           </div>
 
-          <div className="flex w-[520px] items-start justify-center gap-[16px]">
-            <div className="flex w-[412px] flex-col items-center gap-[18px]">
+          <div className="flex w-[640px] items-start justify-center gap-[16px]">
+            <div className="flex w-[560px] flex-col items-center gap-[18px]">
               <FramedStage className="relative h-[512px] w-[412px] rounded-[34px] border-2 border-[var(--border-frame)] bg-white">
                 <AnimatePresence mode="wait" initial={false}>
                   <motion.img
@@ -663,7 +664,7 @@ export function MantelTryOnTemplate({
                 </ActionPill>
               ) : null}
               {hasGenerated ? (
-                <div className="w-[412px]">
+                <div className="w-[560px]">
                   <SegmentedStateToggle
                     className="w-full"
                     options={screen.options.map((option) => ({
@@ -988,7 +989,7 @@ export function MantelCampaignTemplate({
                   ) : (
                     <WbSunnyIcon sx={{ fontSize: 30 }} />
                   )}
-                  <span>{option.id === "rain" ? "regen" : "sonne"}</span>
+                  <span className="whitespace-nowrap">{option.label}</span>
                 </button>
               ))}
             </div>
@@ -1160,16 +1161,33 @@ export function MantelReviewGalleryTemplate({
           <div className="flex w-[556px] items-start justify-center gap-[18px]">
             <FramedStage className="relative h-[548px] w-[438px] rounded-[34px] border-2 border-[var(--border-frame)] bg-white">
               <AnimatePresence mode="wait" initial={false}>
-                <motion.img
-                  key={activeOption?.image}
-                  src={activeOption?.image}
-                  alt=""
-                  initial={{ opacity: 0.45, scale: 0.985 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 1.01 }}
-                  transition={{ duration: 0.26, ease: [0.22, 1, 0.36, 1] }}
-                  className="pointer-events-none absolute inset-0 h-full w-full object-cover"
-                />
+                {activeOption?.type === "video" && activeOption.videoSrc ? (
+                  <motion.video
+                    key={activeOption.id}
+                    src={activeOption.videoSrc}
+                    poster={activeOption.posterSrc ?? activeOption.thumbImage}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    initial={{ opacity: 0.45, scale: 0.985 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 1.01 }}
+                    transition={{ duration: 0.26, ease: [0.22, 1, 0.36, 1] }}
+                    className="pointer-events-none absolute inset-0 h-full w-full object-cover"
+                  />
+                ) : (
+                  <motion.img
+                    key={activeOption?.image}
+                    src={activeOption?.image}
+                    alt=""
+                    initial={{ opacity: 0.45, scale: 0.985 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 1.01 }}
+                    transition={{ duration: 0.26, ease: [0.22, 1, 0.36, 1] }}
+                    className="pointer-events-none absolute inset-0 h-full w-full object-cover"
+                  />
+                )}
               </AnimatePresence>
             </FramedStage>
             <div className="flex flex-col gap-[16px]">
@@ -1184,11 +1202,18 @@ export function MantelReviewGalleryTemplate({
                     active={option.id === selectedId}
                     className="h-[92px] w-[92px] rounded-[18px]"
                   >
-                    <img
-                      src={option.thumbImage}
-                      alt=""
-                      className="pointer-events-none h-full w-full object-cover"
-                    />
+                    <div className="relative h-full w-full overflow-hidden rounded-[inherit]">
+                      <img
+                        src={option.posterSrc ?? option.thumbImage}
+                        alt=""
+                        className="pointer-events-none h-full w-full object-cover"
+                      />
+                      {option.type === "video" ? (
+                        <div className="absolute inset-0 flex items-center justify-center bg-[linear-gradient(180deg,rgba(8,8,10,0.06),rgba(8,8,10,0.32))]">
+                          <PlayCircleFilledRoundedIcon className="text-[34px] text-white/92 drop-shadow-[0_8px_18px_rgba(0,0,0,0.34)]" />
+                        </div>
+                      ) : null}
+                    </div>
                   </ThumbnailCard>
                 </button>
               ))}

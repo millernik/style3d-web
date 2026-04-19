@@ -144,6 +144,22 @@ function SelectionPill({
   body?: string;
   onClick: () => void;
 }) {
+  const previewBody = body
+    ? (() => {
+        const normalized = body.replace(/\s+/g, " ").trim();
+        const maxPreviewChars = 46;
+
+        if (normalized.length <= maxPreviewChars) {
+          return normalized;
+        }
+
+        const shortened = normalized.slice(0, maxPreviewChars);
+        const safeBoundary = shortened.replace(/\s+\S*$/, "").trim();
+
+        return `${(safeBoundary || shortened).trim()}...`;
+      })()
+    : undefined;
+
   return (
     <button
       type="button"
@@ -158,9 +174,13 @@ function SelectionPill({
         <p className={`text-[18px] font-semibold ${active ? "text-white" : "text-white/92"}`}>
           {title}
         </p>
-        {body ? (
-          <p className={`text-[14px] leading-[1.4] ${active ? "text-white/90" : "text-white/72"}`}>
-            {body}
+        {previewBody ? (
+          <p
+            className={`text-[14px] leading-[1.4] ${
+              active ? "text-white/90" : "text-white/72"
+            }`}
+          >
+            {previewBody}
           </p>
         ) : null}
       </div>
@@ -354,7 +374,7 @@ export function NachtwaescheIntroTemplate({
           <div className="flex flex-col items-center gap-[24px]">
             <AvatarDiamond image={screen.avatar} size="xl" glowPreset="workwear-intro" />
             <div className="flex flex-col gap-[12px]">
-              <h1 className="text-kiosk-title-page">{screen.headline}</h1>
+              <h1 className="whitespace-pre-line text-kiosk-title-page">{screen.headline}</h1>
               <p className="text-kiosk-body-lg leading-[1.46] text-white/92">
                 {screen.body}
               </p>
@@ -415,11 +435,11 @@ export function NachtwaescheMoodboardTemplate({
                 alt=""
                 className="pointer-events-none absolute inset-0 h-full w-full object-cover"
               />
-              <div className="absolute bottom-[22px] right-[22px] h-[176px] w-[126px] overflow-hidden rounded-[18px] border border-[var(--border-frame)] bg-white shadow-[0_16px_34px_rgba(0,0,0,0.18)]">
+              <div className="absolute bottom-[20px] right-[20px] h-[294px] w-[214px] overflow-hidden rounded-[22px] border border-[var(--border-frame)] bg-white/96 shadow-[0_20px_44px_rgba(0,0,0,0.2)]">
                 <img
                   src={screen.mannequinImage}
                   alt=""
-                  className="pointer-events-none h-full w-full object-cover"
+                  className="pointer-events-none h-full w-full object-cover object-center"
                 />
               </div>
             </FramedStage>
@@ -532,10 +552,10 @@ export function NachtwaescheTryOnTemplate({
   return (
     <ScreenShell workflow={workflow} screen={screen} hideFooter disableEntryAnimation>
       <div className="absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
-        <div className="flex w-[1120px] items-center justify-between gap-[28px]">
-          <div className="flex w-[486px] flex-col items-center gap-[18px]">
+        <div className="flex w-[1254px] items-center justify-between gap-[28px]">
+          <div className="flex w-[620px] flex-col items-center gap-[18px]">
             <NarrativeCard
-              className="relative left-auto top-auto w-[486px]"
+              className="relative left-auto top-auto w-[620px]"
               avatar={screen.avatar}
               text={screen.narrative}
               avatarGlowPreset="workwear-card"
@@ -802,7 +822,7 @@ export function NachtwaeschePlacementTemplate({
                   className="pointer-events-none absolute inset-0 h-full w-full object-contain p-[12px] blur-[14px]"
                 />
               </FramedStage>
-              <StepThreeStatusPill state="processing" label={screen.processingLabel ?? "Bearbeitung Läuft"} />
+              <StepThreeStatusPill state="processing" label={screen.processingLabel ?? "Processing"} />
             </div>
           ) : (
             <NachtGalleryStage

@@ -1077,6 +1077,8 @@ function TryOnTemplate({
   workflow: Workflow;
   screen: TryOnScreen;
 }) {
+  const { language } = useWorkflowLanguage();
+  const uiText = getCommonUiText(language);
   const router = useRouter();
   const [selectedView, setSelectedView] = useState<"front" | "back">(screen.view);
   const previewVariants = screen.previewVariants ?? defaultTryOnPreviewVariants;
@@ -1134,7 +1136,7 @@ function TryOnTemplate({
                 transition={{ duration: 0.36, ease: [0.22, 1, 0.36, 1] }}
               >
                 <SubtleActionPill
-                  label={screen.ctaLabel ?? "Zum nächsten Schritt"}
+                  label={screen.ctaLabel ?? uiText.nextStep}
                   onClick={() =>
                     router.push(buildScreenHref(workflow.id, screen.ctaTarget!))
                   }
@@ -1585,7 +1587,7 @@ function AiGraphicTemplate({
                   </p>
                 </div>
                 <ActionPill onClick={() => setPhase("processing")}>
-                  {screen.ctaLabel ?? "Generieren"}
+                  {screen.ctaLabel ?? "Create"}
                 </ActionPill>
               </>
             ) : phase === "processing" ? (
@@ -2685,7 +2687,7 @@ function SegmentedRouteToggle({
           />
           <span className="relative flex items-center gap-[10px] text-kiosk-label-md">
             <span className="text-[18px]">{option.icon === "human" ? "🧍" : "◌"}</span>
-            <span>{option.label}</span>
+            <span className="whitespace-nowrap">{option.label}</span>
           </span>
         </motion.button>
       ))}

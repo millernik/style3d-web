@@ -24,7 +24,7 @@ const WorkflowLanguageContext = createContext<WorkflowLanguageContextValue | nul
 );
 
 export function WorkflowLanguageProvider({ children }: { children: ReactNode }) {
-  const [language, setLanguage] = useState<WorkflowLanguage>("de");
+  const [language, setLanguage] = useState<WorkflowLanguage>("en");
 
   useEffect(() => {
     const storedLanguage =
