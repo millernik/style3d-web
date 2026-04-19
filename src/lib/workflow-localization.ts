@@ -502,7 +502,19 @@ const workflowLocales: Partial<Record<Workflow["id"], WorkflowLocalePatch>> = {
         secondaryCtaLabel: text("Overview", "Overview"),
       },
       "step-7": {
+        narrative: text(
+          "Ich übertrage die gewählte Artwork jetzt auf das Gewinnspiel-Set und prüfe die finalen Varianten direkt am Bag- und Accessory-Resultat.",
+          "I now apply the selected artwork to the giveaway set and review the final bag and accessory variants directly in the result gallery.",
+        ),
+        ctaLabel: text("Zum nächsten Schritt", "Next step"),
         processingLabel: text("Bearbeitung läuft", "Processing"),
+      },
+      "step-8": {
+        narrative: text(
+          "Zum Schluss prüfe ich die letzten Kampagnen-Assets noch einmal gemeinsam als Galerie. So sieht das Team Bilder und Motion direkt in einem finalen Review-Schritt.",
+          "At the end, I review the final campaign assets together in one gallery. This gives the team images and motion in one final review step.",
+        ),
+        ctaLabel: text("Zum nächsten Schritt", "Next step"),
       },
       overview: {
         cardTitles: {
