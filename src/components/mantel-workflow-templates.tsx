@@ -23,6 +23,7 @@ import {
   type Workflow,
   type WorkflowScreen,
 } from "@/lib/workflows";
+import { WorkflowLanguageSwitch } from "@/components/workflow-language-switch";
 
 type SharedUi = {
   ScreenShell: (props: {
@@ -212,6 +213,9 @@ export function MantelIntroTemplate({
         transition={entryTransition}
         className="absolute inset-x-0 top-[198px] z-10 flex flex-col items-center"
       >
+        <div className="mb-[22px] flex w-[940px] justify-center">
+          <WorkflowLanguageSwitch />
+        </div>
         <div className="relative flex w-[940px] flex-col items-center gap-0">
           {screen.participants.map((participant, index) => {
             const isLeft = participant.align === "left";
@@ -537,9 +541,20 @@ export function MantelTryOnTemplate({
   shared,
 }: SharedProps<MantelTryOnScreen>) {
   const router = useRouter();
-  const { ScreenShell, NarrativeCard, FramedStage, SegmentedStateToggle, SubtleActionPill, ActionPill } =
+  const {
+    ScreenShell,
+    NarrativeCard,
+    FramedStage,
+    SegmentedStateToggle,
+    SubtleActionPill,
+    ActionPill,
+    ThumbnailCard,
+  } =
     shared;
   const [selectedOptionId, setSelectedOptionId] = useState(screen.options[0]?.id);
+  const [selectedPreGenerateId, setSelectedPreGenerateId] = useState(
+    screen.preGenerateOptions?.[0]?.id,
+  );
   const [hasGenerated, setHasGenerated] = useState(
     !screen.requireGenerateBeforeOptions,
   );
@@ -548,12 +563,18 @@ export function MantelTryOnTemplate({
   );
   const showCTA = useDelayedReveal(hasGenerated, screen.ctaDelayMs);
   const activeOption = screen.options.find((option) => option.id === selectedOptionId);
+  const activePreGenerateOption =
+    screen.preGenerateOptions?.find((option) => option.id === selectedPreGenerateId) ??
+    screen.preGenerateOptions?.[0];
   const activeImage =
-    !hasGenerated && screen.introImage
-      ? screen.introImage
+    !hasGenerated
+      ? activePreGenerateOption?.image ?? screen.introImage
       : showIntroImage && screen.introImage
         ? screen.introImage
         : activeOption?.image;
+  const activeImageClassName = !hasGenerated
+    ? activePreGenerateOption?.imageClassName ?? "object-cover"
+    : "object-cover";
 
   useEffect(() => {
     if (!screen.introImage || screen.requireGenerateBeforeOptions) {
@@ -569,9 +590,16 @@ export function MantelTryOnTemplate({
 
   useEffect(() => {
     setSelectedOptionId(screen.options[0]?.id);
+    setSelectedPreGenerateId(screen.preGenerateOptions?.[0]?.id);
     setHasGenerated(!screen.requireGenerateBeforeOptions);
     setShowIntroImage(Boolean(screen.introImage) && !screen.requireGenerateBeforeOptions);
-  }, [screen.id, screen.introImage, screen.options, screen.requireGenerateBeforeOptions]);
+  }, [
+    screen.id,
+    screen.introImage,
+    screen.options,
+    screen.preGenerateOptions,
+    screen.requireGenerateBeforeOptions,
+  ]);
 
   return (
     <ScreenShell workflow={workflow} screen={screen} hideFooter disableEntryAnimation>
@@ -613,41 +641,68 @@ export function MantelTryOnTemplate({
             ) : null}
           </div>
 
-          <div className="flex w-[500px] flex-col items-center gap-[18px]">
-            <FramedStage className="relative h-[512px] w-[412px] rounded-[34px] border-2 border-[var(--border-frame)] bg-white">
-              <AnimatePresence mode="wait" initial={false}>
-                <motion.img
-                  key={activeImage}
-                  src={activeImage}
-                  alt=""
-                  initial={{ opacity: 0.45, scale: 0.985 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 1.01 }}
-                  transition={{ duration: 0.26, ease: [0.22, 1, 0.36, 1] }}
-                  className="pointer-events-none absolute inset-0 h-full w-full object-cover"
-                />
-              </AnimatePresence>
-            </FramedStage>
-            {screen.requireGenerateBeforeOptions && !hasGenerated ? (
-              <ActionPill onClick={() => setHasGenerated(true)}>
-                {screen.generateLabel ?? "Generate"}
-              </ActionPill>
-            ) : null}
-            {hasGenerated ? (
-              <div className="w-[412px]">
-                <SegmentedStateToggle
-                  className="w-full"
-                  options={screen.options.map((option) => ({
-                    id: option.id,
-                    label: option.label,
-                    icon: "human",
-                    active: option.id === selectedOptionId,
-                    onClick: () => {
-                      setShowIntroImage(false);
-                      setSelectedOptionId(option.id);
-                    },
-                  }))}
-                />
+          <div className="flex w-[520px] items-start justify-center gap-[16px]">
+            <div className="flex w-[412px] flex-col items-center gap-[18px]">
+              <FramedStage className="relative h-[512px] w-[412px] rounded-[34px] border-2 border-[var(--border-frame)] bg-white">
+                <AnimatePresence mode="wait" initial={false}>
+                  <motion.img
+                    key={activeImage}
+                    src={activeImage}
+                    alt=""
+                    initial={{ opacity: 0.45, scale: 0.985 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 1.01 }}
+                    transition={{ duration: 0.26, ease: [0.22, 1, 0.36, 1] }}
+                    className={`pointer-events-none absolute inset-0 h-full w-full ${activeImageClassName}`}
+                  />
+                </AnimatePresence>
+              </FramedStage>
+              {screen.requireGenerateBeforeOptions && !hasGenerated ? (
+                <ActionPill onClick={() => setHasGenerated(true)}>
+                  {screen.generateLabel ?? "Generate"}
+                </ActionPill>
+              ) : null}
+              {hasGenerated ? (
+                <div className="w-[412px]">
+                  <SegmentedStateToggle
+                    className="w-full"
+                    options={screen.options.map((option) => ({
+                      id: option.id,
+                      label: option.label,
+                      icon: "human",
+                      active: option.id === selectedOptionId,
+                      onClick: () => {
+                        setShowIntroImage(false);
+                        setSelectedOptionId(option.id);
+                      },
+                    }))}
+                  />
+                </div>
+              ) : null}
+            </div>
+            {!hasGenerated && screen.preGenerateOptions?.length ? (
+              <div className="flex flex-col gap-[16px]">
+                {screen.preGenerateOptions.map((option) => (
+                  <button
+                    key={option.id}
+                    type="button"
+                    onClick={() => setSelectedPreGenerateId(option.id)}
+                    aria-label={option.label}
+                  >
+                    <ThumbnailCard
+                      active={option.id === selectedPreGenerateId}
+                      className="h-[92px] w-[92px] rounded-[18px]"
+                    >
+                      <img
+                        src={option.thumbImage}
+                        alt=""
+                        className={`pointer-events-none h-full w-full ${
+                          option.thumbClassName ?? "object-cover"
+                        }`}
+                      />
+                    </ThumbnailCard>
+                  </button>
+                ))}
               </div>
             ) : null}
           </div>
@@ -844,7 +899,11 @@ export function MantelColorwayTemplate({
                     <img
                       src={option.thumbImage}
                       alt=""
-                      className="pointer-events-none h-full w-full scale-[1.18] object-contain"
+                      className={`pointer-events-none h-full w-full object-contain ${
+                        option.id === "camel"
+                          ? "scale-[1.02]"
+                          : "scale-[1.34]"
+                      }`}
                     />
                   </ThumbnailCard>
                 </button>
@@ -868,6 +927,10 @@ export function MantelCampaignTemplate({
   const activePreset =
     screen.presetOptions.find((option) => option.id === selectedPresetId) ?? null;
   const activeCampaignImage = activePreset?.image ?? screen.emptyRackImage;
+  const activeCampaignImageClassName =
+    `pointer-events-none absolute inset-0 h-full w-full ${
+      activePreset?.imageClassName ?? "object-cover"
+    }`;
 
   return (
     <ScreenShell workflow={workflow} screen={screen} hideFooter disableEntryAnimation>
@@ -907,7 +970,7 @@ export function MantelCampaignTemplate({
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 1.01 }}
                   transition={{ duration: 0.26, ease: [0.22, 1, 0.36, 1] }}
-                  className="pointer-events-none absolute inset-0 h-full w-full object-cover"
+                  className={activeCampaignImageClassName}
                 />
               </AnimatePresence>
             </FramedStage>
@@ -1019,7 +1082,7 @@ export function MantelCampaignGenerationTemplate({
               </>
             ) : phase === "processing" ? (
               <div className="flex flex-col items-center gap-[16px]">
-                <FramedStage className="relative h-[452px] w-[454px] rounded-[34px] border-2 border-[var(--border-frame)] bg-white">
+                <FramedStage className="relative h-[488px] w-[454px] rounded-[34px] border-2 border-[var(--border-frame)] bg-white">
                   <img
                     src={screen.previewImage}
                     alt=""
@@ -1030,7 +1093,7 @@ export function MantelCampaignGenerationTemplate({
               </div>
             ) : (
               <div className="flex flex-col items-center gap-[16px]">
-                <FramedStage className="relative h-[452px] w-[454px] rounded-[34px] border-2 border-[var(--border-frame)] bg-white">
+                <FramedStage className="relative h-[488px] w-[454px] rounded-[34px] border-2 border-[var(--border-frame)] bg-white">
                   <img
                     src={activeOption?.image}
                     alt=""

@@ -20,6 +20,7 @@ import {
   type Workflow,
   type WorkflowScreen,
 } from "@/lib/workflows";
+import { WorkflowLanguageSwitch } from "@/components/workflow-language-switch";
 
 type SharedUi = {
   ScreenShell: (props: {
@@ -349,6 +350,7 @@ export function NachtwaescheIntroTemplate({
         className="absolute inset-x-0 top-[188px] z-10 flex justify-center"
       >
         <div className="flex w-[700px] flex-col items-center gap-[34px] text-center">
+          <WorkflowLanguageSwitch />
           <div className="flex flex-col items-center gap-[24px]">
             <AvatarDiamond image={screen.avatar} size="xl" glowPreset="workwear-intro" />
             <div className="flex flex-col gap-[12px]">

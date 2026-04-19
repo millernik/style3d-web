@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import "./globals.css";
+import { WorkflowLanguageProvider } from "@/lib/workflow-language";
 
 export const metadata: Metadata = {
   title: "Style3D Expo Kiosk",
@@ -14,7 +15,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="de">
-      <body>{children}</body>
+      <body>
+        <WorkflowLanguageProvider>{children}</WorkflowLanguageProvider>
+      </body>
     </html>
   );
 }

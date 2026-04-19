@@ -11,10 +11,15 @@ import {
   getStartScreen,
   type Workflow,
 } from "@/lib/workflows";
+import { useWorkflowLanguage } from "@/lib/workflow-language";
+import { getCommonUiText, localizeWorkflow } from "@/lib/workflow-localization";
 
 const EXIT_DURATION_MS = 340;
 
 export function AttractScreen({ workflow }: { workflow: Workflow }) {
+  const { language } = useWorkflowLanguage();
+  const uiText = getCommonUiText(language);
+  const localizedWorkflow = localizeWorkflow(workflow, language);
   const router = useRouter();
   const timeoutRef = useRef<number | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -60,7 +65,7 @@ export function AttractScreen({ workflow }: { workflow: Workflow }) {
       video.removeEventListener("canplay", tryPlay);
       video.removeEventListener("loadedmetadata", tryPlay);
     };
-  }, [workflow.attract.videoSrc]);
+  }, [localizedWorkflow.attract.videoSrc]);
 
   const handleEnter = () => {
     if (isExiting) {
@@ -116,18 +121,18 @@ export function AttractScreen({ workflow }: { workflow: Workflow }) {
         className="absolute left-[60px] top-[412px] flex flex-col gap-10 text-white"
       >
         <img
-          src={workflow.attract.brandLogo}
+          src={localizedWorkflow.attract.brandLogo}
           alt="Style3D"
           className="pointer-events-none h-[83.823px] w-[318px]"
         />
         <div className="flex items-center gap-[20.374px]">
           <img
-            src={workflow.attract.workflowMark}
+            src={localizedWorkflow.attract.workflowMark}
             alt=""
             className="pointer-events-none h-[75.971px] w-[74.705px]"
           />
           <p className="text-[47.54px] font-medium leading-normal text-white">
-            {workflow.attract.workflowTitle}
+            {localizedWorkflow.attract.workflowTitle}
           </p>
         </div>
         <motion.button
@@ -138,7 +143,7 @@ export function AttractScreen({ workflow }: { workflow: Workflow }) {
           className="z-20 flex h-[58px] w-fit items-center gap-[12px] rounded-full border border-[rgba(255,255,255,0.18)] bg-[rgba(255,255,255,0.12)] px-[28px] text-[22px] font-medium text-white backdrop-blur-[16px]"
         >
           <TouchAppIcon sx={{ fontSize: 28 }} />
-          <span>Start workflow</span>
+          <span>{uiText.startWorkflow}</span>
         </motion.button>
       </motion.div>
 
@@ -152,7 +157,7 @@ export function AttractScreen({ workflow }: { workflow: Workflow }) {
 
       <button
         type="button"
-        aria-label={`Open ${workflow.title}`}
+        aria-label={`Open ${localizedWorkflow.title}`}
         onPointerUp={handleEnter}
         className="absolute inset-0 z-10 cursor-pointer touch-manipulation bg-transparent"
       />
