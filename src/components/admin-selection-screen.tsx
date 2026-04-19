@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { useMemo } from "react";
 
 import { KioskViewport } from "@/components/kiosk-viewport";
 import {
@@ -6,13 +9,21 @@ import {
   kioskAssets,
   type WorkflowSelectionEntry,
 } from "@/lib/workflows";
+import { useWorkflowLanguage } from "@/lib/workflow-language";
+import {
+  getCommonUiText,
+  localizeWorkflowSelectionEntry,
+} from "@/lib/workflow-localization";
 
 function WorkflowSelectionCard({
   entry,
+  language,
 }: {
   entry: WorkflowSelectionEntry;
+  language: "de" | "en";
 }) {
   const isActive = entry.status === "active";
+  const uiText = getCommonUiText(language);
   const content = (
     <div
       className={`group relative flex h-[228px] w-[540px] overflow-hidden rounded-[34px] border ${
@@ -43,7 +54,7 @@ function WorkflowSelectionCard({
         <div className="flex items-start justify-between gap-[18px]">
           <div className="space-y-[8px]">
             <p className="text-[14px] font-medium uppercase tracking-[0.22em] text-white/55">
-              Workflow
+              {uiText.workflowEyebrow}
             </p>
             <h2 className="text-[38px] font-semibold leading-[1.02] text-white">
               {entry.title}
@@ -59,9 +70,9 @@ function WorkflowSelectionCard({
               />
             ) : null}
             {!isActive ? (
-              <span className="rounded-full border border-white/16 bg-white/8 px-[14px] py-[7px] text-[13px] font-medium uppercase tracking-[0.14em] text-white/72">
-                Inaktiv
-              </span>
+                <span className="rounded-full border border-white/16 bg-white/8 px-[14px] py-[7px] text-[13px] font-medium uppercase tracking-[0.14em] text-white/72">
+                  {uiText.inactive}
+                </span>
             ) : null}
           </div>
         </div>
@@ -73,12 +84,12 @@ function WorkflowSelectionCard({
 
           {isActive ? (
             <div className="inline-flex items-center gap-[10px] rounded-full border border-white/14 bg-white/8 px-[18px] py-[10px] text-[15px] font-medium text-white">
-              <span>Workflow öffnen</span>
+              <span>{uiText.openWorkflow}</span>
               <span aria-hidden="true">→</span>
             </div>
           ) : (
             <div className="inline-flex items-center gap-[10px] rounded-full border border-white/12 bg-white/5 px-[18px] py-[10px] text-[15px] font-medium text-white/60">
-              <span>Demnächst</span>
+              <span>{uiText.comingSoon}</span>
             </div>
           )}
         </div>
@@ -98,7 +109,15 @@ function WorkflowSelectionCard({
 }
 
 export function AdminSelectionScreen() {
-  const entries = getWorkflowSelectionEntries();
+  const { language } = useWorkflowLanguage();
+  const uiText = getCommonUiText(language);
+  const entries = useMemo(
+    () =>
+      getWorkflowSelectionEntries().map((entry) =>
+        localizeWorkflowSelectionEntry(entry, language),
+      ),
+    [language],
+  );
 
   return (
     <KioskViewport>
@@ -115,25 +134,24 @@ export function AdminSelectionScreen() {
         </div>
         <div className="flex items-center">
           <p className="text-[28px] font-medium leading-none tracking-[0.18em] text-white/58">
-            ADMIN
+            {uiText.adminEyebrow}
           </p>
         </div>
       </header>
 
       <section className="absolute inset-x-0 top-[154px] z-10 flex flex-col items-center text-center">
         <h1 className="text-[58px] font-semibold leading-[1.02] text-white">
-          Workflow Auswahl
+          {uiText.adminHeading}
         </h1>
         <p className="mt-[18px] max-w-[740px] text-[24px] font-[300] leading-[1.4] text-white/78">
-          Wähle die passende Demo aus. Alle vier Showcase-Workflows sind jetzt
-          live und können direkt gestartet werden.
+          {uiText.adminDescription}
         </p>
       </section>
 
       <section className="absolute inset-x-[154px] top-[356px] z-10">
         <div className="grid grid-cols-2 gap-x-[28px] gap-y-[28px]">
           {entries.map((entry) => (
-            <WorkflowSelectionCard key={entry.id} entry={entry} />
+            <WorkflowSelectionCard key={entry.id} entry={entry} language={language} />
           ))}
         </div>
       </section>

@@ -1,19 +1,42 @@
+"use client";
+
 import type { ReactNode } from "react";
+import { useMemo } from "react";
 
 import { AdminShortcutTrigger } from "@/components/admin-shortcut-trigger";
-import type { FooterConfig, Workflow } from "@/lib/workflows";
+import type { FooterConfig, Workflow, WorkflowScreen } from "@/lib/workflows";
+import { useWorkflowLanguage } from "@/lib/workflow-language";
+import { localizeScreen, localizeWorkflow } from "@/lib/workflow-localization";
 
 type WorkflowChromeProps = {
   workflow: Workflow;
+  screen: WorkflowScreen;
   footer?: FooterConfig | null;
   children: ReactNode;
 };
 
 export function WorkflowChrome({
   workflow,
+  screen,
   footer,
   children,
 }: WorkflowChromeProps) {
+  const { language } = useWorkflowLanguage();
+  const localizedWorkflow = useMemo(
+    () => localizeWorkflow(workflow, language),
+    [workflow, language],
+  );
+  const localizedScreen = useMemo(
+    () => localizeScreen(workflow.id, screen, language),
+    [workflow, screen, language],
+  );
+  const localizedFooter = footer
+    ? {
+        ...footer,
+        label: localizedScreen.footer?.label ?? footer.label,
+      }
+    : null;
+
   return (
     <>
       <div
@@ -38,11 +61,11 @@ export function WorkflowChrome({
               gap: "12px",
             }}
           >
-            <img
-              src={workflow.brandLogo}
-              alt="Style3D"
-              style={{ height: "38px", width: "146px" }}
-            />
+          <img
+            src={localizedWorkflow.brandLogo}
+            alt="Style3D"
+            style={{ height: "38px", width: "146px" }}
+          />
           </div>
         </AdminShortcutTrigger>
 
@@ -55,7 +78,7 @@ export function WorkflowChrome({
           }}
         >
           <img
-            src={workflow.workflowIcon}
+            src={localizedWorkflow.workflowIcon}
             alt=""
             style={{ height: "44.746px", width: "44px" }}
           />
@@ -67,11 +90,11 @@ export function WorkflowChrome({
               lineHeight: "normal",
             }}
           >
-            {workflow.title}
+            {localizedWorkflow.title}
           </span>
         </div>
       </div>
-      {footer ? (
+      {localizedFooter ? (
         <div
           style={{
             position: "fixed",
@@ -99,8 +122,8 @@ export function WorkflowChrome({
                 fontWeight: 300,
                 lineHeight: "normal",
               }}
-            >
-              {footer.label}
+              >
+              {localizedFooter.label}
             </span>
             <div
               style={{
@@ -113,7 +136,7 @@ export function WorkflowChrome({
                 lineHeight: "normal",
               }}
             >
-              <span>{footer.current}</span>
+              <span>{localizedFooter.current}</span>
               <span
                 style={{
                   display: "block",
@@ -123,7 +146,7 @@ export function WorkflowChrome({
                   background: "#757575",
                 }}
               />
-              <span>{footer.total}</span>
+              <span>{localizedFooter.total}</span>
             </div>
           </div>
         </div>

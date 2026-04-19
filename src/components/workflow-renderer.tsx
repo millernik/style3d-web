@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import AutorenewIcon from "@mui/icons-material/Autorenew";
 import CelebrationIcon from "@mui/icons-material/Celebration";
 import PlayCircleFilledRoundedIcon from "@mui/icons-material/PlayCircleFilledRounded";
@@ -72,6 +72,13 @@ import {
   type WorkflowScreen,
   type NachtwaescheRenderGalleryScreen,
 } from "@/lib/workflows";
+import { useWorkflowLanguage } from "@/lib/workflow-language";
+import {
+  getCommonUiText,
+  localizeScreen,
+  localizeWorkflow,
+} from "@/lib/workflow-localization";
+import { WorkflowLanguageSwitch } from "@/components/workflow-language-switch";
 
 type WorkflowRendererProps = {
   workflow: Workflow;
@@ -111,206 +118,228 @@ const defaultTryOnPreviewVariants: NonNullable<TryOnScreen["previewVariants"]> =
 ] as const;
 
 export function WorkflowRenderer({ workflow, screen }: WorkflowRendererProps) {
+  const { language } = useWorkflowLanguage();
+  const localizedWorkflow = useMemo(
+    () => localizeWorkflow(workflow, language),
+    [workflow, language],
+  );
+  const localizedScreen = useMemo(
+    () => localizeScreen(workflow.id, screen, language),
+    [workflow, screen, language],
+  );
+
   useAutoAdvance(workflow.id, screen);
 
-  switch (screen.kind) {
+  switch (localizedScreen.kind) {
     case "intro":
-      return <IntroTemplate workflow={workflow} screen={screen} />;
+      return <IntroTemplate workflow={localizedWorkflow} screen={localizedScreen} />;
     case "sketch":
-      return <SketchTemplate workflow={workflow} screen={screen} />;
+      return <SketchTemplate workflow={localizedWorkflow} screen={localizedScreen} />;
     case "style-design":
-      return <StyleDesignTemplate workflow={workflow} screen={screen} />;
+      return <StyleDesignTemplate workflow={localizedWorkflow} screen={localizedScreen} />;
     case "try-on":
-      return <TryOnTemplate workflow={workflow} screen={screen} />;
+      return <TryOnTemplate workflow={localizedWorkflow} screen={localizedScreen} />;
     case "style-redraw":
-      return <StyleRedrawTemplate workflow={workflow} screen={screen} />;
+      return <StyleRedrawTemplate workflow={localizedWorkflow} screen={localizedScreen} />;
     case "ai-graphic":
-      return <AiGraphicTemplate workflow={workflow} screen={screen} />;
+      return <AiGraphicTemplate workflow={localizedWorkflow} screen={localizedScreen} />;
     case "logo-placement":
-      return <LogoPlacementTemplate workflow={workflow} screen={screen} />;
+      return <LogoPlacementTemplate workflow={localizedWorkflow} screen={localizedScreen} />;
     case "ecommerce":
-      return <EcommerceTemplate workflow={workflow} screen={screen} />;
+      return <EcommerceTemplate workflow={localizedWorkflow} screen={localizedScreen} />;
     case "closing":
-      return <ClosingTemplate workflow={workflow} screen={screen} />;
+      return <ClosingTemplate workflow={localizedWorkflow} screen={localizedScreen} />;
     case "overview":
-      return <OverviewTemplate workflow={workflow} screen={screen} />;
+      return <OverviewTemplate workflow={localizedWorkflow} screen={localizedScreen} />;
     case "mantel-intro":
-      return <MantelIntroTemplate workflow={workflow} screen={screen} shared={sharedWorkflowUi} />;
+      return (
+        <MantelIntroTemplate
+          workflow={localizedWorkflow}
+          screen={localizedScreen}
+          shared={sharedWorkflowUi}
+        />
+      );
     case "mantel-image-to-sketch":
       return (
         <MantelImageToSketchTemplate
-          workflow={workflow}
-          screen={screen}
+          workflow={localizedWorkflow}
+          screen={localizedScreen}
           shared={sharedWorkflowUi}
         />
       );
     case "mantel-detail-gallery":
       return (
         <MantelDetailGalleryTemplate
-          workflow={workflow}
-          screen={screen}
+          workflow={localizedWorkflow}
+          screen={localizedScreen}
           shared={sharedWorkflowUi}
         />
       );
     case "mantel-try-on":
-      return <MantelTryOnTemplate workflow={workflow} screen={screen} shared={sharedWorkflowUi} />;
+      return (
+        <MantelTryOnTemplate
+          workflow={localizedWorkflow}
+          screen={localizedScreen}
+          shared={sharedWorkflowUi}
+        />
+      );
     case "mantel-tech-pack":
       return (
         <MantelTechPackTemplate
-          workflow={workflow}
-          screen={screen}
+          workflow={localizedWorkflow}
+          screen={localizedScreen}
           shared={sharedWorkflowUi}
         />
       );
     case "mantel-colorways":
       return (
         <MantelColorwayTemplate
-          workflow={workflow}
-          screen={screen}
+          workflow={localizedWorkflow}
+          screen={localizedScreen}
           shared={sharedWorkflowUi}
         />
       );
     case "mantel-campaign":
       return (
         <MantelCampaignTemplate
-          workflow={workflow}
-          screen={screen}
+          workflow={localizedWorkflow}
+          screen={localizedScreen}
           shared={sharedWorkflowUi}
         />
       );
     case "mantel-campaign-generation":
       return (
         <MantelCampaignGenerationTemplate
-          workflow={workflow}
-          screen={screen as MantelCampaignGenerationScreen}
+          workflow={localizedWorkflow}
+          screen={localizedScreen as MantelCampaignGenerationScreen}
           shared={sharedWorkflowUi}
         />
       );
     case "mantel-review-gallery":
       return (
         <MantelReviewGalleryTemplate
-          workflow={workflow}
-          screen={screen as MantelReviewGalleryScreen}
+          workflow={localizedWorkflow}
+          screen={localizedScreen as MantelReviewGalleryScreen}
           shared={sharedWorkflowUi}
         />
       );
     case "mantel-closing":
       return (
         <MantelClosingTemplate
-          workflow={workflow}
-          screen={screen}
+          workflow={localizedWorkflow}
+          screen={localizedScreen}
           shared={sharedWorkflowUi}
         />
       );
     case "keyvisual-stage-swap":
       return (
         <KeyVisualStageSwapTemplate
-          workflow={workflow}
-          screen={screen as KeyVisualStageSwapScreen}
+          workflow={localizedWorkflow}
+          screen={localizedScreen as KeyVisualStageSwapScreen}
           shared={sharedWorkflowUi}
         />
       );
     case "keyvisual-gallery":
       return (
         <KeyVisualGalleryTemplate
-          workflow={workflow}
-          screen={screen as KeyVisualGalleryScreen}
+          workflow={localizedWorkflow}
+          screen={localizedScreen as KeyVisualGalleryScreen}
           shared={sharedWorkflowUi}
         />
       );
     case "keyvisual-selector-gallery":
       return (
         <KeyVisualSelectorGalleryTemplate
-          workflow={workflow}
-          screen={screen as KeyVisualSelectorGalleryScreen}
+          workflow={localizedWorkflow}
+          screen={localizedScreen as KeyVisualSelectorGalleryScreen}
           shared={sharedWorkflowUi}
         />
       );
     case "keyvisual-prompt":
       return (
         <KeyVisualPromptTemplate
-          workflow={workflow}
-          screen={screen as KeyVisualPromptScreen}
+          workflow={localizedWorkflow}
+          screen={localizedScreen as KeyVisualPromptScreen}
           shared={sharedWorkflowUi}
         />
       );
     case "keyvisual-closing":
       return (
         <KeyVisualClosingTemplate
-          workflow={workflow}
-          screen={screen}
+          workflow={localizedWorkflow}
+          screen={localizedScreen}
           shared={sharedWorkflowUi}
         />
       );
     case "nachtwaesche-intro":
       return (
         <NachtwaescheIntroTemplate
-          workflow={workflow}
-          screen={screen}
+          workflow={localizedWorkflow}
+          screen={localizedScreen}
           shared={sharedWorkflowUi}
         />
       );
     case "nachtwaesche-moodboard":
       return (
         <NachtwaescheMoodboardTemplate
-          workflow={workflow}
-          screen={screen}
+          workflow={localizedWorkflow}
+          screen={localizedScreen}
           shared={sharedWorkflowUi}
         />
       );
     case "nachtwaesche-product-concept":
       return (
         <NachtwaescheProductConceptTemplate
-          workflow={workflow}
-          screen={screen}
+          workflow={localizedWorkflow}
+          screen={localizedScreen}
           shared={sharedWorkflowUi}
         />
       );
     case "nachtwaesche-try-on":
       return (
         <NachtwaescheTryOnTemplate
-          workflow={workflow}
-          screen={screen}
+          workflow={localizedWorkflow}
+          screen={localizedScreen}
           shared={sharedWorkflowUi}
         />
       );
     case "nachtwaesche-render-gallery":
       return (
         <NachtwaescheRenderGalleryTemplate
-          workflow={workflow}
-          screen={screen as NachtwaescheRenderGalleryScreen}
+          workflow={localizedWorkflow}
+          screen={localizedScreen as NachtwaescheRenderGalleryScreen}
           shared={sharedWorkflowUi}
         />
       );
     case "nachtwaesche-graphic-generation":
       return (
         <NachtwaescheGraphicGenerationTemplate
-          workflow={workflow}
-          screen={screen}
+          workflow={localizedWorkflow}
+          screen={localizedScreen}
           shared={sharedWorkflowUi}
         />
       );
     case "nachtwaesche-placement":
       return (
         <NachtwaeschePlacementTemplate
-          workflow={workflow}
-          screen={screen}
+          workflow={localizedWorkflow}
+          screen={localizedScreen}
           shared={sharedWorkflowUi}
         />
       );
     case "nachtwaesche-mixed-gallery":
       return (
         <NachtwaescheMixedGalleryTemplate
-          workflow={workflow}
-          screen={screen as NachtwaescheMixedGalleryScreen}
+          workflow={localizedWorkflow}
+          screen={localizedScreen as NachtwaescheMixedGalleryScreen}
           shared={sharedWorkflowUi}
         />
       );
     case "nachtwaesche-closing":
       return (
         <NachtwaescheClosingTemplate
-          workflow={workflow}
-          screen={screen}
+          workflow={localizedWorkflow}
+          screen={localizedScreen}
           shared={sharedWorkflowUi}
         />
       );
@@ -361,6 +390,9 @@ function IntroTemplate({
         transition={entryTransition}
         className="absolute left-[404px] top-[197px] flex w-[640px] flex-col items-center gap-[42px]"
       >
+        <div className="flex w-full justify-center">
+          <WorkflowLanguageSwitch />
+        </div>
         <div className="flex w-full flex-col items-center gap-[24px] text-center">
           <AvatarDiamond image={screen.avatar} size="xl" glowPreset="workwear-intro" />
           <div className="relative z-20 flex flex-col gap-[12px]">
@@ -403,11 +435,17 @@ function StepThreeSketchTemplate({
   workflow: Workflow;
   screen: SketchScreen;
 }) {
+  const { language } = useWorkflowLanguage();
+  const uiText = getCommonUiText(language);
   const router = useRouter();
   const isProcessing = screen.variant === "processing";
   const [showCTA, setShowCTA] = useState(false);
   const [selectedDetailId, setSelectedDetailId] = useState<
-    "breast-pocket" | "lower-sleeve" | null
+    | "breast-pocket"
+    | "left-top-breast-pocket"
+    | "right-bottom-pocket"
+    | "lower-sleeve"
+    | null
   >(null);
 
   useEffect(() => {
@@ -447,7 +485,7 @@ function StepThreeSketchTemplate({
                   transition={{ duration: 0.36, ease: [0.22, 1, 0.36, 1] }}
                 >
                   <SubtleActionPill
-                    label={screen.ctaLabel ?? "Zum nächsten Schritt"}
+                    label={screen.ctaLabel ?? uiText.nextStep}
                     onClick={() =>
                       router.push(buildScreenHref(workflow.id, screen.ctaTarget!))
                     }
@@ -493,7 +531,7 @@ function StepThreeSketchTemplate({
               transition={{ duration: 0.36, ease: [0.22, 1, 0.36, 1] }}
             >
               <SubtleActionPill
-                label={screen.ctaLabel ?? "Zum nächsten Schritt"}
+                label={screen.ctaLabel ?? uiText.nextStep}
                 onClick={() =>
                   router.push(buildScreenHref(workflow.id, screen.ctaTarget!))
                 }
@@ -549,7 +587,7 @@ function StepThreeSketchTemplate({
                     state={isProcessing ? "processing" : "done"}
                     label={
                       screen.statusLabel ??
-                      (isProcessing ? "Bearbeitung Läuft" : "Fertig!")
+                      (isProcessing ? uiText.processing : screen.doneLabel ?? uiText.done)
                     }
                   />
                 </motion.div>
@@ -568,6 +606,22 @@ const workwearBlueDetailHotspots = [
     leftPct: 66.5,
     topPct: 29.5,
     previewSrc: kioskAssets.workwear.styleDesignZoomTopPocket,
+    imageClassName:
+      "pointer-events-none h-full w-full object-cover object-center",
+  },
+  {
+    id: "left-top-breast-pocket",
+    leftPct: 31.5,
+    topPct: 29,
+    previewSrc: kioskAssets.workwear.styleDesignZoomLeftTopPocket,
+    imageClassName:
+      "pointer-events-none h-full w-full object-cover object-[31%_14%] scale-[1.44]",
+  },
+  {
+    id: "right-bottom-pocket",
+    leftPct: 68,
+    topPct: 58.5,
+    previewSrc: kioskAssets.workwear.styleDesignZoomRightBottomPocket,
     imageClassName:
       "pointer-events-none h-full w-full object-cover object-center",
   },
@@ -592,8 +646,19 @@ function WorkwearBlueDetailStage({
 }: {
   mainSrc: string;
   mainImageClassName: string;
-  selectedDetailId: "breast-pocket" | "lower-sleeve" | null;
-  onSelectDetail: (id: "breast-pocket" | "lower-sleeve") => void;
+  selectedDetailId:
+    | "breast-pocket"
+    | "left-top-breast-pocket"
+    | "right-bottom-pocket"
+    | "lower-sleeve"
+    | null;
+  onSelectDetail: (
+    id:
+      | "breast-pocket"
+      | "left-top-breast-pocket"
+      | "right-bottom-pocket"
+      | "lower-sleeve",
+  ) => void;
   showHotspots?: boolean;
   bottomContent?: React.ReactNode;
   className?: string;
@@ -796,6 +861,8 @@ function StyleDesignTemplate({
   workflow: Workflow;
   screen: StyleDesignScreen;
 }) {
+  const { language } = useWorkflowLanguage();
+  const uiText = getCommonUiText(language);
   const router = useRouter();
   const hiddenDefaultVariant = {
     id: "default-blue",
@@ -837,7 +904,11 @@ function StyleDesignTemplate({
 
   const [selectedVariantId, setSelectedVariantId] = useState<string>(hiddenDefaultVariant.id);
   const [selectedDetailId, setSelectedDetailId] = useState<
-    "breast-pocket" | "lower-sleeve" | null
+    | "breast-pocket"
+    | "left-top-breast-pocket"
+    | "right-bottom-pocket"
+    | "lower-sleeve"
+    | null
   >(null);
 
   const activeVariant =
@@ -870,7 +941,7 @@ function StyleDesignTemplate({
                 transition={{ duration: 0.36, ease: [0.22, 1, 0.36, 1] }}
               >
                 <SubtleActionPill
-                  label={screen.ctaLabel ?? "Zum nächsten Schritt"}
+                  label={screen.ctaLabel ?? uiText.nextStep}
                   onClick={() =>
                     router.push(buildScreenHref(workflow.id, screen.ctaTarget!))
                   }
@@ -1093,6 +1164,8 @@ function StyleRedrawTemplate({
   workflow: Workflow;
   screen: StyleRedrawScreen;
 }) {
+  const { language } = useWorkflowLanguage();
+  const uiText = getCommonUiText(language);
   const router = useRouter();
   const [selectedHotspotId, setSelectedHotspotId] = useState<"upper" | "lower" | null>(
     null,
@@ -1173,7 +1246,7 @@ function StyleRedrawTemplate({
                 transition={{ duration: 0.36, ease: [0.22, 1, 0.36, 1] }}
               >
                 <SubtleActionPill
-                  label={screen.ctaLabel ?? "Zum nächsten Schritt"}
+                  label={screen.ctaLabel ?? uiText.nextStep}
                   onClick={() =>
                     router.push(buildScreenHref(workflow.id, screen.ctaTarget!))
                   }
@@ -1286,8 +1359,14 @@ function StyleRedrawTemplate({
                       style={{ height: previewButtonHeight }}
                     >
                       {([
-                        { id: "before", label: "Vorher" },
-                        { id: "after", label: "Nachher" },
+                        {
+                          id: "before",
+                          label: screen.toggleLabels?.before ?? "Vorher",
+                        },
+                        {
+                          id: "after",
+                          label: screen.toggleLabels?.after ?? "Nachher",
+                        },
                       ] as const).map((option) => {
                         const isActive = previewMode === option.id;
 
@@ -1337,6 +1416,8 @@ function AiGraphicTemplate({
   workflow: Workflow;
   screen: AiGraphicScreen;
 }) {
+  const { language } = useWorkflowLanguage();
+  const uiText = getCommonUiText(language);
   const router = useRouter();
   const [phase, setPhase] = useState<"prompt" | "processing" | "gallery">("prompt");
   const [selectedLogoId, setSelectedLogoId] = useState("logo-1");
@@ -1365,6 +1446,7 @@ function AiGraphicTemplate({
   }, [phase]);
 
   const promptText =
+    screen.promptBody ??
     "Please create an embroidered logo for me in the shape of a circle with fire and a hammer inside. The background can be dark with a white border. The objects should be clearly visible.";
   const promptTokens = promptText.match(/\S+|\s+/g) ?? [promptText];
   let promptWordIndex = 0;
@@ -1393,7 +1475,7 @@ function AiGraphicTemplate({
                 transition={{ duration: 0.36, ease: [0.22, 1, 0.36, 1] }}
               >
                 <SubtleActionPill
-                  label="Try On!"
+                  label={screen.resultCtaLabel ?? "Try On!"}
                   onClick={() => router.push(buildScreenHref(workflow.id, "step-8"))}
                 />
               </motion.div>
@@ -1404,7 +1486,9 @@ function AiGraphicTemplate({
             {phase === "prompt" ? (
               <>
                 <div className="glass-card flex w-[396px] flex-col items-center rounded-[20px] px-[24px] py-[22px] text-center">
-                  <p className="text-kiosk-label-md font-semibold">Prompt:</p>
+                  <p className="text-kiosk-label-md font-semibold">
+                    {screen.promptTitle ?? uiText.promptLabel}
+                  </p>
                   <p
                     aria-label={promptText}
                     className="mt-[18px] text-kiosk-body-md leading-[1.45]"
@@ -1455,7 +1539,7 @@ function AiGraphicTemplate({
                 </FramedStage>
                 <StepThreeStatusPill
                   state="processing"
-                  label={screen.statusLabel ?? "Bearbeitung Läuft"}
+                  label={screen.statusLabel ?? uiText.processing}
                 />
               </div>
             ) : (
@@ -1511,6 +1595,8 @@ function LogoPlacementTemplate({
   workflow: Workflow;
   screen: LogoPlacementScreen;
 }) {
+  const { language } = useWorkflowLanguage();
+  const uiText = getCommonUiText(language);
   const router = useRouter();
   const [phase, setPhase] = useState<"prompt" | "gallery">("prompt");
   const [selectedPlacementId, setSelectedPlacementId] = useState("logo-1");
@@ -1574,7 +1660,7 @@ function LogoPlacementTemplate({
                 transition={{ duration: 0.36, ease: [0.22, 1, 0.36, 1] }}
               >
                 <SubtleActionPill
-                  label="Zum nächsten Schritt"
+                  label={screen.nextCtaLabel ?? uiText.nextStep}
                   onClick={() => router.push(buildScreenHref(workflow.id, "step-9"))}
                 />
               </motion.div>
@@ -1649,6 +1735,8 @@ function EcommerceTemplate({
   workflow: Workflow;
   screen: EcommerceScreen;
 }) {
+  const { language } = useWorkflowLanguage();
+  const uiText = getCommonUiText(language);
   const router = useRouter();
   const videoReview = {
     id: "video",
@@ -1711,7 +1799,7 @@ function EcommerceTemplate({
                 transition={{ duration: 0.36, ease: [0.22, 1, 0.36, 1] }}
               >
                 <SubtleActionPill
-                  label="Zum nächsten Schritt"
+                  label={screen.nextCtaLabel ?? uiText.nextStep}
                   onClick={() => router.push(buildScreenHref(workflow.id, "step-10"))}
                 />
               </motion.div>
@@ -1794,6 +1882,8 @@ function ClosingTemplate({
   workflow: Workflow;
   screen: ClosingScreen;
 }) {
+  const { language } = useWorkflowLanguage();
+  const uiText = getCommonUiText(language);
   return (
     <WorkflowShell workflow={workflow} backdropImage={screen.backdropImage}>
       <img
@@ -1827,7 +1917,7 @@ function ClosingTemplate({
 
           <div className="flex flex-col items-center gap-[24px]">
             <p className="w-[480px] text-center text-[17px] font-semibold text-white">
-              {screen.ctaLabel ?? "Jetzt Produkt-Demo buchen – hier am Stand"}
+              {screen.bookingCtaLabel ?? screen.ctaLabel ?? uiText.bookDemoNow}
             </p>
             <div className="h-[64px] w-[64px]">
               <img
@@ -1842,9 +1932,11 @@ function ClosingTemplate({
 
       <div className="absolute inset-x-[50px] bottom-[120px] z-20 flex items-center justify-between">
         <div className="flex items-center gap-[24px]">
-          <SecondaryPill href={`/workflow/${workflow.id}/step-1`}>Neustarten</SecondaryPill>
+          <SecondaryPill href={`/workflow/${workflow.id}/step-1`}>
+            {screen.primaryCtaLabel ?? uiText.restart}
+          </SecondaryPill>
           <SecondaryPill workflowId={workflow.id} targetId="overview">
-            Overview
+            {screen.secondaryCtaLabel ?? uiText.overview}
           </SecondaryPill>
         </div>
 

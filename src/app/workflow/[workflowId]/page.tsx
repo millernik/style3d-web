@@ -43,7 +43,7 @@ export default async function WorkflowIntroPage({
       workflow.id === "nachtwaesche" ? (
         <WorkwearInactivityWatcher workflowId={workflow.id} />
       ) : null}
-      <WorkflowChrome workflow={workflow}>
+      <WorkflowChrome workflow={workflow} screen={screen}>
         <WorkflowRenderer workflow={workflow} screen={screen} />
       </WorkflowChrome>
     </>

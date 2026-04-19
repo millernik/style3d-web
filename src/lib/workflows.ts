@@ -29,6 +29,10 @@ export const kioskAssets = {
     styleDesignThumbBoots: "/assets/workwear/style-design-thumb-boots-black.png",
     styleDesignZoomArm: "/assets/workwear/style-design-zoom-arm.png",
     styleDesignZoomTopPocket: "/assets/workwear/style-design-zoom-top-pocket.png",
+    styleDesignZoomLeftTopPocket:
+      "/assets/workwear/style-design-zoom-left-top-pocket.png",
+    styleDesignZoomRightBottomPocket:
+      "/assets/workwear/style-design-zoom-right-bottom-pocket.png",
     tryOnFront: "/assets/workwear/tryon-front-black-boots.png",
     tryOnBack: "/assets/workwear/tryon-blue-back-updated.png",
     tryOnSandFront: "/assets/workwear/tryon-sand-front.png",
@@ -78,6 +82,7 @@ export const kioskAssets = {
     detailCuff: "/assets/mantel/step-3-detail-gallery/detail-cuff.jpg",
     detailPocket: "/assets/mantel/step-3-detail-gallery/detail-pocket.svg",
     tryOnSetCard: "/assets/mantel/step-4-try-on/set-card.png",
+    tryOnPreGenerateAlt: "/assets/mantel/step-4-try-on/pre-generate-alt.png",
     tryOnSmall: "/assets/mantel/step-4-try-on/look-small-updated.png",
     tryOnLarge: "/assets/mantel/step-4-try-on/look-large-updated.png",
     techPackPromptReference: "/assets/mantel/step-5-tech-pack/reference.png",
@@ -89,6 +94,8 @@ export const kioskAssets = {
     colorwayGrey: "/assets/mantel/step-6-colorways/main-grey.png",
     weatherRain: "/assets/mantel/step-7-weather/regen.png",
     weatherSun: "/assets/mantel/step-7-weather/sonne.png",
+    colorwayThumbFirstReplacement:
+      "/assets/mantel/step-6-colorways/thumb-first-replacement.png",
     colorwayThumbCamel: "/assets/mantel/step-6-colorways/thumb-camel.png",
     colorwayThumbNavy: "/assets/mantel/step-6-colorways/thumb-navy.png",
     colorwayThumbGrey: "/assets/mantel/step-6-colorways/thumb-grey.png",
@@ -99,6 +106,9 @@ export const kioskAssets = {
     campaignResultDark: "/assets/mantel/step-7-campaign/s7-model-d.png",
     campaignVideoPoster: "/assets/mantel/step-7-campaign/video-poster.png",
     campaignVideoOverlay: "/assets/mantel/step-7-campaign/video-overlay.svg",
+    reviewGalleryThree: "/assets/mantel/step-9-review-gallery/review-gallery-3.png",
+    reviewGalleryFour: "/assets/mantel/step-9-review-gallery/review-gallery-4.png",
+    reviewGalleryFive: "/assets/mantel/step-9-review-gallery/review-gallery-5.png",
     closingBackground: "/assets/mantel/closing/s8-new.png",
     closingDaniel: "/assets/mantel/closing/daniel.png",
     closingAdrian: "/assets/mantel/closing/adrian.png",
@@ -263,6 +273,7 @@ export type SketchScreen = BaseScreen & {
   ctaLabel?: string;
   ctaTarget?: string;
   statusLabel?: string;
+  doneLabel?: string;
   autoTarget?: string;
   controlsVisibleOnLoad?: boolean;
 };
@@ -311,6 +322,10 @@ export type StyleRedrawScreen = BaseScreen & {
   variant: "focus" | "before" | "after";
   ctaLabel?: string;
   ctaTarget?: string;
+  toggleLabels?: {
+    before: string;
+    after: string;
+  };
   autoTarget?: string;
 };
 
@@ -321,6 +336,9 @@ export type AiGraphicScreen = BaseScreen & {
   ctaLabel?: string;
   ctaTarget?: string;
   statusLabel?: string;
+  promptTitle?: string;
+  promptBody?: string;
+  resultCtaLabel?: string;
   autoTarget?: string;
 };
 
@@ -330,6 +348,7 @@ export type LogoPlacementScreen = BaseScreen & {
   variant: "place" | "placed";
   ctaLabel?: string;
   ctaTarget?: string;
+  nextCtaLabel?: string;
   autoTarget?: string;
 };
 
@@ -339,6 +358,7 @@ export type EcommerceScreen = BaseScreen & {
   variant: "change-pose" | "result";
   ctaLabel?: string;
   ctaTarget?: string;
+  nextCtaLabel?: string;
   autoTarget?: string;
 };
 
@@ -348,6 +368,9 @@ export type ClosingScreen = BaseScreen & {
   body: string[];
   qrImage?: string;
   ctaLabel?: string;
+  bookingCtaLabel?: string;
+  primaryCtaLabel?: string;
+  secondaryCtaLabel?: string;
 };
 
 export type OverviewCard = {
@@ -419,11 +442,21 @@ export type MantelTryOnOption = {
   image: string;
 };
 
+export type MantelTryOnPreGenerateOption = {
+  id: string;
+  label: string;
+  image: string;
+  thumbImage: string;
+  imageClassName?: string;
+  thumbClassName?: string;
+};
+
 export type MantelTryOnScreen = BaseScreen & {
   kind: "mantel-try-on";
   narrative: string;
   options: MantelTryOnOption[];
   introImage?: string;
+  preGenerateOptions?: MantelTryOnPreGenerateOption[];
   introTransitionMs?: number;
   promptTitle?: string;
   promptBody?: string;
@@ -470,6 +503,7 @@ export type MantelCampaignPreset = {
   id: string;
   label: string;
   image: string;
+  imageClassName?: string;
   icon?: "rainy" | "wb_sunny";
 };
 
@@ -1184,6 +1218,24 @@ const mantelScreens: WorkflowScreen[] = [
     narrative:
       "Der Hintergrund war schon klasse. Für das Brand-Team mache ich noch ein paar Profi-Photoshoots. Wenn alles gut ankommt, können wir gleich mit der Bewerbung auf TikTok und Insta starten.",
     introImage: kioskAssets.mantel.tryOnSetCard,
+    preGenerateOptions: [
+      {
+        id: "set-card",
+        label: "Set Card",
+        image: kioskAssets.mantel.tryOnSetCard,
+        thumbImage: kioskAssets.mantel.tryOnSetCard,
+        imageClassName: "object-cover object-center",
+        thumbClassName: "object-cover object-center",
+      },
+      {
+        id: "alt-model",
+        label: "Alt Model",
+        image: kioskAssets.mantel.tryOnPreGenerateAlt,
+        thumbImage: kioskAssets.mantel.tryOnPreGenerateAlt,
+        imageClassName: "object-cover object-center",
+        thumbClassName: "object-cover object-center",
+      },
+    ],
     promptTitle: "Prompt:",
     promptBody:
       "Zeige mir den Mantel am Model aus der Set Card und kombineire ihn in einem Outfit für kältere Frühlingstage und kombiniere Stiefeletten, Stoffhose und Strickpullover in Beigetönen",
@@ -1232,7 +1284,7 @@ const mantelScreens: WorkflowScreen[] = [
         id: "camel",
         label: "Camel",
         image: kioskAssets.mantel.colorwayBrown,
-        thumbImage: kioskAssets.mantel.colorwayBrown,
+        thumbImage: kioskAssets.mantel.colorwayThumbFirstReplacement,
       },
       {
         id: "navy",
@@ -1265,12 +1317,14 @@ const mantelScreens: WorkflowScreen[] = [
         id: "rain",
         label: "Regen",
         image: kioskAssets.mantel.weatherRain,
+        imageClassName: "object-cover object-bottom",
         icon: "rainy",
       },
       {
         id: "sun",
         label: "Sonne",
         image: kioskAssets.mantel.weatherSun,
+        imageClassName: "object-cover object-bottom",
         icon: "wb_sunny",
       },
     ],
@@ -1331,20 +1385,20 @@ const mantelScreens: WorkflowScreen[] = [
       {
         id: "collar-detail",
         label: "Revers",
-        image: kioskAssets.mantel.detailCollar,
-        thumbImage: kioskAssets.mantel.detailCollar,
+        image: kioskAssets.mantel.reviewGalleryThree,
+        thumbImage: kioskAssets.mantel.reviewGalleryThree,
       },
       {
         id: "waist-detail",
         label: "Knöpfe",
-        image: kioskAssets.mantel.detailWaist,
-        thumbImage: kioskAssets.mantel.detailWaist,
+        image: kioskAssets.mantel.reviewGalleryFour,
+        thumbImage: kioskAssets.mantel.reviewGalleryFour,
       },
       {
         id: "fabric-detail",
         label: "Stoff",
-        image: kioskAssets.mantel.detailFabric,
-        thumbImage: kioskAssets.mantel.detailFabric,
+        image: kioskAssets.mantel.reviewGalleryFive,
+        thumbImage: kioskAssets.mantel.reviewGalleryFive,
       },
     ],
     ctaLabel: "Zum nächsten Schritt",
