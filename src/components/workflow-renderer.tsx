@@ -12,6 +12,7 @@ import {
   KeyVisualClosingTemplate,
   KeyVisualGalleryTemplate,
   KeyVisualPromptTemplate,
+  KeyVisualSelectorGalleryTemplate,
   KeyVisualStageSwapTemplate,
 } from "@/components/keyvisual-workflow-templates";
 import {
@@ -47,6 +48,7 @@ import {
   type KeyVisualClosingScreen,
   type KeyVisualGalleryScreen,
   type KeyVisualPromptScreen,
+  type KeyVisualSelectorGalleryScreen,
   type KeyVisualStageSwapScreen,
   type LogoPlacementScreen,
   type MantelCampaignScreen,
@@ -211,6 +213,14 @@ export function WorkflowRenderer({ workflow, screen }: WorkflowRendererProps) {
         <KeyVisualGalleryTemplate
           workflow={workflow}
           screen={screen as KeyVisualGalleryScreen}
+          shared={sharedWorkflowUi}
+        />
+      );
+    case "keyvisual-selector-gallery":
+      return (
+        <KeyVisualSelectorGalleryTemplate
+          workflow={workflow}
+          screen={screen as KeyVisualSelectorGalleryScreen}
           shared={sharedWorkflowUi}
         />
       );
