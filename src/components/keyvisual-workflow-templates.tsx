@@ -636,7 +636,7 @@ export function KeyVisualClosingTemplate({
         initial={{ opacity: 0, y: 18 }}
         animate={{ opacity: 1, y: 0 }}
         transition={entryTransition}
-        className="absolute inset-x-0 top-[190px] z-10 flex flex-col items-center"
+        className="absolute inset-0 z-10 flex items-center justify-center"
       >
         <div className="flex w-[680px] flex-col items-center gap-[34px] text-center">
           <div className="flex flex-col items-center gap-[22px]">

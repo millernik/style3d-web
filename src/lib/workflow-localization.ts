@@ -483,7 +483,113 @@ const workflowLocales: Partial<Record<Workflow["id"], WorkflowLocalePatch>> = {
       },
     },
   },
-  "key-visual": {},
+  "key-visual": {
+    title: text("AI for Outdoor Products", "AI for Outdoor Products"),
+    selectionCardTitle: text("AI for Outdoor Products", "AI for Outdoor Products"),
+    attractTitle: text("AI for Outdoor Products", "AI for Outdoor Products"),
+    overviewTitle: text(
+      "AI for Outdoor Products Overview",
+      "AI for Outdoor Products Overview",
+    ),
+    screens: {
+      "step-1": {
+        headline: text("Hi, ich bin Raul.", "Hi, I’m Raul."),
+        body: text(
+          "Ich arbeite an unserer Outdoor-Kollektion. Fit und Style sind uns wichtig, deshalb achten wir sehr genau auf unsere Schnitte. Wir steuern den ganzen Prozess selbst. 3D gehört für uns dazu - mit KI geht es schneller und sieht besser aus. Unsere letzte Kollektion lief richtig gut. Jetzt wollen wir eine Übergangsjacke nachlegen.",
+          "I work on our outdoor collection. Fit and style are very important to us, so we pay close attention to our patterns. We manage the entire process ourselves. 3D is part of our workflow – with AI it’s faster and looks better. Our last collection performed really well. Now we want to add a mid-season jacket.",
+        ),
+        ctaLabel: text("Workflow starten", "Click & Explore"),
+      },
+      "step-2": {
+        narrative: text(
+          "Ich starte in Style3D Studio und suche mir ein passendes WhiteShell in der 3D-Library. Der Schnitt ist direkt dabei.",
+          "I start in Style3D Studio and choose a matching WhiteShell from our 3D library. The pattern is already included.",
+        ),
+        footerLabel: text("Style3D Cloud", "Style3D Cloud"),
+        ctaLabel: text("Zum nächsten Schritt", "Next step"),
+      },
+      "step-3": {
+        narrative: text(
+          "Dann wähle ich aus der Stoff-Library den passenden Stoff und passe das WhiteShell an. Fertig ist mein erster Entwurf.",
+          "Then I select the right fabric from the fabric library and adapt the WhiteShell. My first design is ready.",
+        ),
+        footerLabel: text("Style3D Studio", "Style3D Studio"),
+        ctaLabel: text("Zum nächsten Schritt", "Next step"),
+      },
+      "step-4": {
+        narrative: text(
+          "Die Passform ist entscheidend. Wir designen von XS bis XXL, aber jede Figur ist anders. Deshalb mache ich eine schnelle 3D-Passformanalyse. Wir berücksichtigen normale Figuren, leichten Bauchansatz und athletische Typen. Beim athletischen Typ spannt die Jacke an den Oberarmen – das passe ich im Schnitt an.",
+          "Fit is crucial. We design from XS to XXL, but every body is different. That’s why I run a quick 3D fit analysis. We consider standard body types, slight belly shapes, and athletic builds. For athletic types, the jacket feels tight around the upper arms - I adjust the pattern accordingly.",
+        ),
+        footerLabel: text("Style3D Studio", "Style3D Studio"),
+        ctaLabel: text("Zum nächsten Schritt", "Next step"),
+      },
+      "step-5": {
+        narrative: text(
+          "Jetzt teste ich die Muster auf dem Stoff. So kann ich schnell vergleichen, welche grafische Richtung auf der Jacke am überzeugendsten wirkt. In 3D kann ich das Muster ganz exakt platzieren.",
+          "Now I test patterns on the fabric. This helps me quickly compare which graphic direction works best for the jacket. In 3D, I can place designs very precisely.",
+        ),
+        footerLabel: text("Style3D Studio", "Style3D Studio"),
+        ctaLabel: text("Zum nächsten Schritt", "Next step"),
+      },
+      "step-6": {
+        narrative: text(
+          "Als Nächstes erstelle ich Farbvarianten und sehe sofort, welche Richtung für unsere Jacken-Linie am besten passt.",
+          "Next, I create color variations and instantly see which direction fits for our new jacket line.",
+        ),
+        footerLabel: text("Style3D Moda", "Style3D Moda"),
+        ctaLabel: text("Zum nächsten Schritt", "Next step"),
+      },
+      "step-7": {
+        narrative: text(
+          "Jetzt mache ich die Fotoshoots für das Store-Konzept fertig und zeige die Jacken am Mannequin und am Rack. Hängt gut. Aber sollte Schwarz lieber außen sein?",
+          "I finalize the photoshoots for the store concept and present the jackets on a mannequin and on a rack. Looks good—but should black be on the outside?",
+        ),
+        footerLabel: text("Design Agent", "E-Commerce Agent"),
+        ctaLabel: text("Zum nächsten Schritt", "Next step"),
+      },
+      "step-8": {
+        narrative: text(
+          "Ich will eine klare, kampagnenreife Bildsprache für die freigegebene Jacke. Das ist mein Prompt dafür.",
+          "I want to create a clear, campaign-ready visual style for the approved jacket. Here is my final prompt for the model images.",
+        ),
+        footerLabel: text("E-Commerce Agent", "E-Commerce Agent"),
+        ctaLabel: text("Zum nächsten Schritt", "Next step"),
+      },
+      "step-9": {
+        narrative: text(
+          "Noch schnell prüfen. Ich bin zufrieden mit meinem Prompt und dem Ergebnis. Die Bilder passen und die Richtung stimmt.",
+          "Quick final check. I’m happy with my prompt and the result. The images work well and the direction is right.",
+        ),
+        footerLabel: text("E-Commerce Agent", "E-Commerce Agent"),
+        ctaLabel: text("Zum nächsten Schritt", "Next step"),
+      },
+      "step-10": {
+        bodyLines: lines(
+          [
+            "Der Look steht – Produkt, Präsentation und Key Visual sind abgestimmt. Die neue Übergangsjacke ist bereit für Review, Entscheidung und Kampagnen-Launch.",
+          ],
+          [
+            "The look is set – product, presentation, and key visual are aligned. My new mid-season jacket is ready for review, decision, and campaign launch.",
+          ],
+        ),
+        primaryCtaLabel: text("Neu starten", "Restart"),
+        secondaryCtaLabel: text("Überblick", "Overview"),
+      },
+      overview: {
+        cardTitles: {
+          "step-2": text("Style3D Cloud", "Style3D Cloud"),
+          "step-3": text("Style3D Studio", "Style3D Studio"),
+          "step-4": text("Style3D Studio", "Style3D Studio"),
+          "step-5": text("Style3D Studio", "Style3D Studio"),
+          "step-6": text("Style3D Moda", "Style3D Moda"),
+          "step-7": text("Design Agent", "E-Commerce Agent"),
+          "step-8": text("E-Commerce Agent", "E-Commerce Agent"),
+          "step-9": text("E-Commerce Agent", "E-Commerce Agent"),
+        },
+      },
+    },
+  },
 };
 
 function resolveText(

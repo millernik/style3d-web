@@ -198,6 +198,7 @@ export const kioskAssets = {
     stepSevenAccessories: "/assets/nachtwaesche/step-6-placement/step-7-accessories.png",
     placementGirlsNightInAccessories:
       "/assets/nachtwaesche/step-6-placement/girls-night-in-accessoires.png",
+    stepEightLooksLineup: "/assets/nachtwaesche/step-8-mixed-gallery/looks-lineup.png",
     closingBackground: "/assets/nachtwaesche/closing/background.png",
     closingAvatar: "/assets/nachtwaesche/intro/celina-avatar.png",
     closingQr: "/assets/workwear/closing-qr-contact.svg",
@@ -2225,6 +2226,12 @@ const nachtwaescheScreens: WorkflowScreen[] = [
         label: "Pink Reference",
         image: kioskAssets.nachtwaesche.outfitReferencePinkFull,
         thumbImage: kioskAssets.nachtwaesche.outfitReferencePinkFull,
+      },
+      {
+        id: "looks-lineup",
+        label: "Looks Lineup",
+        image: kioskAssets.nachtwaesche.stepEightLooksLineup,
+        thumbImage: kioskAssets.nachtwaesche.stepEightLooksLineup,
       },
       {
         id: "video",

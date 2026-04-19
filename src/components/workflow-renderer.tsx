@@ -371,6 +371,64 @@ function IntroTemplate({
   workflow: Workflow;
   screen: IntroScreen;
 }) {
+  const isKeyVisual = workflow.id === "key-visual";
+  const sectionWidthClassName = isKeyVisual ? "w-[760px]" : "w-[640px]";
+  const avatarScaleClassName = isKeyVisual ? "scale-[0.86]" : "";
+  const textWidthClassName = isKeyVisual ? "w-[732px]" : "w-full";
+
+  if (isKeyVisual) {
+    return (
+      <WorkflowShell workflow={workflow} backdropImage={screen.backdropImage}>
+        <img
+          src={screen.leftAmbient}
+          alt=""
+          className="pointer-events-none absolute left-[-271px] top-[100px] h-[963px] w-[541px] scale-x-[-1] object-cover opacity-[0.24] blur-[22px]"
+        />
+        <img
+          src={screen.rightAmbient}
+          alt=""
+          className="pointer-events-none absolute left-[1185px] top-[100px] h-[963px] w-[541px] object-cover opacity-[0.92] blur-[18px]"
+        />
+
+        <motion.section
+          initial={{ opacity: 0, y: 22, scale: 0.985 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={entryTransition}
+          className="absolute inset-x-0 top-[188px] z-10 flex justify-center"
+        >
+          <div className="flex w-[760px] flex-col items-center gap-[34px] text-center">
+            <WorkflowLanguageSwitch />
+            <div className="flex flex-col items-center gap-[24px]">
+              <div className={avatarScaleClassName}>
+                <AvatarDiamond
+                  image={screen.avatar}
+                  size="xl"
+                  glowPreset="workwear-intro"
+                />
+              </div>
+              <div className={`flex flex-col gap-[12px] ${textWidthClassName}`}>
+                <h1 className="text-kiosk-title-page">{screen.headline}</h1>
+                <p className="text-kiosk-body-lg leading-[1.46] text-white/92">
+                  {screen.body}
+                </p>
+              </div>
+            </div>
+
+            <ActionPill
+              workflowId={workflow.id}
+              targetId={screen.ctaTarget}
+              glowPreset="workwear-intro"
+              className={screen.ctaNoWrap ? "w-auto min-w-[147px]" : undefined}
+              contentClassName={screen.ctaNoWrap ? "whitespace-nowrap px-[22px]" : undefined}
+            >
+              {screen.ctaLabel}
+            </ActionPill>
+          </div>
+        </motion.section>
+      </WorkflowShell>
+    );
+  }
+
   return (
     <WorkflowShell workflow={workflow} backdropImage={screen.backdropImage}>
       <img
@@ -388,14 +446,16 @@ function IntroTemplate({
         initial={{ opacity: 0, y: 22, scale: 0.985 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={entryTransition}
-        className="absolute left-[404px] top-[197px] flex w-[640px] flex-col items-center gap-[42px]"
+        className={`absolute left-[404px] top-[197px] flex flex-col items-center gap-[42px] ${sectionWidthClassName}`}
       >
         <div className="flex w-full justify-center">
           <WorkflowLanguageSwitch />
         </div>
         <div className="flex w-full flex-col items-center gap-[24px] text-center">
-          <AvatarDiamond image={screen.avatar} size="xl" glowPreset="workwear-intro" />
-          <div className="relative z-20 flex flex-col gap-[12px]">
+          <div className={avatarScaleClassName}>
+            <AvatarDiamond image={screen.avatar} size="xl" glowPreset="workwear-intro" />
+          </div>
+          <div className={`relative z-20 flex flex-col gap-[12px] ${textWidthClassName}`}>
             <h1 className="text-kiosk-title-page">{screen.headline}</h1>
             <p className="text-kiosk-body-lg leading-[1.5]">{screen.body}</p>
           </div>
