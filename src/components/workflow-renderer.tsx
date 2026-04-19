@@ -31,6 +31,7 @@ import {
   NachtwaescheClosingTemplate,
   NachtwaescheGraphicGenerationTemplate,
   NachtwaescheIntroTemplate,
+  NachtwaescheMixedGalleryTemplate,
   NachtwaescheMoodboardTemplate,
   NachtwaeschePlacementTemplate,
   NachtwaescheProductConceptTemplate,
@@ -61,6 +62,7 @@ import {
   type MantelReviewGalleryScreen,
   type MantelTechPackScreen,
   type MantelTryOnScreen,
+  type NachtwaescheMixedGalleryScreen,
   type OverviewScreen,
   type SketchScreen,
   type StyleDesignScreen,
@@ -293,6 +295,14 @@ export function WorkflowRenderer({ workflow, screen }: WorkflowRendererProps) {
         <NachtwaeschePlacementTemplate
           workflow={workflow}
           screen={screen}
+          shared={sharedWorkflowUi}
+        />
+      );
+    case "nachtwaesche-mixed-gallery":
+      return (
+        <NachtwaescheMixedGalleryTemplate
+          workflow={workflow}
+          screen={screen as NachtwaescheMixedGalleryScreen}
           shared={sharedWorkflowUi}
         />
       );
