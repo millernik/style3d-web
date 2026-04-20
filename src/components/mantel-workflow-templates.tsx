@@ -231,7 +231,7 @@ export function MantelIntroTemplate({
               ? ""
               : isLeft
                 ? "pl-[212px] -mt-[36px]"
-                : "pr-[212px] -mt-[36px]";
+                : "pr-[212px] -mt-[68px]";
 
             return (
               <div

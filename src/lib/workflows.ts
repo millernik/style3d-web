@@ -106,6 +106,7 @@ export const kioskAssets = {
     campaignResultDark: "/assets/mantel/step-7-campaign/s7-model-d.png",
     campaignVideoPoster: "/assets/mantel/step-7-campaign/video-poster.png",
     campaignVideoOverlay: "/assets/mantel/step-7-campaign/video-overlay.svg",
+    reviewVideo: "/assets/mantel/step-9-review-gallery/review-video.mp4",
     reviewGalleryThree: "/assets/mantel/step-9-review-gallery/review-gallery-3.png",
     reviewGalleryFour: "/assets/mantel/step-9-review-gallery/review-gallery-4.png",
     reviewGalleryFive: "/assets/mantel/step-9-review-gallery/review-gallery-5.png",
@@ -1245,10 +1246,10 @@ const mantelScreens: WorkflowScreen[] = [
     promptTitle: "Prompt:",
     promptBody:
       "Zeige mir den Mantel am Model aus der Set Card und kombineire ihn in einem Outfit für kältere Frühlingstage und kombiniere Stiefeletten, Stoffhose und Strickpullover in Beigetönen",
-    generateLabel: "Generate",
+    generateLabel: "Generieren",
     requireGenerateBeforeOptions: true,
     options: [
-      { id: "small", label: "0-Größe", image: kioskAssets.mantel.tryOnSmall },
+      { id: "small", label: "Basis", image: kioskAssets.mantel.tryOnSmall },
       { id: "large", label: "Größer", image: kioskAssets.mantel.tryOnLarge },
     ],
     ctaLabel: "Zum nächsten Schritt",
@@ -1313,7 +1314,7 @@ const mantelScreens: WorkflowScreen[] = [
     id: "step-7",
     frameName: "Mantel 7",
     kind: "mantel-campaign",
-    footer: { label: "E-Commerce agent", current: 6, total: 8 },
+    footer: { label: "E-Commerce Agent", current: 6, total: 8 },
     mode: "weather-selection",
     narrative:
       "Zum Schluss entscheide ich mich zuerst für die Wetterstimmung, damit das Brand-Team die richtige Richtung für die Szene sehen kann.",
@@ -1406,7 +1407,7 @@ const mantelScreens: WorkflowScreen[] = [
         image: kioskAssets.mantel.campaignVideoPoster,
         thumbImage: kioskAssets.mantel.campaignVideoPoster,
         type: "video",
-        videoSrc: kioskAssets.mantel.screensaverVideo,
+        videoSrc: kioskAssets.mantel.reviewVideo,
         posterSrc: kioskAssets.mantel.campaignVideoPoster,
       },
     ],
@@ -1475,7 +1476,7 @@ const mantelOverview: OverviewScreen = {
     },
     {
       number: 6,
-      title: "E-Commerce agent",
+      title: "E-Commerce Agent",
       target: "step-7",
       artwork: [kioskAssets.mantel.weatherRain, kioskAssets.mantel.weatherSun],
     },

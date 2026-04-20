@@ -291,9 +291,9 @@ const workflowLocales: Partial<Record<Workflow["id"], WorkflowLocalePatch>> = {
           "Show me the coat on the model from the set card and combine it in an outfit for colder spring days, pairing it with ankle boots, fabric trousers, and a knit sweater in beige tones.",
         ),
         ctaLabel: text("Zum nächsten Schritt", "Next step"),
-        generateLabel: text("Generate", "Generate"),
+        generateLabel: text("Generieren", "Generate"),
         optionLabels: {
-          small: text("Base", "Base Size"),
+          small: text("Basis", "Base Size"),
           large: text("Größer", "Extended Size"),
         },
       },
@@ -304,7 +304,7 @@ const workflowLocales: Partial<Record<Workflow["id"], WorkflowLocalePatch>> = {
         ),
         footerLabel: text("Tech Pack Support", "Tech Pack Support"),
         ctaLabel: text("Zum nächsten Schritt", "Next step"),
-        generateLabel: text("Create", "Create"),
+        generateLabel: text("Generieren", "Create"),
         processingLabel: text("Bearbeitung läuft", "Processing"),
         annotationLabel: text("Beschriftung hinzufügen", "Add annotations"),
       },
@@ -321,7 +321,7 @@ const workflowLocales: Partial<Record<Workflow["id"], WorkflowLocalePatch>> = {
           "Ich habe noch Zeit und zeige, wie mein Mantel sich in die Kollektion und ins Store-Konzept einfügt. Letztes Jahr war das Wetter im Frühjahr auf einmal superwarm. Es kann aber auch kalt sein, deshalb zeige ich verschiedene Accessoires.",
           "I still have time and show how my coat fits into the collection and store concept. Last year, spring weather suddenly became very warm. But it can also be cold, so I’m showing different accessories.",
         ),
-        footerLabel: text("E-Commerce agent", "E-Commerce agent"),
+        footerLabel: text("E-Commerce Agent", "E-Commerce Agent"),
         ctaLabel: text("Zum nächsten Schritt", "Next step"),
         optionLabels: {
           rain: text("Regen", "Rain"),
@@ -391,7 +391,7 @@ const workflowLocales: Partial<Record<Workflow["id"], WorkflowLocalePatch>> = {
           "step-4": text("E-Commerce Agent", "E-Commerce Agent"),
           "step-5": text("Tech Pack Support", "Tech Pack Support"),
           "step-6": text("Colorways", "Colorways"),
-          "step-7": text("E-Commerce agent", "E-Commerce agent"),
+          "step-7": text("E-Commerce Agent", "E-Commerce Agent"),
           "step-8": text("E-Commerce Agent", "E-Commerce Agent"),
           "step-9": text("Review Gallery", "Review Gallery"),
         },
@@ -885,15 +885,24 @@ export function localizeScreen(
     }));
   }
 
-  if ("toggleLabels" in localizedScreen && patch?.toggleLabels) {
-    const currentToggleLabels = localizedScreen.toggleLabels;
+  if (patch?.toggleLabels) {
+    const currentToggleLabels =
+      "toggleLabels" in localizedScreen ? localizedScreen.toggleLabels : undefined;
+    const screenWithToggleLabels = localizedScreen as WorkflowScreen & {
+      toggleLabels?: {
+        front?: string;
+        back?: string;
+        before?: string;
+        after?: string;
+      };
+    };
 
     if (
       currentToggleLabels &&
       "front" in currentToggleLabels &&
       "back" in currentToggleLabels
     ) {
-      localizedScreen.toggleLabels = {
+      screenWithToggleLabels.toggleLabels = {
         front: resolveText(
           patch.toggleLabels.front,
           language,
@@ -910,7 +919,7 @@ export function localizeScreen(
       "before" in currentToggleLabels &&
       "after" in currentToggleLabels
     ) {
-      localizedScreen.toggleLabels = {
+      screenWithToggleLabels.toggleLabels = {
         before: resolveText(
           patch.toggleLabels.before,
           language,
@@ -923,12 +932,12 @@ export function localizeScreen(
         ),
       };
     } else if (patch.toggleLabels.front && patch.toggleLabels.back) {
-      localizedScreen.toggleLabels = {
+      screenWithToggleLabels.toggleLabels = {
         front: patch.toggleLabels.front[language],
         back: patch.toggleLabels.back[language],
       };
     } else if (patch.toggleLabels.before && patch.toggleLabels.after) {
-      localizedScreen.toggleLabels = {
+      screenWithToggleLabels.toggleLabels = {
         before: patch.toggleLabels.before[language],
         after: patch.toggleLabels.after[language],
       };

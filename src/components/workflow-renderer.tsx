@@ -1989,19 +1989,19 @@ function ClosingTemplate({
               />
             </div>
           </div>
+
+          <div className="flex items-center gap-[18px]">
+            <SecondaryPill href={`/workflow/${workflow.id}/step-1`}>
+              {screen.primaryCtaLabel ?? uiText.restart}
+            </SecondaryPill>
+            <SecondaryPill workflowId={workflow.id} targetId="overview">
+              {screen.secondaryCtaLabel ?? uiText.overview}
+            </SecondaryPill>
+          </div>
         </div>
       </motion.section>
 
-      <div className="absolute inset-x-[50px] bottom-[120px] z-20 flex items-center justify-between">
-        <div className="flex items-center gap-[24px]">
-          <SecondaryPill href={`/workflow/${workflow.id}/step-1`}>
-            {screen.primaryCtaLabel ?? uiText.restart}
-          </SecondaryPill>
-          <SecondaryPill workflowId={workflow.id} targetId="overview">
-            {screen.secondaryCtaLabel ?? uiText.overview}
-          </SecondaryPill>
-        </div>
-
+      <div className="absolute inset-x-[50px] bottom-[88px] z-20 flex items-center justify-end">
         <div className="flex items-center gap-[12px] text-[28px] font-[300] leading-none text-white">
           <span>{screen.footer?.current ?? 7}</span>
           <span className="block h-[2px] w-[165px] rounded-[100px] bg-[#757575]" />
