@@ -666,6 +666,7 @@ export type KeyVisualClosingScreen = BaseScreen & {
   kind: "keyvisual-closing";
   avatar: string;
   body: string[];
+  bookingCtaLabel?: string;
   primaryCtaLabel: string;
   primaryHref: string;
   secondaryCtaLabel: string;
@@ -1062,7 +1063,7 @@ const workwearScreens: WorkflowScreen[] = [
     body: [
       "So, jetzt ist unsere Präsentation für Freitag fertig – mit realistischen, durchdachten Designs. Mit KI ging es diesmal einfach schneller.",
     ],
-    ctaLabel: "Jetzt Demo buchen - hier am Stand oder online",
+    bookingCtaLabel: "Jetzt Demo buchen - hier am Stand oder online",
     qrImage: kioskAssets.workwear.closingQr,
     backdropImage: kioskAssets.workwear.closingBackground,
   },
@@ -1860,6 +1861,7 @@ const keyVisualScreens: WorkflowScreen[] = [
       "Der Look steht – Produkt, Präsentation und Key Visual sind abgestimmt.",
       "Damit ist die neue Übergangsjacke bereit für Review, Entscheidung und Kampagnen-Launch.",
     ],
+    bookingCtaLabel: "Jetzt Demo buchen - hier am Stand oder online",
     primaryCtaLabel: "Neustarten",
     primaryHref: "/workflow/key-visual/step-1",
     secondaryCtaLabel: "Overview",
@@ -2266,6 +2268,7 @@ const nachtwaescheScreens: WorkflowScreen[] = [
       "Die Sleepwear-Kapsel ist bereit für Demo, Review und Vermarktung.",
       "Moodboard, Outfit, Renderings, Artwork und Tasche stehen jetzt als konsistenter Workflow.",
     ],
+    bookingCtaLabel: "Jetzt Demo buchen - hier am Stand oder online",
     primaryCtaLabel: "Neustarten",
     primaryHref: "/workflow/nachtwaesche/step-1",
     secondaryCtaLabel: "Overview",

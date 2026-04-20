@@ -12,6 +12,7 @@ const { pathToFileURL } = require("node:url");
 const APP_PROTOCOL = "app";
 const APP_HOST = "-";
 const DEFAULT_DEV_URL = "http://localhost:3000";
+// Operator/developer-only emergency exit for the packaged kiosk app.
 const QUIT_SHORTCUT = "CommandOrControl+Shift+Alt+Q";
 
 let mainWindow = null;
@@ -43,6 +44,20 @@ if (process.platform === "linux") {
 
 function getOutDir() {
   return path.join(app.getAppPath(), "out");
+}
+
+function getWindowIconPath() {
+  const assetDir = path.join(app.getAppPath(), "electron", "assets");
+  const preferredIcon =
+    process.platform === "win32"
+      ? path.join(assetDir, "app-icon.ico")
+      : path.join(assetDir, "app-icon.png");
+
+  if (fs.existsSync(preferredIcon)) {
+    return preferredIcon;
+  }
+
+  return path.join(assetDir, "app-icon.png");
 }
 
 function hasFileExtension(filePath) {
@@ -204,6 +219,7 @@ async function createMainWindow() {
     width: 1920,
     height: 1080,
     backgroundColor: "#000000",
+    icon: getWindowIconPath(),
     fullscreen: true,
     kiosk: true,
     autoHideMenuBar: true,
@@ -229,6 +245,10 @@ async function createMainWindow() {
     mainWindow.show();
     mainWindow.focus();
     mainWindow.setFullScreen(true);
+    mainWindow.setKiosk(true);
+    if (process.platform === "win32") {
+      mainWindow.setAlwaysOnTop(true, "screen-saver");
+    }
   });
 
   mainWindow.webContents.on("did-fail-load", (_event, code, description, url) => {

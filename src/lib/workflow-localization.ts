@@ -215,7 +215,10 @@ const workflowLocales: Partial<Record<Workflow["id"], WorkflowLocalePatch>> = {
             "Now our presentation for Friday is ready – with realistic, well-thought-out designs. This time, AI simply made it faster.",
           ],
         ),
-        bookingCtaLabel: text("Jetzt Demo buchen", "Book demo now"),
+        bookingCtaLabel: text(
+          "Jetzt Demo buchen - hier am Stand oder online",
+          "Book demo now - here at the booth or online",
+        ),
         primaryCtaLabel: text("Neu starten", "Restart"),
         secondaryCtaLabel: text("Overview", "Overview"),
       },
@@ -282,7 +285,7 @@ const workflowLocales: Partial<Record<Workflow["id"], WorkflowLocalePatch>> = {
       },
       "step-4": {
         narrative: text(
-          "Für das Brand-Team zeige ich noch, wie alles an unseren Hausmodellen in Größe 0 und in einer großen Größe aussieht. Ab ins Techpack damit.",
+          "Für das Brand-Team zeige ich noch, wie alles an unseren Hausmodellen in Basisgröße und in einer großen Größe aussieht. Ab ins Techpack damit.",
           "For the brand team, I’ll also show how everything looks on our fit models for the base size and an extended size. Let’s get that into the tech pack.",
         ),
         footerLabel: text("E-Commerce Agent", "E-Commerce Agent"),
@@ -497,14 +500,17 @@ const workflowLocales: Partial<Record<Workflow["id"], WorkflowLocalePatch>> = {
             "Moodboard, outfits, renderings, and tote are aligned through AI.",
           ],
         ),
-        bookingCtaLabel: text("Demo buchen", "Book a demo"),
+        bookingCtaLabel: text(
+          "Jetzt Demo buchen - hier am Stand oder online",
+          "Book demo now - here at the booth or online",
+        ),
         primaryCtaLabel: text("Neu starten", "Restart"),
         secondaryCtaLabel: text("Overview", "Overview"),
       },
       "step-7": {
         narrative: text(
-          "Ich übertrage die gewählte Artwork jetzt auf das Gewinnspiel-Set und prüfe die finalen Varianten direkt am Bag- und Accessory-Resultat.",
-          "I now apply the selected artwork to the giveaway set and review the final bag and accessory variants directly in the result gallery.",
+          "Ich übertrage die gewählte Artwork jetzt auf das Gewinnspiel-Set und prüfe die finalen Bag- und Accessory-Varianten.",
+          "I now apply the selected artwork to the giveaway set and review the final bag and accessory variants.",
         ),
         ctaLabel: text("Zum nächsten Schritt", "Next step"),
         processingLabel: text("Bearbeitung läuft", "Processing"),
@@ -621,6 +627,10 @@ const workflowLocales: Partial<Record<Workflow["id"], WorkflowLocalePatch>> = {
           [
             "The look is set – product, presentation, and key visual are aligned. My new mid-season jacket is ready for review, decision, and campaign launch.",
           ],
+        ),
+        bookingCtaLabel: text(
+          "Jetzt Demo buchen - hier am Stand oder online",
+          "Book demo now - here at the booth or online",
         ),
         primaryCtaLabel: text("Neu starten", "Restart"),
         secondaryCtaLabel: text("Überblick", "Overview"),

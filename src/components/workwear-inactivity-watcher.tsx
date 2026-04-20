@@ -1,9 +1,9 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 
-const INACTIVITY_TIMEOUT_MS = 120_000;
+const INACTIVITY_TIMEOUT_MS = 60_000;
 const SCREENSAVER_HREFS: Record<string, string> = {
   workwear: "/workflow/workwear/screensaver",
   mantel: "/workflow/mantel/screensaver",
@@ -11,51 +11,61 @@ const SCREENSAVER_HREFS: Record<string, string> = {
   nachtwaesche: "/workflow/nachtwaesche/screensaver",
 };
 
-export function WorkwearInactivityWatcher({
-  workflowId,
-}: {
-  workflowId: string;
-}) {
+function getWorkflowIdFromPathname(pathname: string): string | null {
+  const segments = pathname.split("/").filter(Boolean);
+
+  if (segments[0] !== "workflow" || !segments[1]) {
+    return null;
+  }
+
+  return segments[1];
+}
+
+export function WorkwearInactivityWatcher() {
   const router = useRouter();
   const pathname = usePathname();
   const timeoutRef = useRef<number | null>(null);
+  const pathnameRef = useRef(pathname);
+  const screensaverHrefRef = useRef<string | null>(null);
 
-  useEffect(() => {
-    const screensaverHref = SCREENSAVER_HREFS[workflowId];
+  const clearExistingTimer = useCallback(() => {
+    if (timeoutRef.current !== null) {
+      window.clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
+  }, []);
 
-    if (!screensaverHref) {
+  const scheduleTimeout = useCallback(() => {
+    clearExistingTimer();
+
+    if (!screensaverHrefRef.current) {
       return;
     }
 
-    const clearExistingTimer = () => {
-      if (timeoutRef.current !== null) {
-        window.clearTimeout(timeoutRef.current);
-        timeoutRef.current = null;
+    timeoutRef.current = window.setTimeout(() => {
+      const screensaverHref = screensaverHrefRef.current;
+
+      if (!screensaverHref) {
+        return;
       }
-    };
 
-    const scheduleTimeout = () => {
-      clearExistingTimer();
-      timeoutRef.current = window.setTimeout(() => {
-        if (pathname !== screensaverHref) {
-          router.push(screensaverHref);
-        }
-      }, INACTIVITY_TIMEOUT_MS);
-    };
+      if (pathnameRef.current !== screensaverHref) {
+        router.push(screensaverHref);
+      }
+    }, INACTIVITY_TIMEOUT_MS);
+  }, [clearExistingTimer, router]);
 
+  useEffect(() => {
     const resetTimeout = () => {
       scheduleTimeout();
     };
 
     const events: Array<keyof WindowEventMap> = [
       "pointerdown",
-      "pointermove",
       "touchstart",
+      "mousedown",
       "keydown",
-      "wheel",
     ];
-
-    scheduleTimeout();
 
     events.forEach((eventName) => {
       window.addEventListener(eventName, resetTimeout, { passive: true });
@@ -67,7 +77,22 @@ export function WorkwearInactivityWatcher({
         window.removeEventListener(eventName, resetTimeout);
       });
     };
-  }, [pathname, router, workflowId]);
+  }, [clearExistingTimer, scheduleTimeout]);
+
+  useEffect(() => {
+    pathnameRef.current = pathname;
+
+    const workflowId = getWorkflowIdFromPathname(pathname);
+    screensaverHrefRef.current = workflowId
+      ? SCREENSAVER_HREFS[workflowId] ?? null
+      : null;
+
+    scheduleTimeout();
+
+    return () => {
+      clearExistingTimer();
+    };
+  }, [clearExistingTimer, pathname, scheduleTimeout]);
 
   return null;
 }

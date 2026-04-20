@@ -2,7 +2,6 @@ import { notFound, redirect } from "next/navigation";
 
 import { WorkflowChrome } from "@/components/workflow-chrome";
 import { WorkflowRenderer } from "@/components/workflow-renderer";
-import { WorkwearInactivityWatcher } from "@/components/workwear-inactivity-watcher";
 import {
   getStartScreen,
   getWorkflow,
@@ -37,12 +36,6 @@ export default async function WorkflowIntroPage({
 
   return (
     <>
-      {workflow.id === "workwear" ||
-      workflow.id === "mantel" ||
-      workflow.id === "key-visual" ||
-      workflow.id === "nachtwaesche" ? (
-        <WorkwearInactivityWatcher workflowId={workflow.id} />
-      ) : null}
       <WorkflowChrome workflow={workflow} screen={screen}>
         <WorkflowRenderer workflow={workflow} screen={screen} />
       </WorkflowChrome>

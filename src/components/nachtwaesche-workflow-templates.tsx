@@ -928,9 +928,9 @@ export function NachtwaescheClosingTemplate({
           </div>
 
           {screen.bookingCtaLabel ? (
-            <ActionPill onClick={() => router.push(screen.primaryHref)}>
+            <p className="w-[480px] text-center text-[17px] font-semibold text-white">
               {screen.bookingCtaLabel}
-            </ActionPill>
+            </p>
           ) : null}
 
           {screen.qrImage ? (

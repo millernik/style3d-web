@@ -652,6 +652,12 @@ export function KeyVisualClosingTemplate({
             </div>
           </div>
 
+          {screen.bookingCtaLabel ? (
+            <p className="w-[480px] text-center text-[17px] font-semibold text-white">
+              {screen.bookingCtaLabel}
+            </p>
+          ) : null}
+
           <div className="flex items-center gap-[18px]">
             <ActionPill onClick={() => router.push(screen.primaryHref)}>
               {screen.primaryCtaLabel}
