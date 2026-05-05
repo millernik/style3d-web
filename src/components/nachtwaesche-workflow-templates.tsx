@@ -367,7 +367,7 @@ export function NachtwaescheIntroTemplate({
         initial={{ opacity: 0, y: 22, scale: 0.985 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={entryTransition}
-        className="absolute inset-x-0 top-[188px] z-10 flex justify-center"
+        className="workflow-content-stage absolute inset-x-0 top-[188px] z-10 flex justify-center"
       >
         <div className="flex w-[700px] flex-col items-center gap-[34px] text-center">
           <WorkflowLanguageSwitch />
@@ -406,7 +406,7 @@ export function NachtwaescheMoodboardTemplate({
 
   return (
     <ScreenShell workflow={workflow} screen={screen} hideFooter disableEntryAnimation>
-      <div className="absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
+      <div className="workflow-content-stage absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
         <div className="flex w-[1218px] items-center justify-between gap-[32px]">
           <div className="flex w-[486px] flex-col items-center gap-[18px]">
             <NarrativeCard
@@ -472,7 +472,7 @@ export function NachtwaescheProductConceptTemplate({
 
   return (
     <ScreenShell workflow={workflow} screen={screen} hideFooter disableEntryAnimation>
-      <div className="absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
+      <div className="workflow-content-stage absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
         <div className="flex w-[1136px] items-center justify-between gap-[34px]">
           <div className="flex w-[486px] flex-col items-center gap-[18px]">
             <NarrativeCard
@@ -551,7 +551,7 @@ export function NachtwaescheTryOnTemplate({
 
   return (
     <ScreenShell workflow={workflow} screen={screen} hideFooter disableEntryAnimation>
-      <div className="absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
+      <div className="workflow-content-stage absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
         <div className="flex w-[1254px] items-center justify-between gap-[28px]">
           <div className="flex w-[620px] flex-col items-center gap-[18px]">
             <NarrativeCard
@@ -650,7 +650,7 @@ export function NachtwaescheRenderGalleryTemplate({
 
   return (
     <ScreenShell workflow={workflow} screen={screen} hideFooter disableEntryAnimation>
-      <div className="absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
+      <div className="workflow-content-stage absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
         <div className="flex w-[1160px] items-center justify-between">
           <div className="flex w-[486px] flex-col items-center gap-[18px]">
             <NarrativeCard
@@ -702,7 +702,7 @@ export function NachtwaescheGraphicGenerationTemplate({
 
   return (
     <ScreenShell workflow={workflow} screen={screen} hideFooter disableEntryAnimation>
-      <div className="absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
+      <div className="workflow-content-stage absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
         <div className="flex w-[1160px] items-center justify-between">
           <div className="flex w-[486px] flex-col items-center gap-[18px]">
             <NarrativeCard
@@ -794,7 +794,7 @@ export function NachtwaeschePlacementTemplate({
 
   return (
     <ScreenShell workflow={workflow} screen={screen} hideFooter disableEntryAnimation>
-      <div className="absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
+      <div className="workflow-content-stage absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
         <div className="flex w-[1160px] items-center justify-between">
           <div className="flex w-[486px] flex-col items-center gap-[18px]">
             <NarrativeCard
@@ -865,7 +865,7 @@ export function NachtwaescheMixedGalleryTemplate({
 
   return (
     <ScreenShell workflow={workflow} screen={screen} hideFooter disableEntryAnimation>
-      <div className="absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
+      <div className="workflow-content-stage absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
         <div className="flex w-[1160px] items-center justify-between">
           <div className="flex w-[486px] flex-col items-center gap-[18px]">
             <NarrativeCard
@@ -915,7 +915,7 @@ export function NachtwaescheClosingTemplate({
         initial={{ opacity: 0, y: 18 }}
         animate={{ opacity: 1, y: 0 }}
         transition={entryTransition}
-        className="absolute inset-x-0 top-[190px] z-10 flex flex-col items-center"
+        className="workflow-content-stage absolute inset-x-0 top-[190px] z-10 flex flex-col items-center"
       >
         <div className="flex w-[806px] flex-col items-center gap-[34px] text-center">
           <div className="flex flex-col items-center gap-[22px]">

@@ -394,7 +394,7 @@ function IntroTemplate({
           initial={{ opacity: 0, y: 22, scale: 0.985 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={entryTransition}
-          className="absolute inset-x-0 top-[188px] z-10 flex justify-center"
+          className="workflow-content-stage absolute inset-x-0 top-[188px] z-10 flex justify-center"
         >
           <div className="flex w-[760px] flex-col items-center gap-[34px] text-center">
             <WorkflowLanguageSwitch />
@@ -446,7 +446,7 @@ function IntroTemplate({
         initial={{ opacity: 0, y: 22, scale: 0.985 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={entryTransition}
-        className={`absolute left-[404px] top-[197px] flex flex-col items-center gap-[42px] ${sectionWidthClassName}`}
+        className={`workflow-content-stage absolute left-[404px] top-[197px] flex flex-col items-center gap-[42px] ${sectionWidthClassName}`}
       >
         <div className="flex w-full justify-center">
           <WorkflowLanguageSwitch />
@@ -526,7 +526,7 @@ function StepThreeSketchTemplate({
     return (
       <WorkflowShell workflow={workflow} backdropImage={screen.backdropImage}>
         <div
-          className="absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center"
+          className="workflow-content-stage absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center"
           data-step-three-state={screen.variant}
         >
           <div className="flex w-[1340px] items-center justify-between">
@@ -984,7 +984,7 @@ function StyleDesignTemplate({
       hideFooter
       disableEntryAnimation
     >
-      <div className="absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
+      <div className="workflow-content-stage absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
         <div className="flex w-[1340px] items-center justify-between">
           <div className="flex w-[520px] flex-col items-center gap-[18px]">
             <NarrativeCard
@@ -1119,7 +1119,7 @@ function TryOnTemplate({
       hideFooter
       disableEntryAnimation
     >
-      <div className="absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
+      <div className="workflow-content-stage absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
         <div className="flex w-[1074px] items-center justify-between">
           <div className="flex w-[520px] flex-col items-center gap-[18px]">
             <NarrativeCard
@@ -1291,7 +1291,7 @@ function StyleRedrawTemplate({
       hideFooter
       disableEntryAnimation
     >
-      <div className="absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
+      <div className="workflow-content-stage absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
         <div className="flex w-[1340px] items-center justify-between">
           <div className="flex w-[520px] flex-col items-center gap-[18px]">
             <NarrativeCard
@@ -1520,7 +1520,7 @@ function AiGraphicTemplate({
       hideFooter
       disableEntryAnimation
     >
-      <div className="absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
+      <div className="workflow-content-stage absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
         <div className="flex w-[1038px] items-center justify-between">
           <div className="flex w-[520px] flex-col items-center gap-[18px]">
             <NarrativeCard
@@ -1705,7 +1705,7 @@ function LogoPlacementTemplate({
       hideFooter
       disableEntryAnimation
     >
-      <div className="absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
+      <div className="workflow-content-stage absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
         <div className="flex w-[1038px] items-center justify-between">
           <div className="flex w-[520px] flex-col items-center gap-[18px]">
             <NarrativeCard
@@ -1844,7 +1844,7 @@ function EcommerceTemplate({
       hideFooter
       disableEntryAnimation
     >
-      <div className="absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
+      <div className="workflow-content-stage absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
         <div className="flex w-[1038px] items-center justify-between">
           <div className="flex w-[520px] flex-col items-center gap-[18px]">
             <NarrativeCard
@@ -2026,7 +2026,7 @@ function OverviewTemplate({
       hideFooter
       disableEntryAnimation
     >
-      <div className="absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
+      <div className="workflow-content-stage absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
         <motion.div
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}

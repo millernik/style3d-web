@@ -118,7 +118,7 @@ export function AttractScreen({ workflow }: { workflow: Workflow }) {
           duration: isExiting ? EXIT_DURATION_MS / 1000 : 0.7,
           ease: [0.22, 1, 0.36, 1],
         }}
-        className="absolute left-[60px] top-[412px] flex flex-col gap-10 text-white"
+        className="attract-content absolute left-[60px] top-[412px] flex flex-col gap-10 text-white"
       >
         <img
           src={localizedWorkflow.attract.brandLogo}
@@ -159,7 +159,7 @@ export function AttractScreen({ workflow }: { workflow: Workflow }) {
         type="button"
         aria-label={`Open ${localizedWorkflow.title}`}
         onPointerUp={handleEnter}
-        className="absolute inset-0 z-10 cursor-pointer touch-manipulation bg-transparent"
+        className="attract-hit-area absolute inset-0 z-10 cursor-pointer touch-manipulation bg-transparent"
       />
     </KioskViewport>
   );

@@ -135,7 +135,7 @@ function StageLayout({
 
   return (
     <ScreenShell workflow={workflow} screen={screen} hideFooter disableEntryAnimation>
-      <div className="absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
+      <div className="workflow-content-stage absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
         <div
           className={`flex items-center justify-between gap-[34px] ${layoutWidthClassName}`}
         >
@@ -636,7 +636,7 @@ export function KeyVisualClosingTemplate({
         initial={{ opacity: 0, y: 18 }}
         animate={{ opacity: 1, y: 0 }}
         transition={entryTransition}
-        className="absolute inset-0 z-10 flex items-center justify-center"
+        className="workflow-content-stage absolute inset-0 z-10 flex items-center justify-center"
       >
         <div className="flex w-[680px] flex-col items-center gap-[34px] text-center">
           <div className="flex flex-col items-center gap-[22px]">

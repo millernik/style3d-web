@@ -1,18 +1,32 @@
-# Style3D Expo Kiosk
+# Style3D Web
 
-Next.js App Router kiosk scaffold based on the Figma demo canvas.
+Responsive Next.js App Router showcase for the Style3D expo workflows.
 
-## Current flow
+## Local Development
 
-- `/workflow/workwear` intro screen
-- `/workflow/workwear/outfit-try-on`
-- `/workflow/workwear/style-redraw`
-- `/workflow/workwear/ai-graphic`
-- `/workflow/workwear/review`
+```bash
+npm install
+npm run dev
+```
+
+Open the URL printed by Next.js, usually `http://localhost:3000`.
+
+## Production Check
+
+```bash
+npm run build
+npm run start
+```
+
+## Routes
+
+- `/` and `/admin` show the workflow selection screen.
+- `/workflow/[workflowId]` shows the workflow intro state.
+- `/workflow/[workflowId]/[screenId]` shows an individual workflow screen.
+- Existing `/workflow/*/screensaver` URLs redirect to their workflow intro.
 
 ## Notes
 
 - The screen system is data-driven in `src/lib/workflows.ts`.
-- Additional Figma workflows can be added by extending the workflow registry and reusing the existing screen templates.
-- The current build uses the Figma-hosted image assets directly for speed while the kiosk UI is being assembled.
-# style3d-app
+- Assets are served from `public/assets`.
+- This repo is the browser-based web version and does not include Electron or Windows packaging.

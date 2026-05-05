@@ -26,7 +26,7 @@ function WorkflowSelectionCard({
   const uiText = getCommonUiText(language);
   const content = (
     <div
-      className={`group relative flex h-[228px] w-[540px] overflow-hidden rounded-[34px] border ${
+      className={`group relative flex h-[228px] w-[540px] max-w-full overflow-hidden rounded-[34px] border max-sm:h-auto max-sm:min-h-[220px] max-sm:w-full max-sm:rounded-[24px] ${
         isActive
           ? "cursor-pointer border-white/16 bg-white/[0.06] shadow-[0_24px_64px_rgba(0,0,0,0.28)] transition duration-200 active:scale-[0.985]"
           : "border-white/10 bg-white/[0.03] opacity-60 grayscale-[0.12]"
@@ -124,7 +124,7 @@ export function AdminSelectionScreen() {
       <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.42)_0%,rgba(0,0,0,0.74)_100%)]" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_16%,rgba(188,84,255,0.16),transparent_20%),radial-gradient(circle_at_82%_72%,rgba(70,146,255,0.1),transparent_24%)]" />
 
-      <header className="absolute inset-x-0 top-[40px] z-10 flex items-center justify-between px-[60px]">
+      <header className="admin-header absolute inset-x-0 top-[40px] z-10 flex items-center justify-between px-[60px]">
         <div className="flex items-center gap-[12px]">
           <img
             src={kioskAssets.shared.brandLogo}
@@ -139,7 +139,7 @@ export function AdminSelectionScreen() {
         </div>
       </header>
 
-      <section className="absolute inset-x-0 top-[154px] z-10 flex flex-col items-center text-center">
+      <section className="workflow-content-stage absolute inset-x-0 top-[154px] z-10 flex flex-col items-center text-center">
         <h1 className="text-[58px] font-semibold leading-[1.02] text-white">
           {uiText.adminHeading}
         </h1>
@@ -148,7 +148,7 @@ export function AdminSelectionScreen() {
         </p>
       </section>
 
-      <section className="absolute inset-x-[154px] top-[356px] z-10">
+      <section className="admin-grid absolute inset-x-[154px] top-[356px] z-10">
         <div className="grid grid-cols-2 gap-x-[28px] gap-y-[28px]">
           {entries.map((entry) => (
             <WorkflowSelectionCard key={entry.id} entry={entry} language={language} />

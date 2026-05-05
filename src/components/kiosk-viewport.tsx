@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 const ARTBOARD_WIDTH = 1440;
 const ARTBOARD_HEIGHT = 1024;
@@ -17,12 +17,12 @@ export function KioskViewport({
   backdropImage?: string;
 }) {
   const [scale, setScale] = useState(1);
-  const lastInteractionAt = useRef(Date.now());
 
   useEffect(() => {
     const updateScale = () => {
       setScale(
-        Math.max(
+        Math.min(
+          1,
           window.innerWidth / ARTBOARD_WIDTH,
           window.innerHeight / ARTBOARD_HEIGHT,
         ),
@@ -47,9 +47,8 @@ export function KioskViewport({
 
   return (
     <main
-      className="kiosk-root relative flex items-center justify-center bg-black"
+      className="kiosk-root web-viewport relative flex items-center justify-center bg-black"
       onPointerDown={() => {
-        lastInteractionAt.current = Date.now();
         onPointerDown?.();
       }}
     >
@@ -67,7 +66,7 @@ export function KioskViewport({
       )}
 
       <div
-        className={`absolute left-1/2 top-1/2 overflow-hidden ${className}`}
+        className={`web-artboard absolute left-1/2 top-1/2 overflow-hidden ${className}`}
         style={viewportStyle}
       >
         {children}

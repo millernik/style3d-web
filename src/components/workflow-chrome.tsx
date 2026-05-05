@@ -1,9 +1,9 @@
 "use client";
 
+import Link from "next/link";
 import type { ReactNode } from "react";
 import { useMemo } from "react";
 
-import { AdminShortcutTrigger } from "@/components/admin-shortcut-trigger";
 import type { FooterConfig, Workflow, WorkflowScreen } from "@/lib/workflows";
 import { useWorkflowLanguage } from "@/lib/workflow-language";
 import { localizeScreen, localizeWorkflow } from "@/lib/workflow-localization";
@@ -40,20 +40,13 @@ export function WorkflowChrome({
   return (
     <>
       <div
-        style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          width: "100%",
-          zIndex: 9999,
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          padding: "40px 60px 0",
-          pointerEvents: "none",
-        }}
+        className="workflow-chrome fixed left-0 top-0 z-[9999] flex w-full items-center justify-between gap-4 px-[60px] pt-[40px] text-white"
       >
-        <AdminShortcutTrigger>
+        <Link
+          href="/"
+          aria-label="Open workflow selection"
+          className="flex items-center gap-[12px]"
+        >
           <div
             style={{
               display: "flex",
@@ -61,34 +54,24 @@ export function WorkflowChrome({
               gap: "12px",
             }}
           >
-          <img
-            src={localizedWorkflow.brandLogo}
-            alt="Style3D"
-            style={{ height: "38px", width: "146px" }}
-          />
+            <img
+              src={localizedWorkflow.brandLogo}
+              alt="Style3D"
+              className="h-[38px] w-[146px]"
+            />
           </div>
-        </AdminShortcutTrigger>
+        </Link>
 
         <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "12px",
-            pointerEvents: "auto",
-          }}
+          className="flex min-w-0 items-center gap-[12px]"
         >
           <img
             src={localizedWorkflow.workflowIcon}
             alt=""
-            style={{ height: "44.746px", width: "44px" }}
+            className="h-[44.746px] w-[44px] shrink-0"
           />
           <span
-            style={{
-              color: "white",
-              fontSize: "28px",
-              fontWeight: 500,
-              lineHeight: "normal",
-            }}
+            className="truncate text-[28px] font-medium leading-normal text-white"
           >
             {localizedWorkflow.title}
           </span>
@@ -96,55 +79,22 @@ export function WorkflowChrome({
       </div>
       {localizedFooter ? (
         <div
-          style={{
-            position: "fixed",
-            left: 0,
-            bottom: 0,
-            width: "100%",
-            zIndex: 9999,
-            pointerEvents: "none",
-          }}
+          className="workflow-footer fixed bottom-0 left-0 z-[9999] w-full"
         >
           <div
-            style={{
-              display: "flex",
-              width: "min(calc(100vw - 100px), 1340px)",
-              margin: "0 auto",
-              justifyContent: "space-between",
-              alignItems: "center",
-              paddingBottom: "50px",
-            }}
+            className="mx-auto flex w-[min(calc(100vw_-_100px),1340px)] items-center justify-between gap-5 pb-[50px]"
           >
             <span
-              style={{
-                color: "white",
-                fontSize: "28px",
-                fontWeight: 300,
-                lineHeight: "normal",
-              }}
-              >
+              className="text-[28px] font-light leading-normal text-white"
+            >
               {localizedFooter.label}
             </span>
             <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "12px",
-                color: "white",
-                fontSize: "28px",
-                fontWeight: 300,
-                lineHeight: "normal",
-              }}
+              className="flex items-center gap-[12px] text-[28px] font-light leading-normal text-white"
             >
               <span>{localizedFooter.current}</span>
               <span
-                style={{
-                  display: "block",
-                  width: "165px",
-                  height: "2px",
-                  borderRadius: "999px",
-                  background: "#757575",
-                }}
+                className="block h-[2px] w-[165px] rounded-full bg-[#757575]"
               />
               <span>{localizedFooter.total}</span>
             </div>

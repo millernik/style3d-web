@@ -4,8 +4,8 @@ import "./globals.css";
 import { WorkflowLanguageProvider } from "@/lib/workflow-language";
 
 export const metadata: Metadata = {
-  title: "Style3D Expo Kiosk",
-  description: "Kiosk workflow showcase for expo use.",
+  title: "Style3D Web Showcase",
+  description: "Responsive Style3D workflow showcase for the browser.",
 };
 
 export default function RootLayout({

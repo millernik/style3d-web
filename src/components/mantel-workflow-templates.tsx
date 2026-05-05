@@ -212,7 +212,7 @@ export function MantelIntroTemplate({
         initial={{ opacity: 0, y: 18 }}
         animate={{ opacity: 1, y: 0 }}
         transition={entryTransition}
-        className="absolute inset-x-0 top-[198px] z-10 flex flex-col items-center"
+        className="workflow-content-stage absolute inset-x-0 top-[198px] z-10 flex flex-col items-center"
       >
         <div className="mb-[22px] flex w-[940px] justify-center">
           <WorkflowLanguageSwitch />
@@ -343,7 +343,7 @@ export function MantelImageToSketchTemplate({
 
   return (
     <ScreenShell workflow={workflow} screen={screen} hideFooter disableEntryAnimation>
-      <div className="absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
+      <div className="workflow-content-stage absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
         <div className="flex w-[1136px] items-center justify-between">
           <div className="flex w-[486px] flex-col items-center gap-[18px]">
             <NarrativeCard
@@ -465,7 +465,7 @@ export function MantelDetailGalleryTemplate({
 
   return (
     <ScreenShell workflow={workflow} screen={screen} hideFooter disableEntryAnimation>
-      <div className="absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
+      <div className="workflow-content-stage absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
         <div className="flex w-[1120px] items-center justify-between">
           <div className="flex w-[486px] flex-col items-center gap-[18px]">
             <NarrativeCard
@@ -604,7 +604,7 @@ export function MantelTryOnTemplate({
 
   return (
     <ScreenShell workflow={workflow} screen={screen} hideFooter disableEntryAnimation>
-      <div className="absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
+      <div className="workflow-content-stage absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
         <div className="flex w-[1296px] items-center justify-between">
           <div className="flex w-[646px] flex-col items-center gap-[18px]">
             <NarrativeCard
@@ -740,7 +740,7 @@ export function MantelTechPackTemplate({
 
   return (
     <ScreenShell workflow={workflow} screen={screen} hideFooter disableEntryAnimation>
-      <div className="absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
+      <div className="workflow-content-stage absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
         <div className="flex w-[1160px] items-center justify-between">
           <div className="flex w-[486px] flex-col items-center gap-[18px]">
             <NarrativeCard
@@ -842,7 +842,7 @@ export function MantelColorwayTemplate({
 
   return (
     <ScreenShell workflow={workflow} screen={screen} hideFooter disableEntryAnimation>
-      <div className="absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
+      <div className="workflow-content-stage absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
         <div className="flex w-[1120px] items-center justify-between">
           <div className="flex w-[486px] flex-col items-center gap-[18px]">
             <NarrativeCard
@@ -935,7 +935,7 @@ export function MantelCampaignTemplate({
 
   return (
     <ScreenShell workflow={workflow} screen={screen} hideFooter disableEntryAnimation>
-      <div className="absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
+      <div className="workflow-content-stage absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
         <div className="flex w-[1160px] items-center justify-between">
           <div className="flex w-[486px] flex-col items-center gap-[18px]">
             <NarrativeCard
@@ -1041,7 +1041,7 @@ export function MantelCampaignGenerationTemplate({
 
   return (
     <ScreenShell workflow={workflow} screen={screen} hideFooter disableEntryAnimation>
-      <div className="absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
+      <div className="workflow-content-stage absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
         <div className="flex w-[1224px] items-center justify-between">
           <div className="flex w-[548px] flex-col items-center gap-[18px]">
             <NarrativeCard
@@ -1135,7 +1135,7 @@ export function MantelReviewGalleryTemplate({
 
   return (
     <ScreenShell workflow={workflow} screen={screen} hideFooter disableEntryAnimation>
-      <div className="absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
+      <div className="workflow-content-stage absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
         <div className="flex w-[1160px] items-center justify-between">
           <div className="flex w-[486px] flex-col items-center gap-[18px]">
             <NarrativeCard
@@ -1252,7 +1252,7 @@ export function MantelClosingTemplate({
         initial={{ opacity: 0, y: 18 }}
         animate={{ opacity: 1, y: 0 }}
         transition={entryTransition}
-        className="absolute left-[84px] top-[236px] z-10 flex w-[1272px] flex-col gap-[12px]"
+        className="workflow-content-stage absolute left-[84px] top-[236px] z-10 flex w-[1272px] flex-col gap-[12px]"
       >
         <div className="flex w-[670px] flex-col gap-[2px]">
           <div className="flex items-center gap-[10px]">

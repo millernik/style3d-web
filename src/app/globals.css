@@ -30,22 +30,14 @@ html,
 body {
   margin: 0;
   width: 100%;
-  height: 100%;
-  overflow: hidden;
+  min-height: 100%;
+  overflow-x: hidden;
   background: var(--bg-base);
   color: var(--text-primary);
-  user-select: none;
-  -webkit-user-select: none;
-  overscroll-behavior: none;
 }
 
 body {
-  touch-action: manipulation;
   font-family: "Poppins", "Avenir Next", "Segoe UI", sans-serif;
-}
-
-img {
-  -webkit-user-drag: none;
 }
 
 button,
@@ -56,10 +48,19 @@ a {
 .kiosk-root {
   position: relative;
   isolation: isolate;
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
+  width: 100%;
+  min-height: 100svh;
+  overflow-x: hidden;
+  overflow-y: auto;
   background: var(--bg-base);
+}
+
+.web-viewport {
+  min-height: 100svh;
+}
+
+.web-artboard {
+  max-width: none;
 }
 
 .screen-fade-in {
@@ -131,6 +132,192 @@ a {
   font-weight: 400;
   line-height: normal;
   color: var(--text-primary);
+}
+
+@media (max-width: 1023px) {
+  :root {
+    --space-shell-margin: 28px;
+  }
+
+  .workflow-chrome {
+    padding: 24px 28px 0;
+  }
+
+  .workflow-chrome img[alt="Style3D"] {
+    height: 30px;
+    width: 116px;
+  }
+
+  .workflow-chrome span {
+    font-size: 22px;
+  }
+
+  .workflow-footer > div {
+    width: calc(100vw - 56px);
+    padding-bottom: 28px;
+  }
+}
+
+@media (max-width: 767px) {
+  .web-viewport {
+    align-items: stretch;
+    justify-content: stretch;
+  }
+
+  .web-artboard {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 100svh;
+    transform: none !important;
+    overflow: visible;
+  }
+
+  .workflow-chrome {
+    position: sticky;
+    top: 0;
+    align-items: flex-start;
+    padding: 18px 18px 12px;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.86), rgba(0, 0, 0, 0));
+  }
+
+  .workflow-chrome > a {
+    flex-shrink: 0;
+  }
+
+  .workflow-chrome span {
+    max-width: 180px;
+    font-size: 16px;
+  }
+
+  .workflow-chrome img[alt=""] {
+    height: 30px;
+    width: 30px;
+  }
+
+  .workflow-footer {
+    position: static;
+    padding: 24px 18px 32px;
+  }
+
+  .workflow-footer > div {
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-bottom: 0;
+  }
+
+  .workflow-footer span,
+  .workflow-footer div {
+    font-size: 18px;
+  }
+
+  .workflow-footer span[aria-hidden],
+  .workflow-footer .block {
+    width: 96px;
+  }
+
+  .workflow-content-stage {
+    position: relative !important;
+    inset: auto !important;
+    top: auto !important;
+    bottom: auto !important;
+    left: auto !important;
+    right: auto !important;
+    width: 100% !important;
+    max-width: 100%;
+    padding: 96px 18px 32px;
+  }
+
+  .workflow-content-stage > div {
+    width: 100% !important;
+    max-width: 100%;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .workflow-content-stage [class*="w-["] {
+    max-width: 100%;
+  }
+
+  .workflow-content-stage [class*="h-["] {
+    max-height: 68svh;
+  }
+
+  .admin-header {
+    position: relative !important;
+    inset: auto !important;
+    padding: 22px 18px 0;
+  }
+
+  .admin-header img {
+    height: 30px;
+    width: 116px;
+  }
+
+  .admin-header p {
+    font-size: 14px;
+    letter-spacing: 0.12em;
+  }
+
+  .admin-grid {
+    position: relative !important;
+    inset: auto !important;
+    padding: 0 18px 40px;
+  }
+
+  .admin-grid > div {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .attract-content {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    min-height: 100svh;
+    justify-content: center;
+    gap: 24px;
+    padding: 120px 24px 96px;
+  }
+
+  .attract-content img[alt="Style3D"] {
+    height: auto;
+    width: min(240px, 72vw);
+  }
+
+  .attract-content p {
+    font-size: 30px;
+  }
+
+  .attract-content button {
+    min-height: 54px;
+    font-size: 18px;
+  }
+
+  .attract-hit-area {
+    min-height: 100svh;
+  }
+
+  .text-kiosk-display-hero {
+    font-size: 34px;
+  }
+
+  .text-kiosk-title-page,
+  .text-kiosk-title-shell {
+    font-size: 24px;
+  }
+
+  .text-kiosk-body-lg {
+    font-size: 18px;
+  }
+
+  .text-kiosk-body-md,
+  .text-kiosk-label-md {
+    font-size: 16px;
+  }
 }
 
 @keyframes screen-fade-in {
