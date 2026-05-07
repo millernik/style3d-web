@@ -61,6 +61,7 @@ type SharedUi = {
     className?: string;
     contentClassName?: string;
   }) => ReactNode;
+  BookingLinkPill: (props: { children: ReactNode }) => ReactNode;
   SubtleActionPill: (props: { label: string; onClick: () => void }) => ReactNode;
   SecondaryPill: (props: {
     children: ReactNode;
@@ -900,7 +901,7 @@ export function NachtwaescheClosingTemplate({
   shared,
 }: SharedProps<NachtwaescheClosingScreen>) {
   const router = useRouter();
-  const { WorkflowShell, AvatarDiamond, ActionPill, SecondaryPill } = shared;
+  const { WorkflowShell, AvatarDiamond, ActionPill, BookingLinkPill, SecondaryPill } = shared;
 
   return (
     <WorkflowShell workflow={workflow} backdropImage={screen.backdropImage}>
@@ -928,9 +929,9 @@ export function NachtwaescheClosingTemplate({
           </div>
 
           {screen.bookingCtaLabel ? (
-            <p className="w-[480px] text-center text-[17px] font-semibold text-white">
+            <BookingLinkPill>
               {screen.bookingCtaLabel}
-            </p>
+            </BookingLinkPill>
           ) : null}
 
           {screen.qrImage ? (

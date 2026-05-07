@@ -55,6 +55,7 @@ type SharedUi = {
     glowPreset?: "default" | "workwear-intro";
     onClick?: () => void;
   }) => ReactNode;
+  BookingLinkPill: (props: { children: ReactNode }) => ReactNode;
   SubtleActionPill: (props: { label: string; onClick: () => void }) => ReactNode;
   SecondaryPill: (props: {
     children: ReactNode;
@@ -614,7 +615,7 @@ export function KeyVisualClosingTemplate({
   shared,
 }: SharedProps<KeyVisualClosingScreen>) {
   const router = useRouter();
-  const { WorkflowShell, AvatarDiamond, ActionPill, SecondaryPill } = shared;
+  const { WorkflowShell, AvatarDiamond, ActionPill, BookingLinkPill, SecondaryPill } = shared;
 
   return (
     <WorkflowShell workflow={workflow} backdropImage={screen.backdropImage}>
@@ -653,9 +654,9 @@ export function KeyVisualClosingTemplate({
           </div>
 
           {screen.bookingCtaLabel ? (
-            <p className="w-[480px] text-center text-[17px] font-semibold text-white">
+            <BookingLinkPill>
               {screen.bookingCtaLabel}
-            </p>
+            </BookingLinkPill>
           ) : null}
 
           <div className="flex items-center gap-[18px]">

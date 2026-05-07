@@ -20,6 +20,7 @@
   --space-stack-copy: 24px;
   --space-stack-section: 42px;
   --space-shell-margin: 50px;
+  --desktop-safe-x: clamp(32px, 4vw, 88px);
 }
 
 * {
@@ -30,8 +31,9 @@ html,
 body {
   margin: 0;
   width: 100%;
+  height: 100%;
   min-height: 100%;
-  overflow-x: hidden;
+  overflow: hidden;
   background: var(--bg-base);
   color: var(--text-primary);
 }
@@ -45,21 +47,25 @@ a {
   -webkit-tap-highlight-color: transparent;
 }
 
+.desktop-only-guard {
+  display: none;
+}
+
 .kiosk-root {
   position: relative;
   isolation: isolate;
   width: 100%;
-  min-height: 100svh;
-  overflow-x: hidden;
-  overflow-y: auto;
+  height: 100dvh;
+  overflow: hidden;
   background: var(--bg-base);
 }
 
 .web-viewport {
-  min-height: 100svh;
+  height: 100dvh;
 }
 
-.web-artboard {
+.web-viewport-content {
+  isolation: isolate;
   max-width: none;
 }
 
@@ -134,9 +140,58 @@ a {
   color: var(--text-primary);
 }
 
+.selection-viewport {
+  height: 100dvh;
+  min-height: 100dvh;
+  overflow: hidden;
+}
+
+.workflow-card-readable-overlay {
+  background:
+    linear-gradient(90deg, rgba(5, 5, 8, 0.72) 0%, rgba(5, 5, 8, 0.54) 34%, rgba(5, 5, 8, 0.18) 72%, rgba(5, 5, 8, 0.1) 100%),
+    linear-gradient(180deg, rgba(8, 8, 10, 0.1) 0%, rgba(8, 8, 10, 0.18) 46%, rgba(8, 8, 10, 0.58) 100%);
+}
+
+.workflow-selection-header {
+  top: clamp(34px, 4vh, 48px);
+  padding-inline: var(--desktop-safe-x);
+}
+
+.workflow-selection-heading {
+  top: clamp(86px, 10.5vh, 132px);
+  padding-inline: var(--desktop-safe-x);
+}
+
+.workflow-selection-heading h1 {
+  font-size: clamp(40px, 3.5vw, 60px);
+}
+
+.workflow-selection-grid {
+  left: var(--desktop-safe-x);
+  right: var(--desktop-safe-x);
+  top: clamp(198px, 24.5vh, 302px);
+}
+
+.workflow-selection-grid > div {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(18px, 2vw, 30px);
+}
+
+.workflow-selection-grid a,
+.workflow-selection-grid a > div,
+.workflow-selection-grid > div > div {
+  width: 100%;
+}
+
+.workflow-selection-grid a > div,
+.workflow-selection-grid > div > div {
+  height: clamp(230px, 17vw, 252px);
+}
+
 @media (max-width: 1023px) {
   :root {
     --space-shell-margin: 28px;
+    --desktop-safe-x: 28px;
   }
 
   .workflow-chrome {
@@ -164,13 +219,13 @@ a {
     justify-content: stretch;
   }
 
-  .web-artboard {
+  .web-viewport-content {
     position: relative !important;
     left: auto !important;
     top: auto !important;
     width: 100% !important;
     height: auto !important;
-    min-height: 100svh;
+    min-height: 100dvh;
     transform: none !important;
     overflow: visible;
   }
@@ -317,6 +372,54 @@ a {
   .text-kiosk-body-md,
   .text-kiosk-label-md {
     font-size: 16px;
+  }
+}
+
+@media (max-width: 899px) {
+  html,
+  body {
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .desktop-app-shell {
+    display: none;
+  }
+
+  .desktop-only-guard {
+    display: flex;
+    min-height: 100svh;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 32px;
+    text-align: center;
+    background:
+      radial-gradient(circle at 50% 42%, rgba(217, 66, 255, 0.24), transparent 28%),
+      linear-gradient(180deg, #050505 0%, #000 100%);
+    color: white;
+  }
+
+  .desktop-only-guard > div {
+    display: flex;
+    max-width: 520px;
+    flex-direction: column;
+    align-items: center;
+    gap: 22px;
+  }
+
+  .desktop-only-guard__mark {
+    font-size: 28px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+
+  .desktop-only-guard p {
+    max-width: 460px;
+    font-size: 20px;
+    font-weight: 300;
+    line-height: 1.45;
+    color: rgba(255, 255, 255, 0.86);
   }
 }
 

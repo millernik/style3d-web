@@ -358,6 +358,7 @@ const sharedWorkflowUi = {
   ComparisonTrack,
   StepThreeStatusPill,
   ActionPill,
+  BookingLinkPill,
   SubtleActionPill,
   SecondaryPill,
   SegmentedStateToggle,
@@ -1978,9 +1979,9 @@ function ClosingTemplate({
           </div>
 
           <div className="flex flex-col items-center gap-[24px]">
-            <p className="w-[480px] text-center text-[17px] font-semibold text-white">
+            <BookingLinkPill>
               {screen.bookingCtaLabel ?? screen.ctaLabel ?? uiText.bookDemoNow}
-            </p>
+            </BookingLinkPill>
             <div className="h-[64px] w-[64px]">
               <img
                 src={screen.qrImage ?? kioskAssets.workwear.closingQr}
@@ -2273,8 +2274,10 @@ function BeforeAfterSlider({
     >
       <div
         ref={containerRef}
-        className="relative h-full w-full cursor-col-resize touch-none"
+        className="relative h-full w-full cursor-col-resize touch-none select-none"
+        style={{ userSelect: "none", WebkitUserSelect: "none", touchAction: "none" }}
         onPointerDown={(event) => {
+          event.preventDefault();
           activePointerId.current = event.pointerId;
           event.currentTarget.setPointerCapture(event.pointerId);
           updatePosition(event.clientX);
@@ -2284,6 +2287,7 @@ function BeforeAfterSlider({
             return;
           }
 
+          event.preventDefault();
           updatePosition(event.clientX);
         }}
         onPointerUp={(event) => {
@@ -2311,6 +2315,8 @@ function BeforeAfterSlider({
           <img
             src={sketchSrc}
             alt=""
+            draggable={false}
+            onDragStart={(event) => event.preventDefault()}
             className={`pointer-events-none ${artClassName ?? "h-[604px] w-auto max-w-none"}`}
           />
         </div>
@@ -2322,6 +2328,8 @@ function BeforeAfterSlider({
           <img
             src={renderSrc}
             alt=""
+            draggable={false}
+            onDragStart={(event) => event.preventDefault()}
             className={`pointer-events-none ${renderArtClassName ?? artClassName ?? "h-[604px] w-auto max-w-none"}`}
           />
         </div>
@@ -2373,8 +2381,10 @@ function ComparisonTrack({
   return (
     <div
       ref={containerRef}
-      className="relative h-[44px] w-full touch-none"
+      className="relative h-[44px] w-full cursor-col-resize touch-none select-none"
+      style={{ userSelect: "none", WebkitUserSelect: "none", touchAction: "none" }}
       onPointerDown={(event) => {
+        event.preventDefault();
         activePointerId.current = event.pointerId;
         event.currentTarget.setPointerCapture(event.pointerId);
         updatePosition(event.clientX);
@@ -2384,6 +2394,7 @@ function ComparisonTrack({
           return;
         }
 
+        event.preventDefault();
         updatePosition(event.clientX);
       }}
       onPointerUp={(event) => {
@@ -2409,7 +2420,7 @@ function ComparisonTrack({
     >
       <div
         className={`absolute left-1/2 top-[18px] h-[4px] -translate-x-1/2 rounded-full bg-[rgba(255,255,255,0.2)] ${
-          railClassName ?? "w-[492px]"
+          railClassName ?? "w-full"
         }`}
       />
       <div
@@ -2571,6 +2582,25 @@ function ActionPill({
         {children}
       </span>
     </motion.button>
+  );
+}
+
+function BookingLinkPill({ children }: { children: React.ReactNode }) {
+  return (
+    <motion.a
+      whileTap={{ scale: 0.97 }}
+      transition={{ duration: 0.18 }}
+      href="https://style3d-assyst.com/contact/"
+      className="relative inline-flex rounded-full px-[40px] py-[10px] text-kiosk-label-md font-semibold text-white"
+    >
+      <span
+        aria-hidden="true"
+        className="absolute inset-[-10px] rounded-full bg-kiosk-gradient blur-[40px] opacity-90"
+      />
+      <span className="relative flex items-center gap-[10px] rounded-full bg-kiosk-gradient px-[40px] py-[10px]">
+        {children}
+      </span>
+    </motion.a>
   );
 }
 
@@ -2776,7 +2806,7 @@ function FooterProgress({
   className?: string;
 }) {
   return (
-    <div className={`absolute left-[50px] top-[924px] flex w-[1340px] items-center justify-between ${className ?? ""}`}>
+    <div className={`absolute bottom-[34px] left-[50px] flex w-[1340px] items-center justify-between ${className ?? ""}`}>
       <p className="text-kiosk-title-shell font-extralight">{label ?? ""}</p>
       <div className="flex items-center gap-[12px] text-kiosk-title-shell font-extralight">
         <span>{current}</span>

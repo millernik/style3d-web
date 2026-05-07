@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useMemo } from "react";
 
 import { KioskViewport } from "@/components/kiosk-viewport";
+import { WorkflowLanguageSwitch } from "@/components/workflow-language-switch";
 import {
   getWorkflowSelectionEntries,
   kioskAssets,
@@ -41,22 +42,22 @@ function WorkflowSelectionCard({
               isActive ? "transition duration-300 group-hover:scale-[1.03]" : ""
             }`}
           />
-          <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(8,8,10,0.04)_0%,rgba(8,8,10,0.1)_100%)]" />
+          <div className="workflow-card-readable-overlay pointer-events-none absolute inset-0" />
           {isActive ? (
-            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[154px] bg-[linear-gradient(180deg,rgba(8,8,10,0)_0%,rgba(8,8,10,0.14)_26%,rgba(8,8,10,0.54)_62%,rgba(8,8,10,0.9)_100%)]" />
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[174px] bg-[linear-gradient(180deg,rgba(8,8,10,0)_0%,rgba(8,8,10,0.18)_24%,rgba(8,8,10,0.62)_64%,rgba(8,8,10,0.92)_100%)]" />
           ) : null}
         </>
       ) : (
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_18%,rgba(182,90,255,0.26),transparent_22%),linear-gradient(180deg,rgba(36,36,40,0.95)_0%,rgba(14,14,16,0.98)_100%)]" />
       )}
 
-      <div className="relative z-10 flex h-full w-full flex-col justify-between p-[28px]">
+      <div className="relative z-10 flex h-full w-full flex-col justify-between p-[clamp(22px,2vw,28px)]">
         <div className="flex items-start justify-between gap-[18px]">
           <div className="space-y-[8px]">
             <p className="text-[14px] font-medium uppercase tracking-[0.22em] text-white/55">
               {uiText.workflowEyebrow}
             </p>
-            <h2 className="text-[38px] font-semibold leading-[1.02] text-white">
+            <h2 className="text-[clamp(31px,2.7vw,38px)] font-semibold leading-[1.02] text-white">
               {entry.title}
             </h2>
           </div>
@@ -77,18 +78,18 @@ function WorkflowSelectionCard({
           </div>
         </div>
 
-        <div className="space-y-[18px]">
-          <p className="max-w-[360px] text-[20px] font-[300] leading-[1.3] text-white/88">
+        <div className="flex flex-col gap-[clamp(10px,1.1vw,18px)]">
+          <p className="max-w-[360px] text-[clamp(17px,1.45vw,20px)] font-[300] leading-[1.24] text-white/88">
             {entry.subtitle}
           </p>
 
           {isActive ? (
-            <div className="inline-flex items-center gap-[10px] rounded-full border border-white/14 bg-white/8 px-[18px] py-[10px] text-[15px] font-medium text-white">
+            <div className="inline-flex self-start items-center gap-[10px] rounded-full border border-white/14 bg-white/8 px-[18px] py-[clamp(8px,0.9vw,10px)] text-[15px] font-medium text-white">
               <span>{uiText.openWorkflow}</span>
               <span aria-hidden="true">→</span>
             </div>
           ) : (
-            <div className="inline-flex items-center gap-[10px] rounded-full border border-white/12 bg-white/5 px-[18px] py-[10px] text-[15px] font-medium text-white/60">
+            <div className="inline-flex self-start items-center gap-[10px] rounded-full border border-white/12 bg-white/5 px-[18px] py-[clamp(8px,0.9vw,10px)] text-[15px] font-medium text-white/60">
               <span>{uiText.comingSoon}</span>
             </div>
           )}
@@ -101,8 +102,10 @@ function WorkflowSelectionCard({
     return content;
   }
 
+  const href = `${entry.startHref}?lang=${language}`;
+
   return (
-    <Link href={entry.startHref} className="block focus:outline-none">
+    <Link href={href} className="block focus:outline-none">
       {content}
     </Link>
   );
@@ -120,11 +123,11 @@ export function AdminSelectionScreen() {
   );
 
   return (
-    <KioskViewport>
+    <KioskViewport className="selection-viewport">
       <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.42)_0%,rgba(0,0,0,0.74)_100%)]" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_16%,rgba(188,84,255,0.16),transparent_20%),radial-gradient(circle_at_82%_72%,rgba(70,146,255,0.1),transparent_24%)]" />
 
-      <header className="admin-header absolute inset-x-0 top-[40px] z-10 flex items-center justify-between px-[60px]">
+      <header className="admin-header workflow-selection-header absolute inset-x-0 z-10 flex items-center justify-between">
         <div className="flex items-center gap-[12px]">
           <img
             src={kioskAssets.shared.brandLogo}
@@ -133,22 +136,17 @@ export function AdminSelectionScreen() {
           />
         </div>
         <div className="flex items-center">
-          <p className="text-[28px] font-medium leading-none tracking-[0.18em] text-white/58">
-            {uiText.adminEyebrow}
-          </p>
+          <WorkflowLanguageSwitch />
         </div>
       </header>
 
-      <section className="workflow-content-stage absolute inset-x-0 top-[154px] z-10 flex flex-col items-center text-center">
+      <section className="workflow-selection-heading absolute inset-x-0 z-10 flex flex-col items-center text-center">
         <h1 className="text-[58px] font-semibold leading-[1.02] text-white">
           {uiText.adminHeading}
         </h1>
-        <p className="mt-[18px] max-w-[740px] text-[24px] font-[300] leading-[1.4] text-white/78">
-          {uiText.adminDescription}
-        </p>
       </section>
 
-      <section className="admin-grid absolute inset-x-[154px] top-[356px] z-10">
+      <section className="admin-grid workflow-selection-grid absolute z-10">
         <div className="grid grid-cols-2 gap-x-[28px] gap-y-[28px]">
           {entries.map((entry) => (
             <WorkflowSelectionCard key={entry.id} entry={entry} language={language} />

@@ -16,7 +16,18 @@ export default function RootLayout({
   return (
     <html lang="de">
       <body>
-        <WorkflowLanguageProvider>{children}</WorkflowLanguageProvider>
+        <div className="desktop-app-shell">
+          <WorkflowLanguageProvider>{children}</WorkflowLanguageProvider>
+        </div>
+        <div className="desktop-only-guard" aria-live="polite">
+          <div>
+            <div className="desktop-only-guard__mark">Style3D</div>
+            <p>
+              Diese Demo ist für Desktop-Ansichten optimiert. Bitte öffne sie auf
+              einem Laptop oder Desktop.
+            </p>
+          </div>
+        </div>
       </body>
     </html>
   );

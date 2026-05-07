@@ -67,7 +67,7 @@ const text = (de: string, en: string): LocalizedText => ({ de, en });
 const lines = (de: string[], en: string[]): LocalizedLines => ({ de, en });
 
 const commonUiText = {
-  adminEyebrow: text("ADMIN", "ADMIN"),
+  adminEyebrow: text("Workflow Auswahl", "Workflow Selection"),
   adminHeading: text("Workflow Auswahl", "Workflow Selection"),
   adminDescription: text(
     "Wähle die passende Demo aus. Alle vier Showcase-Workflows sind jetzt live und können direkt gestartet werden.",
@@ -216,8 +216,8 @@ const workflowLocales: Partial<Record<Workflow["id"], WorkflowLocalePatch>> = {
           ],
         ),
         bookingCtaLabel: text(
-          "Jetzt Demo buchen - hier am Stand oder online",
-          "Book demo now - here at the booth or online",
+          "Jetzt Demo buchen",
+          "Book demo now",
         ),
         primaryCtaLabel: text("Neu starten", "Restart"),
         secondaryCtaLabel: text("Overview", "Overview"),
@@ -501,8 +501,8 @@ const workflowLocales: Partial<Record<Workflow["id"], WorkflowLocalePatch>> = {
           ],
         ),
         bookingCtaLabel: text(
-          "Jetzt Demo buchen - hier am Stand oder online",
-          "Book demo now - here at the booth or online",
+          "Jetzt Demo buchen",
+          "Book demo now",
         ),
         primaryCtaLabel: text("Neu starten", "Restart"),
         secondaryCtaLabel: text("Overview", "Overview"),
@@ -629,8 +629,8 @@ const workflowLocales: Partial<Record<Workflow["id"], WorkflowLocalePatch>> = {
           ],
         ),
         bookingCtaLabel: text(
-          "Jetzt Demo buchen - hier am Stand oder online",
-          "Book demo now - here at the booth or online",
+          "Jetzt Demo buchen",
+          "Book demo now",
         ),
         primaryCtaLabel: text("Neu starten", "Restart"),
         secondaryCtaLabel: text("Überblick", "Overview"),
