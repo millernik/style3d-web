@@ -4,8 +4,8 @@ import "./globals.css";
 import { WorkflowLanguageProvider } from "@/lib/workflow-language";
 
 export const metadata: Metadata = {
-  title: "Style3D Expo Kiosk",
-  description: "Kiosk workflow showcase for expo use.",
+  title: "Style3D Web Showcase",
+  description: "Responsive Style3D workflow showcase for the browser.",
 };
 
 export default function RootLayout({
@@ -16,7 +16,18 @@ export default function RootLayout({
   return (
     <html lang="de">
       <body>
-        <WorkflowLanguageProvider>{children}</WorkflowLanguageProvider>
+        <div className="desktop-app-shell">
+          <WorkflowLanguageProvider>{children}</WorkflowLanguageProvider>
+        </div>
+        <div className="desktop-only-guard" aria-live="polite">
+          <div>
+            <div className="desktop-only-guard__mark">Style3D</div>
+            <p>
+              Diese Demo ist für Desktop-Ansichten optimiert. Bitte öffne sie auf
+              einem Laptop oder Desktop.
+            </p>
+          </div>
+        </div>
       </body>
     </html>
   );

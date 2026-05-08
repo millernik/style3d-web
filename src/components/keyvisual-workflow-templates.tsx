@@ -29,6 +29,7 @@ type SharedUi = {
   WorkflowShell: (props: {
     workflow: Workflow;
     backdropImage?: string;
+    fullBleedLayer?: ReactNode;
     children: ReactNode;
   }) => ReactNode;
   NarrativeCard: (props: {
@@ -55,6 +56,7 @@ type SharedUi = {
     glowPreset?: "default" | "workwear-intro";
     onClick?: () => void;
   }) => ReactNode;
+  BookingLinkPill: (props: { children: ReactNode }) => ReactNode;
   SubtleActionPill: (props: { label: string; onClick: () => void }) => ReactNode;
   SecondaryPill: (props: {
     children: ReactNode;
@@ -135,7 +137,7 @@ function StageLayout({
 
   return (
     <ScreenShell workflow={workflow} screen={screen} hideFooter disableEntryAnimation>
-      <div className="absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
+      <div className="workflow-content-stage absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
         <div
           className={`flex items-center justify-between gap-[34px] ${layoutWidthClassName}`}
         >
@@ -614,31 +616,38 @@ export function KeyVisualClosingTemplate({
   shared,
 }: SharedProps<KeyVisualClosingScreen>) {
   const router = useRouter();
-  const { WorkflowShell, AvatarDiamond, ActionPill, SecondaryPill } = shared;
+  const { WorkflowShell, AvatarDiamond, ActionPill, BookingLinkPill, SecondaryPill } = shared;
 
   return (
-    <WorkflowShell workflow={workflow} backdropImage={screen.backdropImage}>
-      <img
-        src={screen.backdropImage}
-        alt=""
-        className="pointer-events-none absolute inset-0 z-0 h-full w-full object-cover object-[80%_28%]"
-      />
-      {screen.backgroundAccentImage ? (
-        <img
-          src={screen.backgroundAccentImage}
-          alt=""
-          className="pointer-events-none absolute bottom-0 left-[-120px] z-0 h-[860px] w-[560px] object-cover opacity-[0.8]"
-        />
-      ) : null}
-      <div className="pointer-events-none absolute inset-0 z-[1] bg-[linear-gradient(180deg,rgba(0,0,0,0.56),rgba(0,0,0,0.78))]" />
+    <WorkflowShell
+      workflow={workflow}
+      backdropImage={screen.backdropImage}
+      fullBleedLayer={
+        <>
+          <img
+            src={screen.backdropImage}
+            alt=""
+            className="absolute inset-0 h-full w-full object-cover object-[80%_28%]"
+          />
+          {screen.backgroundAccentImage ? (
+            <img
+              src={screen.backgroundAccentImage}
+              alt=""
+              className="absolute bottom-0 left-[-120px] h-[860px] w-[560px] object-cover opacity-[0.8]"
+            />
+          ) : null}
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.56),rgba(0,0,0,0.78))]" />
+        </>
+      }
+    >
 
       <motion.section
         initial={{ opacity: 0, y: 18 }}
         animate={{ opacity: 1, y: 0 }}
         transition={entryTransition}
-        className="absolute inset-0 z-10 flex items-center justify-center"
+        className="workflow-content-stage absolute inset-0 z-10 flex items-center justify-center"
       >
-        <div className="flex w-[680px] flex-col items-center gap-[34px] text-center">
+        <div className="workflow-main-content-lift flex w-[680px] flex-col items-center gap-[34px] text-center">
           <div className="flex flex-col items-center gap-[22px]">
             <AvatarDiamond
               image={screen.avatar}
@@ -653,9 +662,9 @@ export function KeyVisualClosingTemplate({
           </div>
 
           {screen.bookingCtaLabel ? (
-            <p className="w-[480px] text-center text-[17px] font-semibold text-white">
+            <BookingLinkPill>
               {screen.bookingCtaLabel}
-            </p>
+            </BookingLinkPill>
           ) : null}
 
           <div className="flex items-center gap-[18px]">

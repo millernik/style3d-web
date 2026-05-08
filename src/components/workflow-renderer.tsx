@@ -358,6 +358,7 @@ const sharedWorkflowUi = {
   ComparisonTrack,
   StepThreeStatusPill,
   ActionPill,
+  BookingLinkPill,
   SubtleActionPill,
   SecondaryPill,
   SegmentedStateToggle,
@@ -378,7 +379,22 @@ function IntroTemplate({
 
   if (isKeyVisual) {
     return (
-      <WorkflowShell workflow={workflow} backdropImage={screen.backdropImage}>
+      <WorkflowShell
+        workflow={workflow}
+        backdropImage={screen.backdropImage}
+        fullBleedLayer={
+          screen.backdropImage ? (
+            <>
+              <img
+                src={screen.backdropImage}
+                alt=""
+                className="absolute inset-0 h-full w-full scale-[1.08] object-cover opacity-[0.34] blur-[18px]"
+              />
+              <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.68),rgba(0,0,0,0.84))]" />
+            </>
+          ) : null
+        }
+      >
         <img
           src={screen.leftAmbient}
           alt=""
@@ -394,7 +410,7 @@ function IntroTemplate({
           initial={{ opacity: 0, y: 22, scale: 0.985 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={entryTransition}
-          className="absolute inset-x-0 top-[188px] z-10 flex justify-center"
+          className="workflow-content-stage absolute inset-x-0 top-[calc(188px-var(--workflow-intro-lift))] z-10 flex justify-center"
         >
           <div className="flex w-[760px] flex-col items-center gap-[34px] text-center">
             <WorkflowLanguageSwitch />
@@ -430,7 +446,22 @@ function IntroTemplate({
   }
 
   return (
-    <WorkflowShell workflow={workflow} backdropImage={screen.backdropImage}>
+    <WorkflowShell
+      workflow={workflow}
+      backdropImage={screen.backdropImage}
+      fullBleedLayer={
+        screen.backdropImage ? (
+          <>
+            <img
+              src={screen.backdropImage}
+              alt=""
+              className="absolute inset-0 h-full w-full scale-[1.08] object-cover opacity-[0.28] blur-[20px]"
+            />
+            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.68),rgba(0,0,0,0.84))]" />
+          </>
+        ) : null
+      }
+    >
       <img
         src={screen.leftAmbient}
         alt=""
@@ -446,7 +477,7 @@ function IntroTemplate({
         initial={{ opacity: 0, y: 22, scale: 0.985 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={entryTransition}
-        className={`absolute left-[404px] top-[197px] flex flex-col items-center gap-[42px] ${sectionWidthClassName}`}
+        className={`workflow-content-stage absolute left-[404px] top-[calc(197px-var(--workflow-main-lift)-var(--workflow-intro-lift))] flex flex-col items-center gap-[42px] ${sectionWidthClassName}`}
       >
         <div className="flex w-full justify-center">
           <WorkflowLanguageSwitch />
@@ -526,7 +557,7 @@ function StepThreeSketchTemplate({
     return (
       <WorkflowShell workflow={workflow} backdropImage={screen.backdropImage}>
         <div
-          className="absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center"
+          className="workflow-content-stage absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center"
           data-step-three-state={screen.variant}
         >
           <div className="flex w-[1340px] items-center justify-between">
@@ -856,6 +887,7 @@ function InteractiveSketchTemplate({
         initial={{ opacity: 0, y: 18, scale: 0.99 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={entryTransition}
+        className="workflow-main-content-lift"
       >
         <div className="absolute left-[78px] top-[304px] flex w-[580px] flex-col items-center gap-[18px]">
           <motion.section
@@ -892,7 +924,7 @@ function InteractiveSketchTemplate({
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={childTransition}
-          className="absolute left-[876px] top-[222px] flex w-[456px] flex-col gap-[22px]"
+          className="absolute left-[876px] top-[188px] flex w-[456px] select-none flex-col gap-[6px]"
         >
           <div className="relative h-[566px] w-[456px]">
             <BeforeAfterSlider
@@ -984,7 +1016,7 @@ function StyleDesignTemplate({
       hideFooter
       disableEntryAnimation
     >
-      <div className="absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
+      <div className="workflow-content-stage absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
         <div className="flex w-[1340px] items-center justify-between">
           <div className="flex w-[520px] flex-col items-center gap-[18px]">
             <NarrativeCard
@@ -1119,7 +1151,7 @@ function TryOnTemplate({
       hideFooter
       disableEntryAnimation
     >
-      <div className="absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
+      <div className="workflow-content-stage absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
         <div className="flex w-[1074px] items-center justify-between">
           <div className="flex w-[520px] flex-col items-center gap-[18px]">
             <NarrativeCard
@@ -1291,7 +1323,7 @@ function StyleRedrawTemplate({
       hideFooter
       disableEntryAnimation
     >
-      <div className="absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
+      <div className="workflow-content-stage absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
         <div className="flex w-[1340px] items-center justify-between">
           <div className="flex w-[520px] flex-col items-center gap-[18px]">
             <NarrativeCard
@@ -1520,7 +1552,7 @@ function AiGraphicTemplate({
       hideFooter
       disableEntryAnimation
     >
-      <div className="absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
+      <div className="workflow-content-stage absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
         <div className="flex w-[1038px] items-center justify-between">
           <div className="flex w-[520px] flex-col items-center gap-[18px]">
             <NarrativeCard
@@ -1705,7 +1737,7 @@ function LogoPlacementTemplate({
       hideFooter
       disableEntryAnimation
     >
-      <div className="absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
+      <div className="workflow-content-stage absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
         <div className="flex w-[1038px] items-center justify-between">
           <div className="flex w-[520px] flex-col items-center gap-[18px]">
             <NarrativeCard
@@ -1844,7 +1876,7 @@ function EcommerceTemplate({
       hideFooter
       disableEntryAnimation
     >
-      <div className="absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
+      <div className="workflow-content-stage absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
         <div className="flex w-[1038px] items-center justify-between">
           <div className="flex w-[520px] flex-col items-center gap-[18px]">
             <NarrativeCard
@@ -1947,19 +1979,25 @@ function ClosingTemplate({
   const { language } = useWorkflowLanguage();
   const uiText = getCommonUiText(language);
   return (
-    <WorkflowShell workflow={workflow} backdropImage={screen.backdropImage}>
-      <img
-        src={kioskAssets.workwear.closingBackground}
-        alt=""
-        className="pointer-events-none absolute inset-[-24px] z-0 h-[1070px] w-[1504px] object-cover blur-[10px]"
-      />
-      <div className="absolute inset-0 z-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.7)_0%,rgba(0,0,0,0.6)_48.558%,rgba(0,0,0,0.7)_100%)]" />
-
+    <WorkflowShell
+      workflow={workflow}
+      backdropImage={screen.backdropImage}
+      fullBleedLayer={
+        <>
+          <img
+            src={kioskAssets.workwear.closingBackground}
+            alt=""
+            className="absolute inset-0 h-full w-full scale-[1.18] object-cover blur-[10px]"
+          />
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.7)_0%,rgba(0,0,0,0.6)_48.558%,rgba(0,0,0,0.7)_100%)]" />
+        </>
+      }
+    >
       <motion.section
         initial={{ opacity: 0, y: 18 }}
         animate={{ opacity: 1, y: 0 }}
         transition={entryTransition}
-        className="absolute inset-x-0 top-[190px] z-20 flex flex-col items-center"
+        className="absolute inset-x-0 top-[calc(190px-var(--workflow-main-lift))] z-20 flex flex-col items-center"
       >
         <div className="flex w-[680px] flex-col items-center gap-[28px] text-center">
           <div className="flex flex-col items-center gap-[20px]">
@@ -1978,9 +2016,9 @@ function ClosingTemplate({
           </div>
 
           <div className="flex flex-col items-center gap-[24px]">
-            <p className="w-[480px] text-center text-[17px] font-semibold text-white">
+            <BookingLinkPill>
               {screen.bookingCtaLabel ?? screen.ctaLabel ?? uiText.bookDemoNow}
-            </p>
+            </BookingLinkPill>
             <div className="h-[64px] w-[64px]">
               <img
                 src={screen.qrImage ?? kioskAssets.workwear.closingQr}
@@ -2026,7 +2064,7 @@ function OverviewTemplate({
       hideFooter
       disableEntryAnimation
     >
-      <div className="absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
+      <div className="workflow-content-stage absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
         <motion.div
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
@@ -2061,18 +2099,20 @@ function ScreenShell({
 }) {
   return (
     <WorkflowShell workflow={workflow} backdropImage={screen.backdropImage}>
-      {disableEntryAnimation ? (
-        <div>{children}</div>
-      ) : (
-        <motion.div
-          key={screen.id}
-          initial={{ opacity: 0, y: 18, scale: 0.99 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={entryTransition}
-        >
-          {children}
-        </motion.div>
-      )}
+      <div className="workflow-main-content-lift absolute inset-0">
+        {disableEntryAnimation ? (
+          <div>{children}</div>
+        ) : (
+          <motion.div
+            key={screen.id}
+            initial={{ opacity: 0, y: 18, scale: 0.99 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={entryTransition}
+          >
+            {children}
+          </motion.div>
+        )}
+      </div>
       {screen.footer && !hideFooter ? (
         <FooterProgress
           label={screen.footer.label}
@@ -2087,15 +2127,17 @@ function ScreenShell({
 function WorkflowShell({
   workflow,
   backdropImage,
+  fullBleedLayer,
   children,
 }: {
   workflow: Workflow;
   backdropImage?: string;
+  fullBleedLayer?: React.ReactNode;
   children: React.ReactNode;
 }) {
   return (
-    <KioskViewport backdropImage={backdropImage}>
-      <div className="absolute inset-0 z-0 bg-black" />
+    <KioskViewport backdropImage={backdropImage} fullBleedLayer={fullBleedLayer}>
+      {fullBleedLayer ? null : <div className="absolute inset-0 z-0 bg-black" />}
       {children}
     </KioskViewport>
   );
@@ -2273,8 +2315,10 @@ function BeforeAfterSlider({
     >
       <div
         ref={containerRef}
-        className="relative h-full w-full cursor-col-resize touch-none"
+        className="relative h-full w-full cursor-col-resize touch-none select-none"
+        style={{ userSelect: "none", WebkitUserSelect: "none", touchAction: "none" }}
         onPointerDown={(event) => {
+          event.preventDefault();
           activePointerId.current = event.pointerId;
           event.currentTarget.setPointerCapture(event.pointerId);
           updatePosition(event.clientX);
@@ -2284,6 +2328,7 @@ function BeforeAfterSlider({
             return;
           }
 
+          event.preventDefault();
           updatePosition(event.clientX);
         }}
         onPointerUp={(event) => {
@@ -2311,6 +2356,8 @@ function BeforeAfterSlider({
           <img
             src={sketchSrc}
             alt=""
+            draggable={false}
+            onDragStart={(event) => event.preventDefault()}
             className={`pointer-events-none ${artClassName ?? "h-[604px] w-auto max-w-none"}`}
           />
         </div>
@@ -2322,6 +2369,8 @@ function BeforeAfterSlider({
           <img
             src={renderSrc}
             alt=""
+            draggable={false}
+            onDragStart={(event) => event.preventDefault()}
             className={`pointer-events-none ${renderArtClassName ?? artClassName ?? "h-[604px] w-auto max-w-none"}`}
           />
         </div>
@@ -2346,10 +2395,12 @@ function ComparisonTrack({
   position,
   onChange,
   railClassName,
+  className,
 }: {
   position: number;
   onChange: (position: number) => void;
   railClassName?: string;
+  className?: string;
 }) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const activePointerId = useRef<number | null>(null);
@@ -2373,8 +2424,10 @@ function ComparisonTrack({
   return (
     <div
       ref={containerRef}
-      className="relative h-[44px] w-full touch-none"
+      className={`relative h-[37px] w-full cursor-col-resize touch-none select-none ${className ?? ""}`}
+      style={{ userSelect: "none", WebkitUserSelect: "none", touchAction: "none" }}
       onPointerDown={(event) => {
+        event.preventDefault();
         activePointerId.current = event.pointerId;
         event.currentTarget.setPointerCapture(event.pointerId);
         updatePosition(event.clientX);
@@ -2384,6 +2437,7 @@ function ComparisonTrack({
           return;
         }
 
+        event.preventDefault();
         updatePosition(event.clientX);
       }}
       onPointerUp={(event) => {
@@ -2408,12 +2462,12 @@ function ComparisonTrack({
       }}
     >
       <div
-        className={`absolute left-1/2 top-[18px] h-[4px] -translate-x-1/2 rounded-full bg-[rgba(255,255,255,0.2)] ${
-          railClassName ?? "w-[492px]"
+        className={`absolute left-1/2 top-[8px] h-[4px] -translate-x-1/2 rounded-full bg-[rgba(255,255,255,0.2)] ${
+          railClassName ?? "w-full"
         }`}
       />
       <div
-        className="absolute top-0 h-[37px] w-[6px] rounded-full bg-kiosk-gradient"
+        className="absolute top-[-8px] h-[37px] w-[6px] rounded-full bg-kiosk-gradient"
         style={{ left: `calc(${position}% - 3px)` }}
       />
     </div>
@@ -2571,6 +2625,25 @@ function ActionPill({
         {children}
       </span>
     </motion.button>
+  );
+}
+
+function BookingLinkPill({ children }: { children: React.ReactNode }) {
+  return (
+    <motion.a
+      whileTap={{ scale: 0.97 }}
+      transition={{ duration: 0.18 }}
+      href="https://style3d-assyst.com/contact/"
+      className="relative inline-flex rounded-full px-[40px] py-[10px] text-kiosk-label-md font-semibold text-white"
+    >
+      <span
+        aria-hidden="true"
+        className="absolute inset-[-10px] rounded-full bg-kiosk-gradient blur-[40px] opacity-90"
+      />
+      <span className="relative flex items-center gap-[10px] rounded-full bg-kiosk-gradient px-[40px] py-[10px]">
+        {children}
+      </span>
+    </motion.a>
   );
 }
 
@@ -2776,7 +2849,7 @@ function FooterProgress({
   className?: string;
 }) {
   return (
-    <div className={`absolute left-[50px] top-[924px] flex w-[1340px] items-center justify-between ${className ?? ""}`}>
+    <div className={`absolute bottom-[34px] left-[50px] flex w-[1340px] items-center justify-between ${className ?? ""}`}>
       <p className="text-kiosk-title-shell font-extralight">{label ?? ""}</p>
       <div className="flex items-center gap-[12px] text-kiosk-title-shell font-extralight">
         <span>{current}</span>

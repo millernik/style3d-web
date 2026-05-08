@@ -33,6 +33,7 @@ type SharedUi = {
   WorkflowShell: (props: {
     workflow: Workflow;
     backdropImage?: string;
+    fullBleedLayer?: ReactNode;
     children: ReactNode;
   }) => ReactNode;
   NarrativeCard: (props: {
@@ -61,6 +62,7 @@ type SharedUi = {
     className?: string;
     contentClassName?: string;
   }) => ReactNode;
+  BookingLinkPill: (props: { children: ReactNode }) => ReactNode;
   SubtleActionPill: (props: { label: string; onClick: () => void }) => ReactNode;
   SecondaryPill: (props: {
     children: ReactNode;
@@ -355,19 +357,26 @@ export function NachtwaescheIntroTemplate({
   const { WorkflowShell, AvatarDiamond, ActionPill } = shared;
 
   return (
-    <WorkflowShell workflow={workflow} backdropImage={screen.backdropImage}>
-      <img
-        src={screen.backdropImage}
-        alt=""
-        className="pointer-events-none absolute inset-0 z-0 h-full w-full object-cover"
-      />
-      <div className="pointer-events-none absolute inset-0 z-[1] bg-[linear-gradient(180deg,rgba(0,0,0,0.58)_0%,rgba(0,0,0,0.74)_100%)]" />
+    <WorkflowShell
+      workflow={workflow}
+      backdropImage={screen.backdropImage}
+      fullBleedLayer={
+        <>
+          <img
+            src={screen.backdropImage}
+            alt=""
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.58)_0%,rgba(0,0,0,0.74)_100%)]" />
+        </>
+      }
+    >
 
       <motion.section
         initial={{ opacity: 0, y: 22, scale: 0.985 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={entryTransition}
-        className="absolute inset-x-0 top-[188px] z-10 flex justify-center"
+        className="workflow-content-stage absolute inset-x-0 top-[calc(188px-var(--workflow-intro-lift))] z-10 flex justify-center"
       >
         <div className="flex w-[700px] flex-col items-center gap-[34px] text-center">
           <WorkflowLanguageSwitch />
@@ -406,7 +415,7 @@ export function NachtwaescheMoodboardTemplate({
 
   return (
     <ScreenShell workflow={workflow} screen={screen} hideFooter disableEntryAnimation>
-      <div className="absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
+      <div className="workflow-content-stage absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
         <div className="flex w-[1218px] items-center justify-between gap-[32px]">
           <div className="flex w-[486px] flex-col items-center gap-[18px]">
             <NarrativeCard
@@ -472,7 +481,7 @@ export function NachtwaescheProductConceptTemplate({
 
   return (
     <ScreenShell workflow={workflow} screen={screen} hideFooter disableEntryAnimation>
-      <div className="absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
+      <div className="workflow-content-stage absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
         <div className="flex w-[1136px] items-center justify-between gap-[34px]">
           <div className="flex w-[486px] flex-col items-center gap-[18px]">
             <NarrativeCard
@@ -551,7 +560,7 @@ export function NachtwaescheTryOnTemplate({
 
   return (
     <ScreenShell workflow={workflow} screen={screen} hideFooter disableEntryAnimation>
-      <div className="absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
+      <div className="workflow-content-stage absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
         <div className="flex w-[1254px] items-center justify-between gap-[28px]">
           <div className="flex w-[620px] flex-col items-center gap-[18px]">
             <NarrativeCard
@@ -650,7 +659,7 @@ export function NachtwaescheRenderGalleryTemplate({
 
   return (
     <ScreenShell workflow={workflow} screen={screen} hideFooter disableEntryAnimation>
-      <div className="absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
+      <div className="workflow-content-stage absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
         <div className="flex w-[1160px] items-center justify-between">
           <div className="flex w-[486px] flex-col items-center gap-[18px]">
             <NarrativeCard
@@ -702,7 +711,7 @@ export function NachtwaescheGraphicGenerationTemplate({
 
   return (
     <ScreenShell workflow={workflow} screen={screen} hideFooter disableEntryAnimation>
-      <div className="absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
+      <div className="workflow-content-stage absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
         <div className="flex w-[1160px] items-center justify-between">
           <div className="flex w-[486px] flex-col items-center gap-[18px]">
             <NarrativeCard
@@ -794,7 +803,7 @@ export function NachtwaeschePlacementTemplate({
 
   return (
     <ScreenShell workflow={workflow} screen={screen} hideFooter disableEntryAnimation>
-      <div className="absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
+      <div className="workflow-content-stage absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
         <div className="flex w-[1160px] items-center justify-between">
           <div className="flex w-[486px] flex-col items-center gap-[18px]">
             <NarrativeCard
@@ -865,7 +874,7 @@ export function NachtwaescheMixedGalleryTemplate({
 
   return (
     <ScreenShell workflow={workflow} screen={screen} hideFooter disableEntryAnimation>
-      <div className="absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
+      <div className="workflow-content-stage absolute inset-x-0 top-[146px] bottom-[118px] flex items-center justify-center">
         <div className="flex w-[1160px] items-center justify-between">
           <div className="flex w-[486px] flex-col items-center gap-[18px]">
             <NarrativeCard
@@ -900,22 +909,29 @@ export function NachtwaescheClosingTemplate({
   shared,
 }: SharedProps<NachtwaescheClosingScreen>) {
   const router = useRouter();
-  const { WorkflowShell, AvatarDiamond, ActionPill, SecondaryPill } = shared;
+  const { WorkflowShell, AvatarDiamond, ActionPill, BookingLinkPill, SecondaryPill } = shared;
 
   return (
-    <WorkflowShell workflow={workflow} backdropImage={screen.backdropImage}>
-      <img
-        src={screen.backdropImage}
-        alt=""
-        className="pointer-events-none absolute inset-0 z-0 h-full w-full object-cover"
-      />
-      <div className="pointer-events-none absolute inset-0 z-[1] bg-[linear-gradient(180deg,rgba(0,0,0,0.62)_0%,rgba(0,0,0,0.78)_100%)]" />
+    <WorkflowShell
+      workflow={workflow}
+      backdropImage={screen.backdropImage}
+      fullBleedLayer={
+        <>
+          <img
+            src={screen.backdropImage}
+            alt=""
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.62)_0%,rgba(0,0,0,0.78)_100%)]" />
+        </>
+      }
+    >
 
       <motion.section
         initial={{ opacity: 0, y: 18 }}
         animate={{ opacity: 1, y: 0 }}
         transition={entryTransition}
-        className="absolute inset-x-0 top-[190px] z-10 flex flex-col items-center"
+        className="workflow-content-stage absolute inset-x-0 top-[calc(190px-var(--workflow-main-lift))] z-10 flex flex-col items-center"
       >
         <div className="flex w-[806px] flex-col items-center gap-[34px] text-center">
           <div className="flex flex-col items-center gap-[22px]">
@@ -928,9 +944,9 @@ export function NachtwaescheClosingTemplate({
           </div>
 
           {screen.bookingCtaLabel ? (
-            <p className="w-[480px] text-center text-[17px] font-semibold text-white">
+            <BookingLinkPill>
               {screen.bookingCtaLabel}
-            </p>
+            </BookingLinkPill>
           ) : null}
 
           {screen.qrImage ? (

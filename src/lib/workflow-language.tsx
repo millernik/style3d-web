@@ -25,25 +25,35 @@ const WorkflowLanguageContext = createContext<WorkflowLanguageContextValue | nul
 
 export function WorkflowLanguageProvider({ children }: { children: ReactNode }) {
   const [language, setLanguage] = useState<WorkflowLanguage>("en");
+  const [hasResolvedInitialLanguage, setHasResolvedInitialLanguage] =
+    useState(false);
 
   useEffect(() => {
+    const urlLanguage =
+      typeof window !== "undefined"
+        ? new URLSearchParams(window.location.search).get("lang")
+        : null;
     const storedLanguage =
       typeof window !== "undefined"
         ? window.localStorage.getItem(STORAGE_KEY)
         : null;
 
-    if (storedLanguage === "de" || storedLanguage === "en") {
+    if (urlLanguage === "de" || urlLanguage === "en") {
+      setLanguage(urlLanguage);
+    } else if (storedLanguage === "de" || storedLanguage === "en") {
       setLanguage(storedLanguage);
     }
+
+    setHasResolvedInitialLanguage(true);
   }, []);
 
   useEffect(() => {
-    if (typeof window === "undefined") {
+    if (typeof window === "undefined" || !hasResolvedInitialLanguage) {
       return;
     }
 
     window.localStorage.setItem(STORAGE_KEY, language);
-  }, [language]);
+  }, [hasResolvedInitialLanguage, language]);
 
   const value = useMemo(
     () => ({

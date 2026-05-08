@@ -1,12 +1,5 @@
-import { AttractScreen } from "@/components/attract-screen";
-import { getWorkflow } from "@/lib/workflows";
+import { redirect } from "next/navigation";
 
 export default function WorkwearScreensaverPage() {
-  const workflow = getWorkflow("workwear");
-
-  if (!workflow) {
-    return null;
-  }
-
-  return <AttractScreen workflow={workflow} />;
+  redirect("/workflow/workwear");
 }
