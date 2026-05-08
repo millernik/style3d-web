@@ -379,7 +379,22 @@ function IntroTemplate({
 
   if (isKeyVisual) {
     return (
-      <WorkflowShell workflow={workflow} backdropImage={screen.backdropImage}>
+      <WorkflowShell
+        workflow={workflow}
+        backdropImage={screen.backdropImage}
+        fullBleedLayer={
+          screen.backdropImage ? (
+            <>
+              <img
+                src={screen.backdropImage}
+                alt=""
+                className="absolute inset-0 h-full w-full scale-[1.08] object-cover opacity-[0.34] blur-[18px]"
+              />
+              <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.68),rgba(0,0,0,0.84))]" />
+            </>
+          ) : null
+        }
+      >
         <img
           src={screen.leftAmbient}
           alt=""
@@ -431,7 +446,22 @@ function IntroTemplate({
   }
 
   return (
-    <WorkflowShell workflow={workflow} backdropImage={screen.backdropImage}>
+    <WorkflowShell
+      workflow={workflow}
+      backdropImage={screen.backdropImage}
+      fullBleedLayer={
+        screen.backdropImage ? (
+          <>
+            <img
+              src={screen.backdropImage}
+              alt=""
+              className="absolute inset-0 h-full w-full scale-[1.08] object-cover opacity-[0.28] blur-[20px]"
+            />
+            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.68),rgba(0,0,0,0.84))]" />
+          </>
+        ) : null
+      }
+    >
       <img
         src={screen.leftAmbient}
         alt=""
@@ -447,7 +477,7 @@ function IntroTemplate({
         initial={{ opacity: 0, y: 22, scale: 0.985 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={entryTransition}
-        className={`workflow-content-stage absolute left-[404px] top-[197px] flex flex-col items-center gap-[42px] ${sectionWidthClassName}`}
+        className={`workflow-content-stage absolute left-[404px] top-[calc(197px-var(--workflow-main-lift))] flex flex-col items-center gap-[42px] ${sectionWidthClassName}`}
       >
         <div className="flex w-full justify-center">
           <WorkflowLanguageSwitch />
@@ -857,6 +887,7 @@ function InteractiveSketchTemplate({
         initial={{ opacity: 0, y: 18, scale: 0.99 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={entryTransition}
+        className="workflow-main-content-lift"
       >
         <div className="absolute left-[78px] top-[304px] flex w-[580px] flex-col items-center gap-[18px]">
           <motion.section
@@ -893,7 +924,7 @@ function InteractiveSketchTemplate({
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={childTransition}
-          className="absolute left-[876px] top-[222px] flex w-[456px] flex-col gap-[22px]"
+          className="absolute left-[876px] top-[188px] flex w-[456px] select-none flex-col gap-[6px]"
         >
           <div className="relative h-[566px] w-[456px]">
             <BeforeAfterSlider
@@ -1948,19 +1979,25 @@ function ClosingTemplate({
   const { language } = useWorkflowLanguage();
   const uiText = getCommonUiText(language);
   return (
-    <WorkflowShell workflow={workflow} backdropImage={screen.backdropImage}>
-      <img
-        src={kioskAssets.workwear.closingBackground}
-        alt=""
-        className="pointer-events-none absolute inset-[-24px] z-0 h-[1070px] w-[1504px] object-cover blur-[10px]"
-      />
-      <div className="absolute inset-0 z-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.7)_0%,rgba(0,0,0,0.6)_48.558%,rgba(0,0,0,0.7)_100%)]" />
-
+    <WorkflowShell
+      workflow={workflow}
+      backdropImage={screen.backdropImage}
+      fullBleedLayer={
+        <>
+          <img
+            src={kioskAssets.workwear.closingBackground}
+            alt=""
+            className="absolute inset-0 h-full w-full scale-[1.18] object-cover blur-[10px]"
+          />
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.7)_0%,rgba(0,0,0,0.6)_48.558%,rgba(0,0,0,0.7)_100%)]" />
+        </>
+      }
+    >
       <motion.section
         initial={{ opacity: 0, y: 18 }}
         animate={{ opacity: 1, y: 0 }}
         transition={entryTransition}
-        className="absolute inset-x-0 top-[190px] z-20 flex flex-col items-center"
+        className="absolute inset-x-0 top-[calc(190px-var(--workflow-main-lift))] z-20 flex flex-col items-center"
       >
         <div className="flex w-[680px] flex-col items-center gap-[28px] text-center">
           <div className="flex flex-col items-center gap-[20px]">
@@ -2062,18 +2099,20 @@ function ScreenShell({
 }) {
   return (
     <WorkflowShell workflow={workflow} backdropImage={screen.backdropImage}>
-      {disableEntryAnimation ? (
-        <div>{children}</div>
-      ) : (
-        <motion.div
-          key={screen.id}
-          initial={{ opacity: 0, y: 18, scale: 0.99 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={entryTransition}
-        >
-          {children}
-        </motion.div>
-      )}
+      <div className="workflow-main-content-lift absolute inset-0">
+        {disableEntryAnimation ? (
+          <div>{children}</div>
+        ) : (
+          <motion.div
+            key={screen.id}
+            initial={{ opacity: 0, y: 18, scale: 0.99 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={entryTransition}
+          >
+            {children}
+          </motion.div>
+        )}
+      </div>
       {screen.footer && !hideFooter ? (
         <FooterProgress
           label={screen.footer.label}
@@ -2088,15 +2127,17 @@ function ScreenShell({
 function WorkflowShell({
   workflow,
   backdropImage,
+  fullBleedLayer,
   children,
 }: {
   workflow: Workflow;
   backdropImage?: string;
+  fullBleedLayer?: React.ReactNode;
   children: React.ReactNode;
 }) {
   return (
-    <KioskViewport backdropImage={backdropImage}>
-      <div className="absolute inset-0 z-0 bg-black" />
+    <KioskViewport backdropImage={backdropImage} fullBleedLayer={fullBleedLayer}>
+      {fullBleedLayer ? null : <div className="absolute inset-0 z-0 bg-black" />}
       {children}
     </KioskViewport>
   );
@@ -2354,10 +2395,12 @@ function ComparisonTrack({
   position,
   onChange,
   railClassName,
+  className,
 }: {
   position: number;
   onChange: (position: number) => void;
   railClassName?: string;
+  className?: string;
 }) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const activePointerId = useRef<number | null>(null);
@@ -2381,7 +2424,7 @@ function ComparisonTrack({
   return (
     <div
       ref={containerRef}
-      className="relative h-[44px] w-full cursor-col-resize touch-none select-none"
+      className={`relative h-[37px] w-full cursor-col-resize touch-none select-none ${className ?? ""}`}
       style={{ userSelect: "none", WebkitUserSelect: "none", touchAction: "none" }}
       onPointerDown={(event) => {
         event.preventDefault();
@@ -2419,12 +2462,12 @@ function ComparisonTrack({
       }}
     >
       <div
-        className={`absolute left-1/2 top-[18px] h-[4px] -translate-x-1/2 rounded-full bg-[rgba(255,255,255,0.2)] ${
+        className={`absolute left-1/2 top-[8px] h-[4px] -translate-x-1/2 rounded-full bg-[rgba(255,255,255,0.2)] ${
           railClassName ?? "w-full"
         }`}
       />
       <div
-        className="absolute top-0 h-[37px] w-[6px] rounded-full bg-kiosk-gradient"
+        className="absolute top-[-8px] h-[37px] w-[6px] rounded-full bg-kiosk-gradient"
         style={{ left: `calc(${position}% - 3px)` }}
       />
     </div>

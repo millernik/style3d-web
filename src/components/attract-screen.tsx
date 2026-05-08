@@ -79,33 +79,37 @@ export function AttractScreen({ workflow }: { workflow: Workflow }) {
   };
 
   return (
-    <KioskViewport>
-      <video
-        ref={videoRef}
-        src={workflow.attract.videoSrc}
-        poster={workflow.attract.posterSrc}
-        autoPlay
-        loop
-        muted
-        playsInline
-        preload="auto"
-        className="pointer-events-none absolute inset-0 h-full w-full object-cover"
-      />
-
-      <motion.div
-        aria-hidden="true"
-        initial={{ opacity: 0.78 }}
-        animate={{ opacity: isExiting ? 0.94 : 0.78 }}
-        transition={{ duration: EXIT_DURATION_MS / 1000, ease: [0.22, 1, 0.36, 1] }}
-        className="absolute inset-0 bg-[linear-gradient(90deg,rgba(0,0,0,0.92)_0%,rgba(0,0,0,0.62)_34%,rgba(0,0,0,0.22)_68%,rgba(0,0,0,0.42)_100%)]"
-      />
-      <motion.div
-        aria-hidden="true"
-        initial={{ opacity: 0.46, scale: 1 }}
-        animate={{ opacity: isExiting ? 0.2 : 0.46, scale: isExiting ? 1.025 : 1 }}
-        transition={{ duration: EXIT_DURATION_MS / 1000, ease: [0.22, 1, 0.36, 1] }}
-        className="absolute inset-x-0 bottom-0 top-[52%] bg-[radial-gradient(circle_at_center,rgba(217,66,255,0.26)_0%,rgba(217,66,255,0.08)_36%,rgba(0,0,0,0)_72%)]"
-      />
+    <KioskViewport
+      fullBleedLayer={
+        <>
+          <video
+            ref={videoRef}
+            src={workflow.attract.videoSrc}
+            poster={workflow.attract.posterSrc}
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="auto"
+            className="pointer-events-none absolute inset-0 h-full w-full object-cover"
+          />
+          <motion.div
+            aria-hidden="true"
+            initial={{ opacity: 0.78 }}
+            animate={{ opacity: isExiting ? 0.94 : 0.78 }}
+            transition={{ duration: EXIT_DURATION_MS / 1000, ease: [0.22, 1, 0.36, 1] }}
+            className="absolute inset-0 bg-[linear-gradient(90deg,rgba(0,0,0,0.92)_0%,rgba(0,0,0,0.62)_34%,rgba(0,0,0,0.22)_68%,rgba(0,0,0,0.42)_100%)]"
+          />
+          <motion.div
+            aria-hidden="true"
+            initial={{ opacity: 0.46, scale: 1 }}
+            animate={{ opacity: isExiting ? 0.2 : 0.46, scale: isExiting ? 1.025 : 1 }}
+            transition={{ duration: EXIT_DURATION_MS / 1000, ease: [0.22, 1, 0.36, 1] }}
+            className="absolute inset-x-0 bottom-0 top-[52%] bg-[radial-gradient(circle_at_center,rgba(217,66,255,0.26)_0%,rgba(217,66,255,0.08)_36%,rgba(0,0,0,0)_72%)]"
+          />
+        </>
+      }
+    >
 
       <motion.div
         initial={{ opacity: 0, y: 18, scale: 0.985 }}

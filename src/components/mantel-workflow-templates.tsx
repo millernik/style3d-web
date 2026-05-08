@@ -37,6 +37,7 @@ type SharedUi = {
   WorkflowShell: (props: {
     workflow: Workflow;
     backdropImage?: string;
+    fullBleedLayer?: ReactNode;
     children: ReactNode;
   }) => ReactNode;
   NarrativeCard: (props: {
@@ -195,13 +196,20 @@ export function MantelIntroTemplate({
   const hasSecondaryCta = Boolean(screen.secondaryCtaLabel.trim());
 
   return (
-    <WorkflowShell workflow={workflow} backdropImage={screen.backdropImage}>
-      <img
-        src={screen.backdropImage}
-        alt=""
-        className="pointer-events-none absolute inset-0 z-0 h-full w-full object-cover object-center"
-      />
-      <div className="pointer-events-none absolute inset-0 z-[1] bg-[linear-gradient(180deg,rgba(0,0,0,0.42),rgba(0,0,0,0.72))]" />
+    <WorkflowShell
+      workflow={workflow}
+      backdropImage={screen.backdropImage}
+      fullBleedLayer={
+        <>
+          <img
+            src={screen.backdropImage}
+            alt=""
+            className="absolute inset-0 h-full w-full object-cover object-center"
+          />
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.42),rgba(0,0,0,0.72))]" />
+        </>
+      }
+    >
       <motion.div
         initial={{ opacity: 0, scale: 0.98 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -374,7 +382,7 @@ export function MantelImageToSketchTemplate({
             transition={entryTransition}
             className="flex w-[520px] flex-col items-center gap-[18px]"
           >
-            <div className="grid grid-cols-[398px_92px] grid-rows-[auto_auto] items-start gap-x-[12px] gap-y-[16px]">
+            <div className="grid grid-cols-[398px_92px] grid-rows-[auto_auto] items-start gap-x-[12px] gap-y-[8px]">
               <div className="col-start-1 row-start-1 w-[398px]">
                 <AnimatePresence mode="wait" initial={false}>
                   {controlsVisible ? (
@@ -1234,13 +1242,20 @@ export function MantelClosingTemplate({
   const { WorkflowShell, AvatarDiamond, SecondaryPill, ActionPill } = shared;
 
   return (
-    <WorkflowShell workflow={workflow} backdropImage={screen.backdropImage}>
-      <img
-        src={screen.backdropImage}
-        alt=""
-        className="pointer-events-none absolute inset-0 z-0 h-full w-full object-cover object-[64%_center]"
-      />
-      <div className="pointer-events-none absolute inset-0 z-[1] bg-[linear-gradient(180deg,rgba(0,0,0,0.38),rgba(0,0,0,0.72))]" />
+    <WorkflowShell
+      workflow={workflow}
+      backdropImage={screen.backdropImage}
+      fullBleedLayer={
+        <>
+          <img
+            src={screen.backdropImage}
+            alt=""
+            className="absolute inset-0 h-full w-full object-cover object-[64%_center]"
+          />
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.38),rgba(0,0,0,0.72))]" />
+        </>
+      }
+    >
       <motion.div
         initial={{ opacity: 0, x: 18 }}
         animate={{ opacity: 1, x: 0 }}

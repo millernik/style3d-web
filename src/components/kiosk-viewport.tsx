@@ -15,11 +15,13 @@ export function KioskViewport({
   className = "",
   onPointerDown,
   backdropImage,
+  fullBleedLayer,
 }: {
   children: React.ReactNode;
   className?: string;
   onPointerDown?: () => void;
   backdropImage?: string;
+  fullBleedLayer?: React.ReactNode;
 }) {
   const [viewport, setViewport] = useState(DEFAULT_VIEWPORT);
   const isSelectionView = className.includes("selection-viewport");
@@ -99,13 +101,18 @@ export function KioskViewport({
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_60%_30%,rgba(217,66,255,0.16),transparent_20%),radial-gradient(circle_at_30%_70%,rgba(62,213,255,0.1),transparent_20%),linear-gradient(180deg,#020202_0%,#000_100%)]" />
       )}
       {!isSelectionView ? <div className="absolute inset-0 bg-black" /> : null}
+      {fullBleedLayer ? (
+        <div className="pointer-events-none absolute inset-0 z-[1] overflow-hidden">
+          {fullBleedLayer}
+        </div>
+      ) : null}
 
       <div
         className={`web-viewport-content relative z-10 h-[100dvh] w-full overflow-hidden ${className}`}
       >
         <div className="relative min-h-[inherit] w-full" style={contentStyle}>
           <div className="relative min-h-[inherit] w-full" style={workflowContentStyle}>
-          {children}
+            {children}
           </div>
         </div>
       </div>

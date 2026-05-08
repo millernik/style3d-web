@@ -33,6 +33,7 @@ type SharedUi = {
   WorkflowShell: (props: {
     workflow: Workflow;
     backdropImage?: string;
+    fullBleedLayer?: ReactNode;
     children: ReactNode;
   }) => ReactNode;
   NarrativeCard: (props: {
@@ -356,13 +357,20 @@ export function NachtwaescheIntroTemplate({
   const { WorkflowShell, AvatarDiamond, ActionPill } = shared;
 
   return (
-    <WorkflowShell workflow={workflow} backdropImage={screen.backdropImage}>
-      <img
-        src={screen.backdropImage}
-        alt=""
-        className="pointer-events-none absolute inset-0 z-0 h-full w-full object-cover"
-      />
-      <div className="pointer-events-none absolute inset-0 z-[1] bg-[linear-gradient(180deg,rgba(0,0,0,0.58)_0%,rgba(0,0,0,0.74)_100%)]" />
+    <WorkflowShell
+      workflow={workflow}
+      backdropImage={screen.backdropImage}
+      fullBleedLayer={
+        <>
+          <img
+            src={screen.backdropImage}
+            alt=""
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.58)_0%,rgba(0,0,0,0.74)_100%)]" />
+        </>
+      }
+    >
 
       <motion.section
         initial={{ opacity: 0, y: 22, scale: 0.985 }}
@@ -904,19 +912,26 @@ export function NachtwaescheClosingTemplate({
   const { WorkflowShell, AvatarDiamond, ActionPill, BookingLinkPill, SecondaryPill } = shared;
 
   return (
-    <WorkflowShell workflow={workflow} backdropImage={screen.backdropImage}>
-      <img
-        src={screen.backdropImage}
-        alt=""
-        className="pointer-events-none absolute inset-0 z-0 h-full w-full object-cover"
-      />
-      <div className="pointer-events-none absolute inset-0 z-[1] bg-[linear-gradient(180deg,rgba(0,0,0,0.62)_0%,rgba(0,0,0,0.78)_100%)]" />
+    <WorkflowShell
+      workflow={workflow}
+      backdropImage={screen.backdropImage}
+      fullBleedLayer={
+        <>
+          <img
+            src={screen.backdropImage}
+            alt=""
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.62)_0%,rgba(0,0,0,0.78)_100%)]" />
+        </>
+      }
+    >
 
       <motion.section
         initial={{ opacity: 0, y: 18 }}
         animate={{ opacity: 1, y: 0 }}
         transition={entryTransition}
-        className="workflow-content-stage absolute inset-x-0 top-[190px] z-10 flex flex-col items-center"
+        className="workflow-content-stage absolute inset-x-0 top-[calc(190px-var(--workflow-main-lift))] z-10 flex flex-col items-center"
       >
         <div className="flex w-[806px] flex-col items-center gap-[34px] text-center">
           <div className="flex flex-col items-center gap-[22px]">
