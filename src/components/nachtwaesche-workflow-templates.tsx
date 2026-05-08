@@ -376,7 +376,7 @@ export function NachtwaescheIntroTemplate({
         initial={{ opacity: 0, y: 22, scale: 0.985 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={entryTransition}
-        className="workflow-content-stage absolute inset-x-0 top-[188px] z-10 flex justify-center"
+        className="workflow-content-stage absolute inset-x-0 top-[calc(188px-var(--workflow-intro-lift))] z-10 flex justify-center"
       >
         <div className="flex w-[700px] flex-col items-center gap-[34px] text-center">
           <WorkflowLanguageSwitch />

@@ -220,7 +220,7 @@ export function MantelIntroTemplate({
         initial={{ opacity: 0, y: 18 }}
         animate={{ opacity: 1, y: 0 }}
         transition={entryTransition}
-        className="workflow-content-stage absolute inset-x-0 top-[198px] z-10 flex flex-col items-center"
+        className="workflow-content-stage absolute inset-x-0 top-[calc(198px-var(--workflow-intro-lift))] z-10 flex flex-col items-center"
       >
         <div className="mb-[22px] flex w-[940px] justify-center">
           <WorkflowLanguageSwitch />

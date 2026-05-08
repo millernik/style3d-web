@@ -410,7 +410,7 @@ function IntroTemplate({
           initial={{ opacity: 0, y: 22, scale: 0.985 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={entryTransition}
-          className="workflow-content-stage absolute inset-x-0 top-[188px] z-10 flex justify-center"
+          className="workflow-content-stage absolute inset-x-0 top-[calc(188px-var(--workflow-intro-lift))] z-10 flex justify-center"
         >
           <div className="flex w-[760px] flex-col items-center gap-[34px] text-center">
             <WorkflowLanguageSwitch />
@@ -477,7 +477,7 @@ function IntroTemplate({
         initial={{ opacity: 0, y: 22, scale: 0.985 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={entryTransition}
-        className={`workflow-content-stage absolute left-[404px] top-[calc(197px-var(--workflow-main-lift))] flex flex-col items-center gap-[42px] ${sectionWidthClassName}`}
+        className={`workflow-content-stage absolute left-[404px] top-[calc(197px-var(--workflow-main-lift)-var(--workflow-intro-lift))] flex flex-col items-center gap-[42px] ${sectionWidthClassName}`}
       >
         <div className="flex w-full justify-center">
           <WorkflowLanguageSwitch />

@@ -22,6 +22,7 @@
   --space-shell-margin: 50px;
   --desktop-safe-x: clamp(32px, 4vw, 88px);
   --workflow-main-lift: clamp(34px, 5.5vh, 62px);
+  --workflow-intro-lift: clamp(58px, 8vh, 76px);
 }
 
 * {
